@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ibotincture™ — Plant Tincture</title>
+  <meta name="description" content="Ibotincture™ — premium plant tincture. Calm focus, gentle clarity. EU shipping, 30‑day money‑back." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f0f11; --text:#f3f5f7; --muted:#a8b0b8; --card:#17191c; --line:#262a2f;
+      --accent:#79ffa9; --accent-ink:#0b1a12; --focus:#7ab3ff; --warn:#ffd089; --ok:#9ef0b9;
+      --red:#ff8b8b;
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f7f8fa; --text:#0e1013; --muted:#556070; --card:#ffffff; --line:#e6e8ee; --accent:#10b981; --accent-ink:#042d1d }
+    }
+    *{ box-sizing:border-box }
+    html,body{ margin:0; padding:0 }
+    body{ font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji"; background:var(--bg); color:var(--text); line-height:1.6 }
+
+    /* Layout */
+    .container{ width:min(1200px, 100% - 32px); margin-inline:auto }
+    .grid{ display:grid; gap:28px }
+    .cols-2{ grid-template-columns: 1.05fr .95fr }
+    @media (max-width: 980px){ .cols-2{ grid-template-columns: 1fr } }
+
+    /* Header */
+    .announce{ background:linear-gradient(90deg, rgba(122,179,255,.18), rgba(16,185,129,.18)); color:var(--text); font-weight:600; text-align:center; padding:10px 16px; border-bottom:1px solid var(--line) }
+    header{ position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(10px); background:color-mix(in srgb, var(--bg) 82%, transparent); border-bottom:1px solid var(--line) }
+    .nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 0 }
+    .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit }
+    .brand .logo{ width:36px; height:36px; border-radius:10px; background: radial-gradient(60% 60% at 30% 25%, #92ffd0, #0ea5e9 70%); box-shadow: 0 10px 30px rgba(16,185,129,.25) }
+    .brand b{ font-size:18px; letter-spacing:.3px }
+    .nav .links{ display:flex; gap:18px }
+    .nav a{ color:var(--muted); text-decoration:none; font-weight:600 }
+    .nav a:hover{ color:var(--text) }
+
+    /* Product */
+    .product{ margin:26px 0 40px }
+    .gallery{ display:grid; grid-template-columns: 100px 1fr; gap:16px }
+    .thumbs{ display:flex; flex-direction:column; gap:12px; max-height:560px; overflow:auto; padding-right:4px }
+    .thumbs img{ width:100px; height:100px; object-fit:cover; border-radius:10px; border:1px solid var(--line); cursor:pointer; transition: .2s transform }
+    .thumbs img:hover{ transform: translateY(-1px) }
+    .hero{ position:relative; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--card) }
+    .hero img{ width:100%; display:block; aspect-ratio: 4 / 5; object-fit:cover }
+    .pill{ position:absolute; top:12px; left:12px; background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--text); border:1px solid color-mix(in srgb, var(--accent) 60%, var(--line)); padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; letter-spacing:.2px }
+
+    .summary h1{ font-size: clamp(24px, 3vw, 36px); margin:0 0 6px }
+    .stars{ display:inline-flex; align-items:center; gap:8px; color:var(--muted); font-weight:600; font-size:14px }
+    .stars svg{ width:18px; height:18px; fill:#fbbf24 }
+    .benefits{ display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 4px }
+    .benefits .chip{ background:color-mix(in srgb, var(--line) 55%, transparent); border:1px solid var(--line); padding:6px 10px; border-radius:999px; font-weight:600; font-size:12px; color:var(--muted) }
+
+    .price{ display:flex; align-items:baseline; gap:12px; margin:12px 0 16px }
+    .price .now{ font-size:28px; font-weight:800 }
+    .price .was{ text-decoration:line-through; color:var(--muted) }
+
+    .card{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px }
+    .options{ display:grid; gap:12px }
+    .opt-row{ display:flex; gap:12px; flex-wrap:wrap }
+    .opt{ position:relative }
+    .opt input{ position:absolute; inset:0; opacity:0 }
+    .opt label{ display:inline-flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; border:1px solid var(--line); cursor:pointer; background:color-mix(in srgb, var(--card) 70%, transparent); font-weight:700 }
+    .opt input:checked + label{ outline:2px solid var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--card)) }
+    .qty{ display:flex; gap:10px; align-items:center }
+    .qty button{ width:34px; height:34px; border-radius:10px; border:1px solid var(--line); background:transparent; color:var(--text); font-size:18px; font-weight:800; cursor:pointer }
+    .qty input{ width:60px; text-align:center; padding:8px; border-radius:10px; border:1px solid var(--line); background:transparent; color:var(--text); font-weight:700 }
+
+    .cta{ display:grid; gap:10px }
+    .btn{ appearance:none; border:0; border-radius:12px; padding:14px 16px; font-weight:800; cursor:pointer }
+    .btn.primary{ background:linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 72%, #000)); color:var(--accent-ink) }
+    .btn.primary:hover{ filter:brightness(1.05) }
+    .btn.ghost{ background:transparent; border:1px solid var(--line); color:var(--text) }
+    .btn.pay{ display:flex; align-items:center; justify-content:center; gap:10px; background:#111; color:#fff; border:1px solid var(--line) }
+    .btn.pay.google{ background:#fff; color:#000 }
+
+    .badges{ display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-top:12px }
+    .badge{ display:flex; gap:10px; align-items:center; font-weight:600; color:var(--muted) }
+    .badge svg{ width:18px; height:18px }
+
+    .tabs{ display:flex; gap:12px; border-bottom:1px solid var(--line); margin-top:22px }
+    .tab{ padding:10px 12px; border:1px solid var(--line); border-bottom:none; border-radius:12px 12px 0 0; background:var(--card); cursor:pointer; font-weight:700; color:var(--muted) }
+    .tab[aria-selected="true"]{ color:var(--text); outline:2px solid color-mix(in srgb, var(--accent) 55%, var(--line)) }
+    .panel{ border:1px solid var(--line); border-top:none; border-radius:0 0 16px 16px; padding:16px; background:var(--card) }
+
+    /* Sections */
+    section{ margin:56px 0 }
+    .section-title{ font-size: clamp(22px, 2.4vw, 30px); margin:0 0 12px }
+    .lede{ color:var(--muted); margin:0 0 24px }
+    .feat-grid{ display:grid; gap:16px; grid-template-columns: repeat(4, 1fr) }
+    @media (max-width: 980px){ .feat-grid{ grid-template-columns: 1fr 1fr } }
+    .feat{ border:1px solid var(--line); background:var(--card); border-radius:16px; padding:16px }
+    .feat h4{ margin:6px 0 6px }
+
+    /* FAQ */
+    .faq{ border:1px solid var(--line); border-radius:16px; overflow:hidden }
+    .faq details{ border-bottom:1px solid var(--line); background:var(--card) }
+    .faq summary{ cursor:pointer; list-style:none; padding:18px; font-weight:700; display:flex; justify-content:space-between; align-items:center }
+    .faq summary::-webkit-details-marker{ display:none }
+    .faq .answer{ padding:0 18px 18px; color:var(--muted) }
+
+    /* Reviews */
+    .reviews{ display:grid; gap:16px; grid-template-columns: .9fr 1.1fr }
+    @media (max-width: 980px){ .reviews{ grid-template-columns: 1fr } }
+    .score{ border:1px solid var(--line); background:var(--card); border-radius:16px; padding:16px; display:grid; place-items:center; text-align:center }
+    .score b{ font-size:42px }
+    .review{ border:1px solid var(--line); background:var(--card); border-radius:16px; padding:16px }
+
+    /* Footer */
+    footer{ border-top:1px solid var(--line); padding:28px 0 60px; color:var(--muted) }
+
+    /* Mobile sticky bar */
+    .mobile-bar{ position:fixed; left:0; right:0; bottom:0; display:none; gap:10px; padding:10px; background: color-mix(in srgb, var(--bg) 85%, transparent); border-top:1px solid var(--line); backdrop-filter: blur(8px) }
+    .mobile-bar .btn{ padding:12px; font-size:14px }
+    @media (max-width: 980px){ .mobile-bar{ display:flex } }
+  </style>
+</head>
+<body>
+  <div class="announce">EU shipping in 3–5 days · 30‑day money‑back guarantee · Secure checkout</div>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#">
+        <div class="logo" aria-hidden="true"></div>
+        <b>Ibotincture™</b>
+      </a>
+      <nav class="links" aria-label="Site">
+        <a href="#benefits">Benefits</a>
+        <a href="#details">Details</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container product grid cols-2" id="product">
+    <!-- Left: gallery -->
+    <div class="gallery">
+      <div class="thumbs" id="thumbs" aria-label="Product thumbnails">
+        <img src="https://images.unsplash.com/photo-1615485737651-6a4f3b5c2e64?q=80&w=600&auto=format&fit=crop" alt="Bottle on stone" data-full="https://images.unsplash.com/photo-1615485737651-6a4f3b5c2e64?q=80&w=1600&auto=format&fit=crop" />
+        <img src="https://images.unsplash.com/photo-1572455857811-2767d4f52fbe?q=80&w=600&auto=format&fit=crop" alt="Dropper close‑up" data-full="https://images.unsplash.com/photo-1572455857811-2767d4f52fbe?q=80&w=1600&auto=format&fit=crop" />
+        <img src="https://images.unsplash.com/photo-1617635149815-9a90f3a8c1aa?q=80&w=600&auto=format&fit=crop" alt="Bottle with leaves" data-full="https://images.unsplash.com/photo-1617635149815-9a90f3a8c1aa?q=80&w=1600&auto=format&fit=crop" />
+        <img src="https://images.unsplash.com/photo-1604586376807-3cf7c2f4315a?q=80&w=600&auto=format&fit=crop" alt="Lifestyle desk" data-full="https://images.unsplash.com/photo-1604586376807-3cf7c2f4315a?q=80&w=1600&auto=format&fit=crop" />
+      </div>
+      <figure class="hero" id="hero" aria-live="polite">
+        <span class="pill">Best seller</span>
+        <img id="heroImg" src="https://images.unsplash.com/photo-1615485737651-6a4f3b5c2e64?q=80&w=1600&auto=format&fit=crop" alt="Ibotincture bottle" />
+      </figure>
+    </div>
+
+    <!-- Right: summary -->
+    <div class="summary">
+      <h1>Ibotincture™ — Plant Tincture</h1>
+      <div class="stars" aria-label="Rated 4.8 out of 5">
+        <span aria-hidden="true">
+          <!-- 5 stars, last as half visually -->
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><defs><linearGradient id="half"><stop offset="50%" stop-color="#fbbf24"/><stop offset="50%" stop-color="transparent"/></linearGradient></defs><path fill="url(#half) #fbbf24" d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg>
+        </span>
+        <span>4.8 • 1,243 reviews</span>
+      </div>
+      <div class="benefits" id="benefits">
+        <span class="chip">Calm focus</span>
+        <span class="chip">Gentle clarity</span>
+        <span class="chip">No grogginess</span>
+        <span class="chip">Vegan • Lab tested</span>
+      </div>
+
+      <div class="price" aria-live="polite">
+        <div class="now" id="priceNow">€49</div>
+        <div class="was" id="priceWas">€59</div>
+        <div style="color:var(--ok); font-weight:700">Save 17%</div>
+      </div>
+
+      <div class="card options" role="form" aria-labelledby="optsTitle">
+        <div id="optsTitle" style="font-weight:800; font-size:14px; letter-spacing:.2px">Choose your bottle</div>
+        <div class="opt-row" role="radiogroup" aria-label="Bottle size">
+          <div class="opt"><input type="radio" name="size" id="optA" value="A" checked><label for="optA">A — 10ml</label></div>
+          <div class="opt"><input type="radio" name="size" id="optB" value="B"><label for="optB">B — 20ml</label></div>
+          <div class="opt"><input type="radio" name="size" id="optC" value="C"><label for="optC">C — 30ml</label></div>
+        </div>
+        <div class="qty" aria-label="Quantity selector">
+          <span style="font-weight:800">Qty</span>
+          <button type="button" aria-label="Decrease" id="minus">−</button>
+          <input id="qty" type="number" min="1" value="1" inputmode="numeric" aria-label="Quantity" />
+          <button type="button" aria-label="Increase" id="plus">+</button>
+        </div>
+        <div class="cta">
+          <button class="btn primary" id="addToCart">Add to cart</button>
+          <button class="btn ghost" id="learn">Learn more</button>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
+            <button class="btn pay apple" aria-label="Buy with Apple Pay"> Pay</button>
+            <button class="btn pay google" aria-label="Buy with Google Pay"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Google_Pay_Logo.svg/128px-Google_Pay_Logo.svg.png" alt="Google Pay" style="height:18px"/></button>
+          </div>
+        </div>
+        <div class="badges">
+          <div class="badge">🔒 <span>Secure checkout</span></div>
+          <div class="badge">🚚 <span>Ships from EU</span></div>
+          <div class="badge">↩️ <span>30‑day returns</span></div>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Details tabs">
+        <button class="tab" role="tab" aria-selected="true" aria-controls="panel1" id="tab1">Details</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel2" id="tab2">Ingredients</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel3" id="tab3">How to use</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="panel4" id="tab4">Shipping & returns</button>
+      </div>
+      <div class="panel" id="panel1" role="tabpanel" aria-labelledby="tab1">
+        Ibotincture™ is a premium plant tincture crafted for gentle clarity and calm focus. Alcohol‑free, vegan, and produced in small batches. Third‑party lab tested for quality. Not medical advice.
+      </div>
+      <div class="panel" id="panel2" role="tabpanel" aria-labelledby="tab2" hidden>
+        <ul>
+          <li>Purified plant extract (standardized)</li>
+          <li>Vegetable glycerin, purified water</li>
+          <li>Natural flavor</li>
+        </ul>
+      </div>
+      <div class="panel" id="panel3" role="tabpanel" aria-labelledby="tab3" hidden>
+        Suggested use and suitability vary by individual. Consult a qualified clinician before use. Do not exceed your clinician’s guidance. Not for minors, pregnancy, or nursing.
+      </div>
+      <div class="panel" id="panel4" role="tabpanel" aria-labelledby="tab4" hidden>
+        We ship from the EU within 1–2 business days. Delivery typically takes 3–5 business days within the EU. Returns accepted within 30 days (unopened). Contact support for help.
+      </div>
+    </div>
+  </main>
+
+  <section class="container" id="benefits">
+    <h2 class="section-title">Why people choose Ibotincture™</h2>
+    <p class="lede">Designed for a balanced day: feel steady, focused, and present — without grogginess.</p>
+    <div class="feat-grid">
+      <article class="feat"><h4>Gentle clarity</h4><p>Formulated for a light, centered feel you can take into work or study.</p></article>
+      <article class="feat"><h4>Consistency first</h4><p>Every batch third‑party tested so each bottle feels like the last one.</p></article>
+      <article class="feat"><h4>Plant‑based</h4><p>Vegan ingredients, alcohol‑free base, crafted in small batches.</p></article>
+      <article class="feat"><h4>EU support</h4><p>Friendly EU‑based support with a 30‑day money‑back guarantee.</p></article>
+    </div>
+  </section>
+
+  <section class="container" id="details">
+    <div class="grid cols-2" style="align-items:center">
+      <div>
+        <img src="https://images.unsplash.com/photo-1604335399101-cd2c2a3f1b75?q=80&w=1600&auto=format&fit=crop" alt="Dropper on leaf" style="width:100%; border-radius:16px; border:1px solid var(--line)"/>
+      </div>
+      <div>
+        <h2 class="section-title">How it works</h2>
+        <p class="lede">A carefully standardized plant extract in a simple glycerin base. No added sugars, no alcohol.</p>
+        <ul>
+          <li><b>Standardized extract:</b> consistent composition for predictable experiences.</li>
+          <li><b>Third‑party testing:</b> purity and quality checks for every batch.</li>
+          <li><b>Small‑batch production:</b> craft quality with modern QA.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="whats-included">
+    <h2 class="section-title">What’s in the box</h2>
+    <div class="feat-grid">
+      <article class="feat"><h4>Ibotincture™ bottle</h4><p>Amber glass with measured dropper.</p></article>
+      <article class="feat"><h4>Quick‑start card</h4><p>Helpful tips and safety notes.</p></article>
+      <article class="feat"><h4>Batch & test info</h4><p>QR code to view third‑party lab results.</p></article>
+      <article class="feat"><h4>Support access</h4><p>Priority email support from our team.</p></article>
+    </div>
+  </section>
+
+  <section class="container reviews" id="reviews">
+    <div class="score">
+      <div style="color:var(--muted)">Average rating</div>
+      <b>4.8</b>
+      <div class="stars" aria-hidden="true" style="margin-top:6px"><svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg><svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg><svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg><svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg><svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.563-.954L10 0l2.947 5.956 6.563.954-4.755 4.635 1.123 6.545z"/></svg></div>
+      <div style="color:var(--muted)">1,243 verified reviews</div>
+    </div>
+    <div class="grid" style="gap:12px">
+      <div class="review"><b>María G.</b><br><span style="color:var(--muted)">ES</span><p>Helps me stay centered during busy days. No jitters, no crash.</p></div>
+      <div class="review"><b>Jonas K.</b><br><span style="color:var(--muted)">DE</span><p>Quality feels consistent bottle to bottle. Fast EU delivery.</p></div>
+      <div class="review"><b>Ana P.</b><br><span style="color:var(--muted)">PT</span><p>Customer support was super helpful. Will buy again.</p></div>
+    </div>
+  </section>
+
+  <section class="container" id="faq">
+    <h2 class="section-title">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Is Ibotincture™ legal where I live?<span>＋</span></summary>
+        <div class="answer">Regulations vary by country and change over time. Please check your local laws and consult a qualified professional before purchasing or using. We do not offer legal advice.</div>
+      </details>
+      <details>
+        <summary>Can I take this with medications?<span>＋</span></summary>
+        <div class="answer">Always consult a licensed clinician before combining any supplement with prescription medications or health conditions.</div>
+      </details>
+      <details>
+        <summary>What if it isn’t for me?<span>＋</span></summary>
+        <div class="answer">We offer a 30‑day money‑back guarantee on unopened products. Contact support and we’ll help.</div>
+      </details>
+      <details>
+        <summary>Do you have lab results?<span>＋</span></summary>
+        <div class="answer">Yes — each batch has third‑party testing. Scan the QR code on your bottle to view lab documents for your lot number.</div>
+      </details>
+    </div>
+  </section>
+
+  <section class="container" style="text-align:center">
+    <h2 class="section-title">Ready for calm, focused days?</h2>
+    <p class="lede">Order now with secure checkout and fast EU shipping.</p>
+    <button class="btn primary" onclick="document.getElementById('product').scrollIntoView({behavior:'smooth'})">Add to cart</button>
+  </section>
+
+  <footer class="container">
+    <div style="display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap">
+      <div>© <span id="year"></span> Ibotincture™</div>
+      <div style="display:flex; gap:14px">
+        <a href="#" style="color:inherit">Privacy</a>
+        <a href="#" style="color:inherit">Terms</a>
+        <a href="#" style="color:inherit">Contact</a>
+      </div>
+    </div>
+    <p style="margin-top:16px">Disclaimer: Content is for informational purposes only and not a substitute for professional medical advice. Always consult your clinician. Do not use if pregnant, nursing, or under 18. Keep out of reach of children.</p>
+  </footer>
+
+  <div class="mobile-bar">
+    <div style="display:flex; align-items:center; gap:10px; font-weight:800">
+      <span id="mbPrice">€49</span>
+      <span style="color:var(--muted); font-weight:600; font-size:12px">incl. VAT</span>
+    </div>
+    <button class="btn primary" style="flex:1" onclick="document.getElementById('addToCart').click()">Add to cart</button>
+  </div>
+
+  <!-- Structured data (example) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Ibotincture — Plant Tincture",
+    "image": [
+      "https://images.unsplash.com/photo-1615485737651-6a4f3b5c2e64?q=80&w=1600&auto=format&fit=crop"
+    ],
+    "description": "Premium plant tincture for gentle clarity and calm focus.",
+    "brand": {"@type":"Brand","name":"Ibotincture"},
+    "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "1243"},
+    "offers": {
+      "@type": "AggregateOffer",
+      "lowPrice": "49",
+      "highPrice": "129",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Gallery thumbs
+    const thumbs = document.querySelectorAll('#thumbs img');
+    const heroImg = document.getElementById('heroImg');
+    thumbs.forEach(t => t.addEventListener('click', () => { heroImg.src = t.dataset.full; heroImg.alt = t.alt; }));
+
+    // Tabbed panels
+    const tabs = [...document.querySelectorAll('.tab')];
+    const panels = [document.getElementById('panel1'), document.getElementById('panel2'), document.getElementById('panel3'), document.getElementById('panel4')];
+    tabs.forEach((tab, i) => tab.addEventListener('click', () => {
+      tabs.forEach(t => t.setAttribute('aria-selected','false'));
+      panels.forEach(p => p.hidden = true);
+      tab.setAttribute('aria-selected','true');
+      panels[i].hidden = false;
+    }));
+
+    // Variant pricing
+    const prices = { A:{now:49, was:59}, B:{now:79, was:95}, C:{now:129, was:149} };
+    const priceNow = document.getElementById('priceNow');
+    const priceWas = document.getElementById('priceWas');
+    const mbPrice = document.getElementById('mbPrice');
+    function setPrice(key){
+      const p = prices[key];
+      priceNow.textContent = `€${p.now}`;
+      priceWas.textContent = `€${p.was}`;
+      mbPrice.textContent = `€${p.now}`;
+    }
+    document.querySelectorAll('input[name="size"]').forEach(r => r.addEventListener('change', e => setPrice(e.target.value)));
+
+    // Qty controls
+    const qty = document.getElementById('qty');
+    document.getElementById('minus').addEventListener('click',()=>{ qty.value = Math.max(1, (+qty.value||1)-1) });
+    document.getElementById('plus').addEventListener('click',()=>{ qty.value = (+qty.value||1)+1 });
+
+    // ATC mock
+    const addToCart = document.getElementById('addToCart');
+    addToCart.addEventListener('click', () => {
+      const size = document.querySelector('input[name="size"]:checked').value;
+      const p = prices[size];
+      const data = { sku:`IBO-${size}`, size, qty:+qty.value, price:p.now };
+      console.log('Added to cart', data);
+      addToCart.textContent = 'Added!';
+      setTimeout(()=> addToCart.textContent='Add to cart', 1400);
+    });
+
+    // Learn more scroll
+    document.getElementById('learn').addEventListener('click', () => document.getElementById('details').scrollIntoView({behavior:'smooth'}));
+
+    // Init
+    setPrice('A');
+  </script>
+</body>
+</html>

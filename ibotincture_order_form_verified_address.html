@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ibotincture — Order Intake (Verified Address)</title>
+  <style>
+    :root{
+      --bg:#0f0f0f; --card:#161616; --text:#f5f5f5; --muted:#b7b7b7;
+      --line:#242424; --accent:#2a2a2a; --radius:14px; --focus:#4c9ffe;
+      --ok:#7ee39f; --err:#f59a9a; --warn:#ffd48a;
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#fafafa; --card:#ffffff; --text:#0f0f0f; --muted:#444; --line:#e5e5e5; --accent:#efefef; }
+    }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:var(--bg); color:var(--text); }
+    header{ position:sticky; top:0; background:rgba(15,15,15,.85); backdrop-filter: blur(6px); border-bottom:1px solid var(--line); }
+    @media (prefers-color-scheme: light){ header{ background:rgba(250,250,250,.85);} }
+    .wrap{ max-width:980px; margin:0 auto; padding:16px; }
+    h1{ font-size:22px; margin:4px 0 8px 0; }
+    .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px; margin:16px 0; }
+    label{ display:block; font-size:14px; margin:8px 0 6px 0; color:var(--muted); }
+    input, select, textarea{
+      width:100%; padding:12px 12px; border-radius:10px; border:1px solid var(--line); background:transparent; color:inherit; outline:none;
+    }
+    input:focus, select:focus, textarea:focus{ border-color:var(--focus); box-shadow:0 0 0 3px rgba(76,159,254,.15); }
+    .row{ display:grid; grid-template-columns:1fr; gap:14px; }
+    @media(min-width:760px){ .row.two{ grid-template-columns:1fr 1fr; } .row.three{ grid-template-columns:1.2fr .8fr .8fr; } }
+    .btn{ display:inline-block; padding:12px 16px; border-radius:10px; border:1px solid var(--line); background:var(--accent); color:inherit; text-decoration:none; cursor:pointer; }
+    .btn.primary{ background:#1f1f1f; }
+    .btn:focus{ outline:none; box-shadow:0 0 0 3px rgba(76,159,254,.2); }
+    .muted{ color:var(--muted); }
+    .kv{ display:grid; grid-template-columns:160px 1fr; gap:8px; margin:6px 0; }
+    code{ background:var(--accent); padding:2px 6px; border-radius:6px; }
+    .hidden{ display:none; }
+    .status{ font-size:14px; margin-top:6px; }
+    .ok{ color:var(--ok); }
+    .err{ color:var(--err); }
+    .warn{ color:var(--warn); }
+    footer{ border-top:1px solid var(--line); margin-top:24px; }
+    small a{ color:inherit; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Ibotincture — Manual Bank Transfer Intake (Address Verification)</h1>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <p class="muted">Fill the customer details. Address must be <strong>real and verified</strong> before creating the order.</p>
+      <form id="orderForm" novalidate>
+        <div class="row two">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" autocomplete="name" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div>
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+          </div>
+          <div>
+            <label for="product">Select product</label>
+            <select id="product" name="product" required>
+              <option value="" disabled selected>Choose…</option>
+              <option value="Ibotincture A" data-price="129">Ibotincture A — €129</option>
+              <option value="Ibotincture B" data-price="189">Ibotincture B — €189</option>
+              <option value="Ibotincture C" data-price="249">Ibotincture C — €249</option>
+            </select>
+          </div>
+          <div>
+            <label for="qty">Quantity</label>
+            <input id="qty" name="qty" type="number" min="1" value="1" required>
+          </div>
+          <div>
+            <label for="notes">Notes (optional)</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Delivery notes, etc."></textarea>
+          </div>
+        </div>
+
+        <div class="card" style="margin:18px 0">
+          <h3 style="margin:6px 0 8px 0">Shipping address</h3>
+          <div class="row two">
+            <div>
+              <label for="addr1">Address line 1</label>
+              <input id="addr1" name="addr1" placeholder="Rua Exemplo 12" required>
+            </div>
+            <div>
+              <label for="addr2">Address line 2 (optional)</label>
+              <input id="addr2" name="addr2" placeholder="Apt / Floor / Unit">
+            </div>
+          </div>
+          <div class="row three">
+            <div>
+              <label for="city">City</label>
+              <input id="city" name="city" placeholder="Lisboa" required>
+            </div>
+            <div>
+              <label for="postcode">Postcode</label>
+              <input id="postcode" name="postcode" placeholder="1000-000" required>
+            </div>
+            <div>
+              <label for="country">Country</label>
+              <select id="country" name="country" required>
+                <option value="" disabled selected>Choose…</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Spain">Spain</option>
+                <option value="France">France</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Mexico">Mexico</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two" style="margin-top:12px">
+            <button class="btn" type="button" id="verifyBtn">Verify address</button>
+            <span id="addrStatus" class="status muted">Not verified</span>
+          </div>
+
+          <div id="normalizedBox" class="muted hidden" style="margin-top:8px">
+            <div>Normalized address:</div>
+            <div id="normalized"></div>
+          </div>
+        </div>
+
+        <div class="two" style="margin-top:14px">
+          <button class="btn primary" type="submit">Create Order</button>
+          <button class="btn" type="button" id="resetBtn">Reset</button>
+          <span id="msg" class="muted"></span>
+        </div>
+      </form>
+    </section>
+
+    <section class="card hidden" id="summaryCard" aria-live="polite">
+  <h3>Order summary</h3>
+  <div id="summaryKV" class="kv"></div>
+
+  <div class="two" style="margin-top:12px">
+    <button class="btn primary" id="payStripe">Pay securely with Stripe</button>
+    <button class="btn" id="downloadCsv">Download CSV row</button>
+  </div>
+  <p id="postMsg" class="muted"></p>
+  <p class="muted" style="margin-top:8px">
+    Cards, Apple Pay, and Google Pay are offered by Stripe where available.
+  </p>
+</section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <small class="muted">We do not sell medicines or make health claims. Age 21+. Availability depends on region.
+      • Address verification uses <a href="https://nominatim.org/" target="_blank" rel="noopener">OpenStreetMap Nominatim</a>. Be mindful of rate limits.</small>
+    </div>
+  </footer>
+
+<script>
+
+  const PAYMENT_LINKS = {
+  'Ibotincture A': 'https://buy.stripe.com/test_8x2bJ089V8Z71u97hg24000',
+  'Ibotincture B': 'https://buy.stripe.com/test_8x2bJ089V8Z71u97hg24000',
+  'Ibotincture C': 'https://buy.stripe.com/test_8x2bJ089V8Z71u97hg24000'
+};
+function buildStripeUrl(baseUrl, { orderId, email }) {
+  const u = new URL(baseUrl);
+  u.searchParams.set('client_reference_id', orderId);
+  u.searchParams.set('prefilled_email', email);
+  return u.toString();
+}
+
+(function(){
+  const form = document.getElementById('orderForm');
+  const msg = document.getElementById('msg');
+  const summary = document.getElementById('summaryCard');
+  const kv = document.getElementById('summaryKV');
+
+  const resetBtn = document.getElementById('resetBtn');
+  const postMsg = document.getElementById('postMsg');
+
+  const verifyBtn = document.getElementById('verifyBtn');
+  const addrStatus = document.getElementById('addrStatus');
+  const normalizedBox = document.getElementById('normalizedBox');
+  const normalized = document.getElementById('normalized');
+
+  let verified = false;
+  let normalizedAddress = null;
+
+  function fmtMoney(n){ return new Intl.NumberFormat(undefined,{ style:'currency', currency:'EUR' }).format(n); }
+  function nowStamp(){
+    const d = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'-'+pad(d.getHours())+pad(d.getMinutes())+pad(d.getSeconds());
+  }
+  function genRef(){
+    const used = JSON.parse(localStorage.getItem('refs')||'[]');
+    let code;
+    do { code = String(Math.floor(100000 + Math.random()*900000)); } while(used.includes(code));
+    used.push(code); localStorage.setItem('refs', JSON.stringify(used));
+    return code;
+  }
+  function calcAmount(product, qty){
+    const opt = Array.from(document.getElementById('product').options).find(o=>o.value===product);
+    const price = Number(opt ? opt.dataset.price : 0);
+    return price * Number(qty||1);
+  }
+function normalizeEmail(x){
+  return (x || '').trim().replace(/\s+/g, '').toLowerCase();
+}
+function validEmail(x){
+  // allows dots, +, hyphens; requires TLD >= 2 chars
+  return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(x);
+}
+  function cleanPhone(x){ return (x||'').replace(/[^+\\d]/g,''); }
+function postalLooksValid(cc, pc){
+  pc = (pc||'').trim().toUpperCase().replace(/[–—]/g,'-');
+  if (cc === 'Portugal'){ 
+    return /^\d{4}-\d{3}$/.test(pc); 
+  }
+  return pc.length >= 3;
+}
+
+  verifyBtn.addEventListener('click', async ()=>{
+    addrStatus.textContent = 'Verifying…';
+    addrStatus.className = 'status warn';
+    verified = false; normalizedAddress = null;
+
+    const addr1 = document.getElementById('addr1').value.trim();
+    const addr2 = document.getElementById('addr2').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const postcode = document.getElementById('postcode').value.trim();
+    const country = document.getElementById('country').value;
+
+    if (!addr1 || !city || !postcode || !country){
+      addrStatus.textContent = 'Please fill all address fields.';
+      addrStatus.className = 'status err';
+      return;
+    }
+    if (!postalLooksValid(country, postcode)){
+      addrStatus.textContent = 'Postcode format looks invalid for the selected country.';
+      addrStatus.className = 'status err';
+      return;
+    }
+
+    try{
+      const q = encodeURIComponent([addr1, addr2, city, postcode, country].filter(Boolean).join(', '));
+      // Public Nominatim endpoint; for production consider your own instance or a commercial provider.
+      const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=${q}`;
+      const resp = await fetch(url, { headers: { 'Accept-Language':'en' } });
+      if (!resp.ok) throw new Error('Lookup failed');
+      const data = await resp.json();
+      if (!data || !data.length){
+        addrStatus.textContent = 'Address not found. Check spelling or try a nearby known address.';
+        addrStatus.className = 'status err';
+        normalizedBox.classList.add('hidden');
+        return;
+      }
+      const hit = data[0];
+      normalizedAddress = hit.display_name;
+      addrStatus.textContent = 'Verified';
+      addrStatus.className = 'status ok';
+      normalized.textContent = normalizedAddress;
+      normalizedBox.classList.remove('hidden');
+      verified = true;
+    }catch(e){
+      addrStatus.textContent = 'Verification error. Try again later.';
+      addrStatus.className = 'status err';
+      normalizedBox.classList.add('hidden');
+      verified = false;
+    }
+  });
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault(); msg.textContent='';
+
+    const name = form.name.value.trim();
+    const email = normalizeEmail(form.email.value);
+    const phone = cleanPhone(form.phone.value);
+    const product = form.product.value;
+    const qty = Number(form.qty.value||1);
+    const notes = form.notes.value.trim();
+
+    const addr1 = document.getElementById('addr1').value.trim();
+    const addr2 = document.getElementById('addr2').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const postcode = document.getElementById('postcode').value.trim();
+    const country = document.getElementById('country').value;
+
+    if(!name || !email || !product || !qty || !addr1 || !city || !postcode || !country){
+      msg.textContent='Please fill all required fields.'; return;
+    }
+    if (!form.email.checkValidity() || !validEmail(email)) {
+      msg.textContent = 'Please enter a valid email.'; return;
+    }
+    if(!verified){ msg.textContent='Please verify the address before creating the order.'; return; }
+
+    const amount = calcAmount(product, qty);
+    const ref = genRef();
+    const orderId = 'ORD-' + nowStamp();
+
+    const order = {
+      order_id: orderId, name, email, phone, product, qty, amount, currency:'EUR',
+      reference_code: ref, notes, status:'pending', created_at: new Date().toISOString(),
+      address: {
+        addr1, addr2, city, postcode, country, normalized: normalizedAddress
+      }
+    };
+
+    // Persist locally for demo purposes
+    // (No summary UI) — go straight to Stripe after saving order locally
+
+    // Persist locally for demo/audit
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    orders.push(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+
+    // Build the Stripe Payment Link URL
+    const base = PAYMENT_LINKS[order.product];
+    if (!base) {
+      msg.textContent = 'Stripe link for this product is not configured yet.';
+      return;
+    }
+    const payUrl = buildStripeUrl(base, { orderId: order.order_id, email: order.email });
+
+    // Optional: small confirmation UI could go here if you ever want it.
+    // For now, redirect immediately:
+    window.location.href = payUrl;
+
+    
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', ()=>{
+    form.reset(); msg.textContent=''; summary.classList.add('hidden');
+    document.getElementById('postMsg').textContent='';
+    verified = false; normalizedAddress = null;
+    addrStatus.textContent = 'Not verified'; addrStatus.className = 'status muted';
+    normalizedBox.classList.add('hidden'); normalized.textContent = '';
+  });
+})();
+</script>
+</body>
+</html>
+

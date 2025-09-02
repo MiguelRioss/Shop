@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discover the Meso Path — Community & Small‑Batch Tincture</title>
+  <meta name="description" content="Join the meso dosing movement. Education, community, journaling prompts, and a small-batch alchemical tincture to support a deeper practice. Meta-compliant, no medical claims." />
+  <style>
+    :root{
+      --bg:#0b1220;          /* deep navy for hero */
+      --ink:#0f1720;         /* dark text */
+      --muted:#5b6775;       /* muted text */
+      --line:#e7edf4;        /* borders */
+      --soft:#f6fbff;        /* soft panels */
+      --cta:#0ea5e9;         /* brand accent */
+      --cta-ink:#021018;     /* dark on light */
+      --ok:#16a34a;          /* success */
+      --warn:#f59e0b;
+      --radius:16px;
+      --shadow:0 10px 28px rgba(14,165,233,.18);
+      --wrap:1160px;
+      --pad:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color:var(--ink); background:#fff; line-height:1.6}
+    a{color:var(--cta); text-decoration:none}
+    a:hover{text-decoration:underline}
+    img{max-width:100%; height:auto}
+    .wrap{max-width:var(--wrap); margin:0 auto; padding:0 var(--pad)}
+    .btn{display:inline-block; padding:14px 22px; border-radius:999px; background:var(--cta); color:#fff; font-weight:700; letter-spacing:.2px; box-shadow:var(--shadow); transition:.12s transform}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.ghost{background:#fff; color:var(--ink); border:1px solid var(--line); box-shadow:none}
+    .btn.alt{background:#111827; color:#fff}
+
+    /* Header */
+    header{position:sticky; top:0; background:rgba(255,255,255,.9); backdrop-filter:saturate(180%) blur(12px); border-bottom:1px solid #eef2f6; z-index:20}
+    .nav{display:flex; align-items:center; justify-content:space-between; height:72px; gap:16px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; color:#111}
+    .dot{width:12px; height:12px; border-radius:50%; background:var(--cta)}
+    .nav a{color:#111; font-weight:600; padding:8px 10px; border-radius:10px}
+    .nav a:hover{background:#f3f7fb}
+
+    /* Hero */
+    .hero{position:relative; color:#fff; background:radial-gradient(1100px 560px at 50% -10%, rgba(14,165,233,.25), transparent 60%), linear-gradient(var(--bg), var(--bg)); overflow:hidden}
+    .hero::before{content:""; position:absolute; inset:-10% -10% 0 -10%; background:url('hero-ripple.jpg') center/cover no-repeat; opacity:.35}
+    .hero .wrap{padding:120px var(--pad) 60px}
+    .eyebrow{letter-spacing:.18em; text-transform:uppercase; font-size:.8rem; opacity:.85}
+    h1{font-size:clamp(2.2rem, 4.8vw, 3.6rem); line-height:1.12; margin:.35em 0 .2em}
+    .sub{max-width:60ch; color:#e6eff7; font-size:1.1rem}
+    .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:22px}
+    .trust{display:flex; gap:28px; align-items:center; flex-wrap:wrap; margin:34px 0 6px}
+    .trust img{opacity:.85; filter:grayscale(100%)}
+
+    /* Promo strip */
+    .promo{background:#061120; color:#cdefff; border-top:1px solid #0c1a2c; border-bottom:1px solid #0c1a2c}
+    .promo .bar{display:flex; gap:18px; align-items:center; justify-content:center; padding:10px 0; font-weight:600}
+
+    /* Sections */
+    section{padding:86px 0; border-top:1px solid #eef2f6}
+    h2{font-size:clamp(1.6rem, 3.2vw, 2.3rem); margin:0 0 .6rem}
+    h3{margin:0 0 .5rem}
+    .muted{color:var(--muted)}
+    .grid-2{display:grid; gap:26px; grid-template-columns:1fr}
+    .grid-3{display:grid; gap:22px; grid-template-columns:1fr}
+    .card{border:1px solid var(--line); border-radius:var(--radius); padding:24px; background:#fff}
+    .soft{background:var(--soft); border:1px solid #e5f3fb; border-radius:var(--radius)}
+    .illus{min-height:240px; border:1px dashed #cfe4f4; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; color:#6b7b8c; background:#fbfeff}
+
+    /* Feature list */
+    .feat{display:flex; gap:14px; align-items:flex-start}
+    .tick{min-width:24px; height:24px; border-radius:50%; background:#eaf8ff; border:1px solid #cfe8f7; display:inline-flex; align-items:center; justify-content:center; font-weight:900; color:#1f7fb5}
+
+    /* Comparison */
+    .comp .col{border:1px solid var(--line); border-radius:var(--radius); padding:22px}
+    .col h4{margin:0 0 .3rem}
+    .hint{font-size:.93rem; color:#566376}
+
+    /* How it works */
+    .steps{counter-reset: step}
+    .step{display:flex; gap:16px; align-items:flex-start; border:1px solid var(--line); border-radius:var(--radius); padding:18px; background:#fff}
+    .step::before{counter-increment: step; content: counter(step); width:32px; height:32px; border-radius:50%; background:#111827; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:700}
+
+    /* Testimonials */
+    .quotes{display:grid; gap:18px; grid-template-columns:1fr}
+    .quote{border:1px solid var(--line); border-radius:var(--radius); padding:20px; background:#fff; font-style:italic}
+
+    /* FAQ */
+    details{border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; background:#fff}
+    summary{cursor:pointer; font-weight:700}
+    details + details{margin-top:12px}
+
+    /* Sticky bottom bar */
+    .stickybar{position:sticky; bottom:0; background:rgba(255,255,255,.97); backdrop-filter:saturate(180%) blur(8px); border-top:1px solid var(--line); z-index:25}
+    .stickybar .wrap{display:flex; gap:16px; align-items:center; justify-content:space-between; padding:12px var(--pad)}
+
+    /* Footer */
+    footer{padding:44px 0; color:#5b6775; font-size:.95rem}
+
+    /* Responsive */
+    @media (min-width: 860px){
+      .grid-2{grid-template-columns:1fr 1fr}
+      .grid-3{grid-template-columns:repeat(3,1fr)}
+      .hero .wrap{padding:144px var(--pad) 100px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Promo strip -->
+  <div class="promo" aria-label="promo">
+    <div class="wrap bar">✨ Limited community drops • Free starter guide • No medical claims — education & lifestyle only</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="wrap nav" role="navigation" aria-label="Primary">
+      <div class="brand"><span class="dot" aria-hidden="true"></span><span>MESO</span></div>
+      <nav>
+        <a href="#why">Why Meso</a>
+        <a href="#compare">Compare</a>
+        <a href="#practice">Practice</a>
+        <a href="#community">Community</a>
+        <a href="#craft">Our Craft</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" role="banner">
+    <div class="wrap">
+      <div class="eyebrow">The Meso Dosing Movement</div>
+      <h1>Discover the Meso Path</h1>
+      <p class="sub">Micro had its moment. Meso is the movement. Step beyond subtle shifts and explore a deeper practice of balance, presence, and connection.</p>
+      <div class="cta-row">
+        <a class="btn" href="https://facebook.com/groups/your-meso-community" rel="noopener">Join the Meso Dosing Community</a>
+        <a class="btn ghost" href="#compare">What is meso?</a>
+      </div>
+      <div class="trust" aria-label="as seen in">
+        <img src="logo-press-1.svg" alt="Press logo placeholder" width="110" height="28"/>
+        <img src="logo-press-2.svg" alt="Press logo placeholder" width="110" height="28"/>
+        <img src="logo-press-3.svg" alt="Press logo placeholder" width="110" height="28"/>
+        <img src="logo-press-4.svg" alt="Press logo placeholder" width="110" height="28"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Meso -->
+  <section id="why">
+    <div class="wrap grid-2">
+      <div>
+        <h2>Micro is subtle. Meso is intentional.</h2>
+        <p>Microdosing has been talked about for years — small, background shifts; tiny drops; subtle nudges. For many, it was enough — until it wasn’t.</p>
+        <p>Meso dosing is emerging as the <strong>next step forward</strong>. Instead of living in the background, meso dosing creates space for real shifts in presence, energy, and awareness. It’s intentional. It’s rhythmic. It’s not a hack — it’s a <strong>practice</strong>.</p>
+        <div class="card">
+          <div class="feat"><span class="tick">✓</span><div>Notice patterns and habits with simple reflection.</div></div>
+          <div class="feat"><span class="tick">✓</span><div>Reconnect with body and senses through breath and movement.</div></div>
+          <div class="feat"><span class="tick">✓</span><div>Bring balance to your day with clear intention.</div></div>
+          <div class="feat"><span class="tick">✓</span><div>Step out of autopilot and into presence.</div></div>
+        </div>
+      </div>
+      <div class="illus">Lifestyle / ripple visual</div>
+    </div>
+  </section>
+
+  <!-- Compare -->
+  <section id="compare" class="comp">
+    <div class="wrap">
+      <h2>Micro vs. Meso — a quick contrast</h2>
+      <p class="muted">Understand why more people are exploring a deeper practice.</p>
+      <div class="grid-2" style="margin-top:18px">
+        <div class="col">
+          <h4>Micro Dosing</h4>
+          <ul>
+            <li>Works quietly in the background</li>
+            <li>Popular wellness trend</li>
+            <li>Tiny shifts, often unnoticed</li>
+            <li>Minimal disruption, minimal change</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h4>Meso Dosing</h4>
+          <ul>
+            <li>Intentional sessions with clear framing</li>
+            <li>Creates time for reflection and integration</li>
+            <li>Invites clarity, balance, and connection</li>
+            <li>Supported by journaling, community, and rhythm</li>
+          </ul>
+        </div>
+      </div>
+      <div class="soft" style="padding:22px; margin-top:18px;">
+        <div class="hint"><strong>Note:</strong> Our content is educational and community‑focused. We make no medical claims.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Practice -->
+  <section id="practice">
+    <div class="wrap">
+      <h2>The rhythm of practice</h2>
+      <div class="grid-2" style="margin-top:10px">
+        <div class="card">
+          <h3>A simple session might include</h3>
+          <ol>
+            <li>Taking your dose in a quiet morning moment</li>
+            <li>Journaling what arises — thoughts, sensations, emotions</li>
+            <li>Moving your body (walk, breathwork, stretching)</li>
+            <li>Returning to your day with a clearer mind</li>
+          </ol>
+          <p class="muted">It’s not complicated. The key is noticing what shifts when you give yourself space.</p>
+        </div>
+        <div class="card steps">
+          <h3>Get started today</h3>
+          <div class="step"><div><strong>Join</strong> the private community (free).</div></div>
+          <div class="step"><div><strong>Download</strong> the orientation guide and prompts.</div></div>
+          <div class="step"><div><strong>Explore</strong> your rhythm with support and accountability.</div></div>
+          <div class="step"><div><strong>Enquire</strong> about our small‑batch tincture when ready.</div></div>
+          <p><a class="btn" href="https://facebook.com/groups/your-meso-community" rel="noopener">Join the Meso Dosing Community</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community -->
+  <section id="community">
+    <div class="wrap">
+      <h2>A private space for modern explorers</h2>
+      <div class="grid-3" style="margin-top:14px">
+        <div class="card">
+          <h3>Inside the community</h3>
+          <ul>
+            <li>Free guides & simple practices</li>
+            <li>Journaling prompts and reflection</li>
+            <li>Supportive, private discussion</li>
+            <li>Early access to resources & events</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>How it works</h3>
+          <ol>
+            <li>Join the community (free)</li>
+            <li>Start with the orientation guide</li>
+            <li>Connect, learn, and share</li>
+          </ol>
+          <p class="muted">It’s not about being perfect. It’s about being real.</p>
+        </div>
+        <div class="card">
+          <h3>Community values</h3>
+          <ul>
+            <li>Respect and curiosity</li>
+            <li>Safety and privacy</li>
+            <li>Experience over ideology</li>
+            <li>Practice over perfection</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:18px"><a class="btn" href="https://facebook.com/groups/your-meso-community" rel="noopener">Join the Meso Dosing Community</a></div>
+    </div>
+  </section>
+
+  <!-- Craft / Product (coded + compliant) -->
+  <section id="craft">
+    <div class="wrap grid-2">
+      <div>
+        <h2>A small‑batch alchemical tincture</h2>
+        <p>To support this practice, we created something special: a <strong>limited‑edition tincture</strong> crafted with care. Each batch is intentionally small, using a pared‑back, natural approach.</p>
+        <ul>
+          <li>Hand‑crafted in small runs</li>
+          <li>Created with care, intention, and tradition</li>
+          <li>Clean, simple formulation</li>
+          <li>Offered exclusively to our community</li>
+        </ul>
+        <p class="muted">We call it our <strong>alchemical tincture</strong>. Some know it as <strong>Ibotincture</strong> — the quiet companion to the meso path.</p>
+        <p><a class="btn alt" href="/enquire" rel="nofollow">Enquire About the Tincture</a></p>
+      </div>
+      <div class="illus">Bottle still‑life placeholder (no label claims)</div>
+    </div>
+  </section>
+
+  <!-- Social Proof -->
+  <section>
+    <div class="wrap">
+      <h2>Why the meso path resonates</h2>
+      <div class="quotes">
+        <div class="quote">“Micro never did much for me. Meso gave me presence, focus, and calm clarity.”</div>
+        <div class="quote">“This community gave me the structure and accountability I needed to keep going.”</div>
+        <div class="quote">“The tincture is beautifully made. It supports my practice in a way nothing else has.”</div>
+        <div class="quote">“It feels like I’m part of something bigger than myself — a real movement.”</div>
+      </div>
+      <div style="margin-top:18px"><a class="btn" href="https://facebook.com/groups/your-meso-community" rel="noopener">Join the Meso Dosing Community</a></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <h2>Frequently asked (quick answers)</h2>
+      <details>
+        <summary>Is meso dosing right for everyone?</summary>
+        <p>Meso is a practice and a community conversation — not a prescription. We share education and resources so you can make informed, personal choices.</p>
+      </details>
+      <details>
+        <summary>Do you make medical claims?</summary>
+        <p>No. Our content is for educational and community purposes only. We do not claim to diagnose, treat, cure, or prevent any disease.</p>
+      </details>
+      <details>
+        <summary>How do I get access to the tincture?</summary>
+        <p>We offer limited drops to community members who want to deepen their practice. You can enquire inside the group or via our enquiry page.</p>
+      </details>
+      <details>
+        <summary>What makes Ibotincture different?</summary>
+        <p>We craft small batches with a pared‑back, natural approach. It’s designed to be the quiet companion to a thoughtful meso practice.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Bottom sticky CTA (like Sensate "Buy Now" bar, but community‑first) -->
+  <div class="stickybar" role="complementary">
+    <div class="wrap">
+      <div><strong>Meso Dosing Community</strong> — free starter guide included</div>
+      <a class="btn" href="https://facebook.com/groups/your-meso-community" rel="noopener">Join Free</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div style="display:flex; gap:16px; flex-wrap:wrap; justify-content:space-between; align-items:center">
+        <small>© <span id="y"></span> MESO. All rights reserved.</small>
+        <div>
+          <a href="/privacy">Privacy</a> ·
+          <a href="/terms">Terms</a> ·
+          <a href="/community-guidelines">Community Guidelines</a> ·
+          <a href="/contact">Contact</a>
+        </div>
+      </div>
+      <p style="margin-top:10px; color:#6b7786; font-size:.95rem">Disclaimer: This content is for educational and community purposes only. No medical claims are made. Our tinctures are not intended to diagnose, treat, cure, or prevent any disease.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

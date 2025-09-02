@@ -1,0 +1,3 @@
+event_id,order_id,session_id,email,customer,product,qty,amount,currency,ship_line1,ship_line2,ship_city,ship_post,ship_country,created_at
+evt_1S0k8BBjCoDp1ugvPq407jdR,ORD-20250827-151509,cs_test_a1uOEMJrSjzluep0cZhtjJG1vvBTQlo41BC3BBnERZwDpHtMU7qbAYamU9,miguelangelorios5f@gmail.com,"Miguel Rios",Ibotincture,1,196.00,EUR,"Rua Dr João Gomes Patacão","Nmr 13 4ºF",Moscavide,1885-047,PT,2025-08-27T14:15:20+00:00
+evt_1S0kHoBjCoDp1ugvB02O243X,ORD-20250827-152124,cs_test_a1PL2sKTITsiylpqlCrL5wHsxLE5j6yzOLTU0THcjIRuq9CeIjWfEilQqk,miguelangelorios5f@gmail.com,"Miguel Rios",Ibotincture,4,754.00,EUR,"R. Carlos Mardel 59, 1900-118 Lisboa, Portugal","Rua Cardel Mardel 59",Lisboa,1885-047,PT,2025-08-27T14:25:17+00:00

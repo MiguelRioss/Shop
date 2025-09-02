@@ -2,27 +2,27 @@ import React, { useState, useEffect } from "react";
 
 const PRESS = [
   {
-    logo: "../../public/forbes.jpg",
+    logo: "../forbes.jpg",
     quote:
       "Works on concerns, such as post-traumatic stress disorder, depression, anxiety, or grief.",
   },
   {
-    logo: "../../public/bbc.png",
+    logo: "../bbc.png",
     quote:
       "My mind has shifted now from what I used to be. I can look back at my childhood and deal with those issues without sobbing and feeling sorry for myself.",
   },
   {
-    logo: "../../public/rolling-stone.png",
+    logo: "../rolling-stone.png",
     quote:
       "An experience that often causes users to take an unflinching and critical look at their lives.",
   },
   {
-    logo: "../../public/national-geographic.png",
+    logo: "../national-geographic.png",
     quote:
       "I saw this really transform people by taking someone in an intractable cycle and breaking them free. — D.C. Mash, Professor of Neurology",
   },
   {
-    logo: "../../public/time.png",
+    logo: "../time.png",
     quote:
       "It’s just going to go down there and basically pull up any traumas, anything hiding in your subconscious that may be affecting you that you don’t even realize.",
   },

@@ -20,7 +20,7 @@ export default function PromoBanner() {
           "
         >
           <img
-            src="../../public/product.png"
+            src="../product.png"
             alt="Sensate Device"
             className="h-40 w-auto sm:h-80 drop-shadow-lg"
           />

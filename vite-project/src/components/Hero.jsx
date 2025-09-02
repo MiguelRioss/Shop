@@ -1,11 +1,13 @@
 import React from "react";
+import bgHero from '../backgroundHero.jpg'; // adjust path
+import productPng from '../product.png'; // adjust path
 
 export default function Hero() {
   return (
     <section
       className="relative bg-[#f2f7fc] bg-cover bg-center"
       style={{
-        backgroundImage: "url('../../public/backgroundHero.jpg')",
+        backgroundImage: `url(${bgHero})`,
       }}
     >
       {/* optional overlay to make text more readable */}
@@ -37,7 +39,7 @@ export default function Hero() {
             <div className="max-w-sm lg:ml-12">
               <div className=" w-full rounded-xl  overflow-hidden">
                 <img
-                  src="../../public/product.png"
+                  src= {productPng}
                   alt="Placeholder"
                   className="h-full w-full object-cover"
                 />

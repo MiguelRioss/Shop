@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 // Import images at the top
-import forbesLogo from "../assets/forbes.jpg";
-import bbcLogo from "../assets/bbc.png";
-import rollingStoneLogo from "../assets/rolling-stone.png";
-import nationalGeoLogo from "../assets/national-geographic.png";
-import timeLogo from "../assets/time.png";
+import forbesLogo from "../forbes.jpg";
+import bbcLogo from "../bbc.png";
+import rollingStoneLogo from "../rolling-stone.png";
+import nationalGeoLogo from "../national-geographic.png";
+import timeLogo from "../time.png";
 
 // Use them in your PRESS array
 const PRESS = [

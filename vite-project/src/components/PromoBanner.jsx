@@ -1,4 +1,5 @@
 import React from "react";
+import productPng from '../product.png'; // adjust path
 
 /**
  * Promo banner: product image is in its own container, overlapping the banner.
@@ -20,7 +21,7 @@ export default function PromoBanner() {
           "
         >
           <img
-            src="../product.png"
+            src={productPng}
             alt="Sensate Device"
             className="h-40 w-auto sm:h-80 drop-shadow-lg"
           />

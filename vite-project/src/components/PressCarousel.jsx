@@ -1,28 +1,36 @@
 import React, { useState, useEffect } from "react";
 
+// Import images at the top
+import forbesLogo from "../assets/forbes.jpg";
+import bbcLogo from "../assets/bbc.png";
+import rollingStoneLogo from "../assets/rolling-stone.png";
+import nationalGeoLogo from "../assets/national-geographic.png";
+import timeLogo from "../assets/time.png";
+
+// Use them in your PRESS array
 const PRESS = [
   {
-    logo: "../forbes.jpg",
+    logo: forbesLogo,
     quote:
       "Works on concerns, such as post-traumatic stress disorder, depression, anxiety, or grief.",
   },
   {
-    logo: "../bbc.png",
+    logo: bbcLogo,
     quote:
       "My mind has shifted now from what I used to be. I can look back at my childhood and deal with those issues without sobbing and feeling sorry for myself.",
   },
   {
-    logo: "../rolling-stone.png",
+    logo: rollingStoneLogo,
     quote:
       "An experience that often causes users to take an unflinching and critical look at their lives.",
   },
   {
-    logo: "../national-geographic.png",
+    logo: nationalGeoLogo,
     quote:
       "I saw this really transform people by taking someone in an intractable cycle and breaking them free. — D.C. Mash, Professor of Neurology",
   },
   {
-    logo: "../time.png",
+    logo: timeLogo,
     quote:
       "It’s just going to go down there and basically pull up any traumas, anything hiding in your subconscious that may be affecting you that you don’t even realize.",
   },

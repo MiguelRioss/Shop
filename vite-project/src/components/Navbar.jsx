@@ -47,7 +47,7 @@ export default function Navbar() {
             {/* Right: Cart + CTA (desktop) */}
             <div className="hidden md:flex items-center gap-3">
               <a
-                href="#cart"
+                href="../cart"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#f5653b] text-[#f5653b] hover:bg-[#f5653b] hover:text-white transition-colors"
                 aria-label="Cart"
               >

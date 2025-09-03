@@ -1,5 +1,5 @@
 import React from "react";
-import productPng from '../product.png'; // adjust path
+import productPng from '/product.png'; // adjust path
 
 /**
  * Promo banner: product image is in its own container, overlapping the banner.

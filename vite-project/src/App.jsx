@@ -1,40 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import ProductShowcase from './components/ProductShowcase'
-import PromoBanner from './components/PromoBanner'
-import BubblesHeroSection from './components/BubblesHeroSection'
-import HeroWithVideo from './components/HeroWithVideo'
-import Footer from './components/Footer'
-import ThreeFloatHeadersHero from './components/ThreeFloatHeadersHero'
-import CarouselsHero from './components/CarousselHero'
-import PressCarousel from './components/PressCarousel'
-import FAQ from './components/FAQ'
+import Navbar from "./components/Navbar.jsx";
+import HomePage from "./Pages/HomePage.jsx";
+import CartPage from "./Pages/CartPage.jsx";
+import Footer from "./components/Footer.jsx";
 
-
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-    <div className="NavBar">
+    <Router>
+      {/* Shared layout */}
       <Navbar />
-      <Hero />
-      <ProductShowcase  />
-      <PromoBanner />
-      <BubblesHeroSection />
-      <HeroWithVideo/>
-      <ThreeFloatHeadersHero />
-      <CarouselsHero />
-      <PressCarousel />
-      <FAQ />
-      <Footer />
-    </div>
-    </>
-  )
-}
 
-export default App
+      {/* Routed pages */}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/cart" element={<CartPage />} />
+      </Routes>
+      <Footer/>
+    </Router>
+  );
+}

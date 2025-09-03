@@ -1,9 +1,9 @@
 import React from "react";
-import Lucia from "../LUCIA.png";
-import TA from "../TA.png"; 
-import RB from "../RB.png";
-import Clara from "../CLARA.png";
-import Tania from "../TANIA.png";
+import Lucia from "/LUCIA.png";
+import TA from "/TA.png"; 
+import RB from "/RB.png";
+import Clara from "/CLARA.png";
+import Tania from "/TANIA.png";
 /**
  * Drop your files in /public/products/...
  * Update titles, bullets, descriptions, prices as needed.

@@ -95,7 +95,7 @@ export default function Navbar() {
               </ul>
               <div className="flex items-center gap-3 pt-2">
                 <a
-                  href="#cart"
+                  href="/cart"
                   className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#f5653b] text-[#f5653b]"
                   aria-label="Cart"
                 >

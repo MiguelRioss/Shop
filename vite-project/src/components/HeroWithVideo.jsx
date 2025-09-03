@@ -14,15 +14,12 @@ export default function HeroWithVideo() {
           {/* Left side: video + button */}
           <div className="space-y-6">
             <div className="overflow-hidden rounded-xl shadow-lg">
-             <iframe 
-              width="560" 
-              height="315" 
-              src="https://www.youtube.com/embed/hyVcYruvnBI?start=5&end=117&rel=0&modestbranding=1&controls=1" 
-              title="YouTube video player" 
-              frameborder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-              allowfullscreen>
-            </iframe>
+              <video
+                src="https://www.w3schools.com/html/mov_bbb.mp4"
+                controls
+                poster="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1200&auto=format&fit=crop"
+                className="w-full aspect-video object-cover"
+              />
             </div>
             <a
               href="#get"

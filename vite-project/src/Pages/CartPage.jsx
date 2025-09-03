@@ -1,38 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
+import { useCart } from "../components/CartContext.jsx";
+import RB from '/RB.png'
 
 export default function Cart() {
-  // Local cart state (you can later hydrate this from sessionStorage)
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Sensate",
-      description: "Kit: 1 Sensate Plus Pack",
-      price: 349,              // unit price
-      qty: 1,
-      image: "/sensate.png",   // ensure this exists in /public
-    },
-  ]);
+  const { items, setQty, removeItem, subtotal } = useCart();
 
-  // Update quantity
-  const handleQtyChange = (id, qty) => {
-    const newQty = Math.max(1, Number(qty) || 1);
-    setCartItems(items =>
-      items.map(it => (it.id === id ? { ...it, qty: newQty } : it))
-    );
-  };
-
-  // Remove item
-  const handleRemove = (id) => {
-    setCartItems(items => items.filter(it => it.id !== id));
-  };
-
-  // Calculate subtotal
-  const subtotal = useMemo(
-    () => cartItems.reduce((sum, it) => sum + it.price * it.qty, 0),
-    [cartItems]
-  );
-
-  const fmt = (n) => `€${n.toFixed(2)}`;
+  const fmt = (n) => `€${(n ?? 0).toFixed(2)}`;
 
   return (
     <section className="bg-[#fcfcf6] min-h-screen py-12 px-4">
@@ -47,24 +20,45 @@ export default function Cart() {
             <a href="/" className="text-sm text-gray-500 mb-6 inline-block">← Continue Shopping</a>
             <h2 className="text-2xl font-semibold mb-4">Your Cart</h2>
 
-            {cartItems.length === 0 ? (
+            {items.length === 0 ? (
               <p className="text-gray-500">Your cart is empty.</p>
             ) : (
               <div className="space-y-6">
-                {cartItems.map((item) => {
-                  const lineTotal = item.price * item.qty;
+                {items.map((item) => {
+                  const unit = item.price ?? 0;
+                  const lineTotal = unit * (item.qty ?? 1);
+                  const title = item.title ?? item.name ?? item.label ?? "Product";
+                  const imgSrc =  item.image; // prefer thumb if present
+                  const desc = item.description;
+
                   return (
                     <div key={item.id} className="flex items-center justify-between border-b pb-4">
                       <div className="flex items-center gap-4">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-20 h-20 rounded-lg object-cover"
-                        />
+                        {imgSrc ? (
+                          <img
+                            src={imgSrc}
+                            alt={title}
+                            className="w-20 h-20 rounded-lg object-cover"
+                          />
+                        ) : (
+                          <div className="w-20 h-20 rounded-lg bg-gray-100" />
+                        )}
+
                         <div>
-                          <h3 className="font-medium">{item.name}</h3>
-                          <p className="text-sm text-gray-500">{item.description}</p>
-                          <p className="text-sm text-gray-500">Unit: {fmt(item.price)}</p>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-medium">{title}</h3>
+                            {item.note && (
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                                {item.note}
+                              </span>
+                            )}
+                          </div>
+
+                          {desc && <p className="text-sm text-gray-500">{desc}</p>}
+
+                      
+
+                          <p className="text-sm text-gray-500 mt-1">Unit: {fmt(unit)}</p>
                         </div>
                       </div>
 
@@ -72,18 +66,17 @@ export default function Cart() {
                         {/* Quantity */}
                         <select
                           value={item.qty}
-                          onChange={(e) => handleQtyChange(item.id, e.target.value)}
+                          onChange={(e) => setQty(item.id, parseInt(e.target.value, 10))}
                           className="border rounded-lg px-3 py-1"
                         >
-                          {[...Array(10)].map((_, i) => {
-                            const n = i + 1;
-                            return <option key={n} value={n}>{n}</option>;
-                          })}
+                          {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+                            <option key={n} value={n}>{n}</option>
+                          ))}
                         </select>
 
                         {/* Delete */}
                         <button
-                          onClick={() => handleRemove(item.id)}
+                          onClick={() => removeItem(item.id)}
                           className="text-gray-400 hover:text-red-500"
                           aria-label="Remove item"
                           title="Remove item"

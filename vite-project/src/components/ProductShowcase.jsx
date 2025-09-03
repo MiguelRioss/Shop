@@ -4,13 +4,14 @@ import TA from "/TA.png";
 import RB from "/RB.png";
 import Clara from "/CLARA.png";
 import Tania from "/TANIA.png";
+import {useCart} from "../components/CartContext.jsx"
 /**
  * Drop your files in /public/products/...
  * Update titles, bullets, descriptions, prices as needed.
  */
 const OPTIONS = [
   {
-    id: "lucia",
+    id: 0,
     label: "LUCIA",
     price: 39, // € — update
     title: "Ibogenics LUCIA (60 ml)",
@@ -25,7 +26,7 @@ const OPTIONS = [
     thumb: Lucia
   },
   {
-    id: "tania",
+    id: 1,
     label: "TANIA",
     price: 39,
     title: "Ibogenics TANIA (60 ml)",
@@ -40,7 +41,7 @@ const OPTIONS = [
     thumb: Tania,
   },
   {
-    id: "clara",
+    id: 2,
     label: "CLARA",
     price: 39,
     title: "Ibogenics CLARA (60 ml)",
@@ -56,7 +57,7 @@ const OPTIONS = [
     featured: true,
   },
   {
-    id: "drops-rb",
+    id: 3,
     label: "DROPS RB",
     price: 45,
     title: "Ibogenics DROPS RB (60 ml)",
@@ -72,7 +73,7 @@ const OPTIONS = [
     note: "Popular",
   },
   {
-    id: "drops-ta",
+    id: 4,
     label: "DROPS TA",
     price: 45,
     title: "Ibogenics DROPS TA (60 ml)",
@@ -88,7 +89,10 @@ const OPTIONS = [
   },
 ];
 
+
 export default function ProductShowcase() {
+  const { items, setQty, removeItem, subtotal, addItem } = useCart();
+
   const [plan, setPlan] = React.useState(OPTIONS.find(o => o.featured)?.id || OPTIONS[0].id);
   const current = OPTIONS.find((o) => o.id === plan);
 
@@ -195,9 +199,14 @@ export default function ProductShowcase() {
             </div>
 
             <div className="mt-4">
-              <button className="w-full sm:w-auto rounded-full bg-[#f5653b] px-8 py-3 text-base font-semibold text-white shadow hover:opacity-90">
+              <button
+                onClick={() => current && addItem(current, 1)}
+                className="w-full sm:w-auto rounded-full bg-[#f5653b] px-8 py-3 text-base font-semibold text-white shadow hover:opacity-90"
+                disabled={!current}
+              >
                 Add to Cart
               </button>
+
             </div>
 
             {/* Trust badges */}

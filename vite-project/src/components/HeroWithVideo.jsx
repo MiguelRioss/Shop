@@ -27,7 +27,7 @@ export default function HeroWithVideo() {
           {/* Right side: text */}
           <div className="lg:pl-10">
             <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">
-              How’s your nervous system doing?
+              How’s your nervous system doing now?
             </h2>
             <p className="mt-4 text-gray-700 text-base sm:text-lg leading-relaxed">
               Your vagus nerve affects how your body reacts to stress, and toning it over time with

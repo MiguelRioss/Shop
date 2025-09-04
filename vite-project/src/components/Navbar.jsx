@@ -22,7 +22,10 @@ export default function Navbar() {
               <img
                 src={logoPng}
                 alt="Sensate"
-                className="h-120 -translate-x-47  w-auto select-none"
+                className="h-120 
+                  sm:-translate-x-[40px] /* tablet: more left */
+                  md:-translate-x-[187px] /* desktop: your original */
+                  -translate-x-67  w-auto select-none"
                 draggable="false"
                 decoding="async"
               />

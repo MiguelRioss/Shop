@@ -34,13 +34,15 @@ export default function PromoBanner() {
           <div className="hidden sm:block w-40 md:w-48" />
 
           {/* Text */}
-          <div className="max-w-lg">
+          <div className="max-w-2xl">
             <h2 className="text-2xl font-bold sm:text-3xl">
-              Try Sensate free for 90 days!
+              Still unsure about our Meso?
             </h2>
             <p className="mt-3 text-base leading-relaxed">
-              Discover being stress-free with no commitment. Experience the
-              effects of Sensate, or return it hassle-free.
+              We are so sure you’re going to love it, so we invite you to try before you buy
+            </p>
+            <p className="mt-3 text-base leading-relaxed">
+              Restrictions apply
             </p>
           </div>
         </div>

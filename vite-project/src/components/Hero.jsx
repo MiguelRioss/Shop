@@ -19,8 +19,8 @@ export default function Hero() {
               Stress relief has never <br /> been easier
             </h1>
             <p className="max-w-xl text-lg text-gray-700 mx-auto lg:mx-0">
-              Sensate is a sensory device that uses vibrations and sound to
-              destress your nervous system, in just 10 minutes.
+              Meso are gentle, plant-based drops that support a calm, centered state within the
+              hour. 
             </p>
             <div>
               <a
@@ -31,7 +31,7 @@ export default function Hero() {
                     "linear-gradient(to right, var(--brand-from), var(--brand-to))",
                 }}
               >
-                Get Sensate
+                Get Meso
               </a>
             </div>
 

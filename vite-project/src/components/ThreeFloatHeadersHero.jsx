@@ -48,7 +48,7 @@ export default function ThreeFloatHeadersHero() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
         {/* Heading */}
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">Why choose Sensate?</h2>
+          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">Why choose Meso?</h2>
           <p className="mt-3 text-gray-700">The simplest way to deal with stress and anxieties.</p>
         </div>
 
@@ -96,7 +96,13 @@ export default function ThreeFloatHeadersHero() {
             </article>
           ))}
         </div>
+         {/* Heading */}
+        <div className="text-center max-w-3xl mx-auto">
+          <p className="mt-3 text-gray-700">*Timing and results vary. For general wellness; not intended to diagnose, treat, cure, or
+prevent any disease.</p>
+        </div>
       </div>
+      
     </section>
   );
 }

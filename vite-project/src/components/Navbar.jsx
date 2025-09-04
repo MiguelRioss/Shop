@@ -21,7 +21,7 @@ export default function Navbar() {
             <a href="/" aria-label="Home" className="flex items-center gap-2">
             <img
               src={logoPng}
-              alt="Sensate"
+              alt="Meso"
               className="
                 select-none
                 h-auto
@@ -73,7 +73,7 @@ export default function Navbar() {
                 className="inline-flex items-center rounded-full px-5 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity"
                 style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
               >
-                Get Sensate
+                Get Meso
               </a>
             </div>
 
@@ -124,7 +124,7 @@ export default function Navbar() {
                   className="inline-flex flex-1 items-center justify-center rounded-full px-5 py-2 text-sm font-medium text-white"
                   style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
                 >
-                  Get Sensate
+                  Get Meso
                 </a>
               </div>
             </div>
@@ -138,7 +138,7 @@ export default function Navbar() {
         style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
       >
         <div className="mx-auto max-w-7xl px-4 py-3 text-center">
-          Experience calm on demand. Sensate helps you unwind, anytime, anywhere
+         Experience calm on demand. Meso help you unwind, focus, and ground yourself, anytime, anywhere.
         </div>
       </div>
     </header>

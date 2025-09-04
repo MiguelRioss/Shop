@@ -45,9 +45,11 @@ export default function Footer() {
 
             {/* ...rest of your footer content... */}
             <div className="mt-10">
-              <h3 className="text-xl font-semibold text-white">Join the Sensate community</h3>
+              <h3 className="text-xl font-semibold text-white">General wellness product. Not medical advice.</h3>
               <p className="mt-3 max-w-2xl text-white/80">
-                Find out how Sensate is helping thousands of people across the world.
+                Not intended to diagnose, treat, cure, or
+                prevent any disease. If pregnant, nursing, on medication, or unsure, consult a qualified
+                professional first.
               </p>
 
               <div className="mt-6 flex items-center gap-5">

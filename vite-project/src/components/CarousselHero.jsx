@@ -11,33 +11,106 @@ import React from "react";
 
 const ITEMS = [
   {
-    headline: "Better than I had even hoped for",
+    headline: "“Focused work mode in minutes”",
     body: (
       <>
-        The experience of using Sensate has been better than I had even hoped for. <strong>Have not slept as well for very many years and feel relaxed during the day.</strong>
+        “20 drops, slow breaths, and I’m ready for calls—focused without the jitters.”
       </>
     ),
-    author: "Jon E, London, UK.",
+    author: "Priya S., London, UK",
   },
   {
-    headline: "Anxiety down, calm up",
+    headline: "“Clearer mornings”",
     body: (
       <>
-        I can finally unwind on demand. <strong>Ten minutes</strong> with Sensate resets my day and helps me focus without the jitters.
+        “I keep Meso in my handbag. Less fog, more clarity during the day.”
       </>
     ),
-    author: "Sofia R, Madrid, ES.",
+    author: "Teri R., Dublin, IE",
   },
   {
-    headline: "My new nightly ritual",
+    headline: "“Feet on the ground”",
     body: (
       <>
-        It has become part of my bedtime routine. <strong>Sleep quality improved</strong> and I wake up refreshed.
+        “When the day tailspins, this helps me feel anchored and steady.”
       </>
     ),
-    author: "Alex G, Toronto, CA.",
+    author: "Ana M., Porto, PT",
+  },
+  {
+    headline: "“Less reactive, more present”",
+    body: (
+      <>
+        “I notice a pause before I react. Conversations feel easier and calmer.”
+      </>
+    ),
+    author: "Marcus D., Austin, TX",
+  },
+  {
+    headline: "“Softer edges to anxiety”",
+    body: (
+      <>
+        “A few drops help take the edge off those nervous flutters, subtle but noticeable.”
+      </>
+    ),
+    author: "Lila K., Seattle, WA",
+  },
+  {
+    headline: "“Creative flow switch”",
+    body: (
+      <>
+        “I use it before writing sessions. Ideas connect and my creative flow lasts longer.”
+      </>
+    ),
+    author: "Javier P., Barcelona, ES",
+  },
+  {
+    headline: "“From scattered to centered”",
+    body: (
+      <>
+        “Great mid-day reset after screen overload. My focus comes back online, especially if I go for a walk.”
+      </>
+    ),
+    author: "Chen W., Vancouver, CA",
+  },
+  {
+    headline: "“Calm focus for deep work”",
+    body: (
+      <>
+        “Pairs perfectly with my noise-cancelling headphones. I get into the zone faster.”
+      </>
+    ),
+    author: "Naomi B., New York, NY",
+  },
+  {
+    headline: "“Parenting is easier”",
+    body: (
+      <>
+        “I’m less snappy during the dinner rush: more patience, more presence.”
+      </>
+    ),
+    author: "Sofia L., Toronto, CA",
+  },
+  {
+    headline: "“Gentle wind-down, sharper start”",
+    body: (
+      <>
+        “I take it after lunch to unwind in the evenings. When I take it in the mornings, I feel clearer and more intentional.”
+      </>
+    ),
+    author: "Hugo F., Lisbon, PT",
+  },
+  {
+    headline: "“More Intense Dreams”",
+    body: (
+      <>
+        “I was never one to recall my dreams, or even have very interesting ones. Not so with Meso! Feels like I’m at the movies while I sleep.”
+      </>
+    ),
+    author: "Josh, Australia",
   },
 ];
+
 
 export default function CarouselsHero({ autoPlay = true, intervalMs = 6000 }) {
   const [i, setI] = React.useState(0);
@@ -84,16 +157,19 @@ export default function CarouselsHero({ autoPlay = true, intervalMs = 6000 }) {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20" ref={hoverRef}>
         {/* Header */}
         <div className="text-center">
-          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">Sensate Stories</h2>
+          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">Meso Stories</h2>
           <a
             href="#get"
             className="mt-4 inline-flex items-center rounded-full  border border-[var(--brand)]   px-6 py-2 hover:bg-[var(--brand)] text-[var(--brand)] font-semibold hover:text-white transition"
           >
-            Get Sensate
+            Get Meso
           </a>
           <p className="mx-auto mt-5 max-w-3xl text-gray-700">
-            Sensate cares about its community and strives to make a difference in the wellness space.
-            Here’s what some of our members are saying:
+            Meso cares about its community and the wider wellness space. Here’s what some of our
+            customers are saying:
+          </p>
+          <p className="mx-auto mt-5 max-w-3xl text-gray-700">
+            Join Meso Movement
           </p>
           <div className="mx-auto mt-6 h-px w-48 bg-black/10" />
         </div>
@@ -139,7 +215,12 @@ export default function CarouselsHero({ autoPlay = true, intervalMs = 6000 }) {
             ))}
           </div>
         </div>
+         <p className="mx-auto mt-5 max-w-3xl text-gray-700">
+           Individual experiences may vary. Meso is a general wellness liquid technology and is not
+intended to diagnose, treat, cure, or prevent any disease.
+          </p>
       </div>
+      
     </section>
   );
 }

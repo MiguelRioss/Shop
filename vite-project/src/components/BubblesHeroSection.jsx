@@ -13,11 +13,10 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
         {/* Heading */}
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">How Does Sensate Work?</h2>
+          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">How does Meso work?</h2>
           <p className="mt-4 text-gray-700 text-base sm:text-lg leading-relaxed">
-            Sensate is a non‑invasive device that is placed on your chest.
-            It emits infrasonic waves through the body, via bone
-            conduction.
+            Meso tinctures are a plant based liquid technologies that emit waves of stillness through the
+body, by calming the nervous system.
           </p>
         </div>
 
@@ -36,9 +35,9 @@ export default function HowItWorks() {
               <span className="absolute left-1/2 bottom-0 translate-y-1/2 -translate-x-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white text-lg font-semibold shadow-lg">1</span>
             </div>
             <h3 className="mt-10 font-serif text-2xl"
-             style={{ color: "var(--brand)" }}>Place the device</h3>
+             style={{ color: "var(--brand)" }}>Shake &amp; dose</h3>
             <p className="mt-3 text-gray-700 max-w-xs mx-auto">
-              Place the Sensate on your chest using the provided lanyard.
+ Shake the bottle. Place 20-30 drops of Meso under your tongue. Find your way.
             </p>
           </div>
 
@@ -55,9 +54,9 @@ export default function HowItWorks() {
               <span className="absolute left-1/2 bottom-0 translate-y-1/2 -translate-x-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white text-lg font-semibold shadow-lg">2</span>
             </div>
             <h3 className="mt-10 font-serif text-2xl "
-             style={{ color: "var(--brand)" }}>Turn ON the device</h3>
+             style={{ color: "var(--brand)" }}>Tune in &amp; notice</h3>
             <p className="mt-3 text-gray-700 max-w-xs mx-auto">
-              Sensate emits soft vibration that soothe your nervous system.
+              Meso emits a calm vibration that soothes your nervous system.
             </p>
           </div>
 
@@ -73,13 +72,18 @@ export default function HowItWorks() {
               </div>
               <span className="absolute left-1/2 bottom-0 translate-y-1/2 -translate-x-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white text-lg font-semibold shadow-lg">3</span>
             </div>
-            <h3 className="mt-10 font-serif text-2xl "  style={{ color: "var(--brand)" }}>Listen to calming sounds</h3>
+            <h3 className="mt-10 font-serif text-2xl "  style={{ color: "var(--brand)" }}>Go into nature</h3>
             <p className="mt-3 text-gray-700 max-w-xs mx-auto">
-              Use the Sensate app to immerse yourself in calming, relaxing music soundscapes.
+              Get away from your usual environment to mindfully notice the changes within.
             </p>
           </div>
         </div>
       </div>
+             <div className="mx-auto max-w-3xl text-center">
+                <p className="mt-4 text-gray-700 text-base sm:text-lg leading-relaxed">
+                Start low and adjust slowly. See label for guidance. For general wellness.
+                </p>
+            </div>
     </section>
   );
 }

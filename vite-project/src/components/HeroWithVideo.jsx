@@ -24,7 +24,7 @@ export default function HeroWithVideo() {
                     "linear-gradient(to right, var(--brand-from), var(--brand-to))",
                 }}
             >
-              Get Sensate
+              Get Meso
             </a>
           </div>
 
@@ -34,8 +34,8 @@ export default function HeroWithVideo() {
               How’s your nervous system doing now?
             </h2>
             <p className="mt-4 text-gray-700 text-base sm:text-lg leading-relaxed">
-              Your vagus nerve affects how your body reacts to stress, and toning it over time with
-              Sensate can improve your digestion, heart health, and breathing rate too.
+              Your body has a built-in calm switch—the vagus nerve—that helps you settle after everyday
+stress. A simple ritual with Meso can support a more balanced, relaxed state over time.
             </p>
 
             <ul className="mt-8 space-y-6">
@@ -43,8 +43,8 @@ export default function HeroWithVideo() {
                 <span className="text-2xl">😊</span>
                 <div>
                   <p className="font-semibold "
-                   style={{ color: "var(--brand)" }}>Calms your anxiety</p>
-                  <p className="text-gray-600 text-sm">In just 10 minutes</p>
+                   style={{ color: "var(--brand)" }}>Feel calmer, fast</p>
+                  <p className="text-gray-600 text-sm">Within the hour.*</p>
                 </div>
               </li>
 
@@ -52,8 +52,8 @@ export default function HeroWithVideo() {
                 <span className="text-2xl">❤️</span>
                 <div>
                   <p className="font-semibold "
-                   style={{ color: "var(--brand)" }}>Lowers your stress</p>
-                  <p className="text-gray-600 text-sm">Anywhere, any time</p>
+                   style={{ color: "var(--brand)" }}>Ease everyday stress</p>
+                  <p className="text-gray-600 text-sm">Use anywhere, any time.</p>
                 </div>
               </li>
 
@@ -61,13 +61,19 @@ export default function HeroWithVideo() {
                 <span className="text-2xl">💤</span>
                 <div>
                   <p className="font-semibold"
-                   style={{ color: "var(--brand)" }}>Improves your sleep</p>
-                  <p className="text-gray-600 text-sm">No pill, no hangovers</p>
+                   style={{ color: "var(--brand)" }}>Wind down for better rest</p>
+                  <p className="text-gray-600 text-sm">No sleeping pills, no grogginess.</p>
                 </div>
               </li>
             </ul>
+                 <div>
+                  <p className="text-gray-600 mt-7 text-sm">* Results and timing vary. For general wellness; not intended to diagnose, treat, cure, or
+prevent any disease.</p>
+                </div>
           </div>
+          
         </div>
+        
       </div>
     </section>
   );

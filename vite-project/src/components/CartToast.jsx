@@ -68,7 +68,7 @@ export default function CartToast() {
         <div className="flex items-center gap-2 border-t border-black/10 p-2">
           <Link
             to="/cart"
-            className="inline-flex flex-1 items-center justify-center rounded-full bg-[#f5653b] px-3 py-2 text-sm font-medium text-white hover:opacity-90"
+            className="inline-flex flex-1 items-center justify-center rounded-full bg-[var(--brand)] px-3 py-2 text-sm font-medium text-white hover:opacity-90"
             onClick={() => setLastAdded(null)}
           >
             View cart

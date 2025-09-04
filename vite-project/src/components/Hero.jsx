@@ -25,7 +25,11 @@ export default function Hero() {
             <div>
               <a
                 href="#get"
-                className="inline-flex items-center rounded-full bg-[#f5653b] px-6 py-3 text-white font-medium text-lg hover:opacity-90 transition-opacity"
+                className="inline-flex items-center rounded-full px-6 py-3 text-white font-medium text-lg hover:opacity-90 transition-opacity"
+                style={{
+                  background:
+                    "linear-gradient(to right, var(--brand-from), var(--brand-to))",
+                }}
               >
                 Get Sensate
               </a>
@@ -37,17 +41,16 @@ export default function Hero() {
                 src={productPng}
                 alt="Product"
                 className="
-                  ml-auto            /* push image to the right side */
-                  w-[78vw]           /* scale nicely on phones */
+                  ml-auto
+                  w-[78vw]
                   sm:w-[65vw] md:w-[58vw]
-                  max-w-none         /* allow custom vw widths */
+                  max-w-none
                   object-contain
-                  mr-[-10vw]         /* bleed off right edge */
+                  mr-[-10vw]
                   sm:mr-[-12vw] md:mr-[-14vw]
                 "
               />
             </div>
-
           </div>
 
           {/* Empty right column (desktop spacing) */}

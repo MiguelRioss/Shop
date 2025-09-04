@@ -9,7 +9,7 @@
  */
 export default function HowItWorks() {
   return (
-    <section className="bg-[#fcfcf4]">
+    <section className="bg-[#var(--secondBackground)]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
         {/* Heading */}
         <div className="mx-auto max-w-3xl text-center">
@@ -35,7 +35,8 @@ export default function HowItWorks() {
               </div>
               <span className="absolute left-1/2 bottom-0 translate-y-1/2 -translate-x-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white text-lg font-semibold shadow-lg">1</span>
             </div>
-            <h3 className="mt-10 font-serif text-2xl text-[#f5653b]">Place the device</h3>
+            <h3 className="mt-10 font-serif text-2xl"
+             style={{ color: "var(--brand)" }}>Place the device</h3>
             <p className="mt-3 text-gray-700 max-w-xs mx-auto">
               Place the Sensate on your chest using the provided lanyard.
             </p>
@@ -53,7 +54,8 @@ export default function HowItWorks() {
               </div>
               <span className="absolute left-1/2 bottom-0 translate-y-1/2 -translate-x-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white text-lg font-semibold shadow-lg">2</span>
             </div>
-            <h3 className="mt-10 font-serif text-2xl text-[#f5653b]">Turn ON the device</h3>
+            <h3 className="mt-10 font-serif text-2xl "
+             style={{ color: "var(--brand)" }}>Turn ON the device</h3>
             <p className="mt-3 text-gray-700 max-w-xs mx-auto">
               Sensate emits soft vibration that soothe your nervous system.
             </p>
@@ -71,7 +73,7 @@ export default function HowItWorks() {
               </div>
               <span className="absolute left-1/2 bottom-0 translate-y-1/2 -translate-x-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white text-lg font-semibold shadow-lg">3</span>
             </div>
-            <h3 className="mt-10 font-serif text-2xl text-[#f5653b]">Listen to calming sounds</h3>
+            <h3 className="mt-10 font-serif text-2xl "  style={{ color: "var(--brand)" }}>Listen to calming sounds</h3>
             <p className="mt-3 text-gray-700 max-w-xs mx-auto">
               Use the Sensate app to immerse yourself in calming, relaxing music soundscapes.
             </p>

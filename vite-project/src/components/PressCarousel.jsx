@@ -87,14 +87,14 @@ export default function PressCarousel({ autoPlay = true, intervalMs = 4500 }) {
         <button
           aria-label="Previous"
           onClick={prev}
-          className="hidden sm:inline-flex absolute left-2 md:-left-0.5 lg:-left-10 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-[#d9480f] text-white shadow-md hover:bg-[#f5653b]"
+          className="hidden sm:inline-flex absolute left-2 md:-left-0.5 lg:-left-10 top-1/2 text-[var(--brand)] -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full  border border-[var(--brand)] shadow-md hover:bg-[var(--brand)] hover:text-white"
         >
           ‹
         </button>
         <button
           aria-label="Next"
           onClick={next}
-          className="hidden sm:inline-flex absolute right-2 md:-right-0.5 lg:-right-10 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-[#d9480f] text-white shadow-md hover:bg-[#f5653b]"
+          className="hidden sm:inline-flex absolute right-2 md:-right-0.5 lg:-right-10 top-1/2 text-[var(--brand)] -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full   border border-[var(--brand)] shadow-md  hover:bg-[var(--brand)] hover:text-white"
         >
           ›
         </button>
@@ -115,14 +115,14 @@ export default function PressCarousel({ autoPlay = true, intervalMs = 4500 }) {
                   <button
                     aria-label="Previous"
                     onClick={prev}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#d9480f] text-white shadow-md hover:bg-[#f5653b] sm:hidden"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand)] text-white shadow-md hover:bg-[var(--brand)] sm:hidden"
                   >
                     ‹
                   </button>
                   <button
                     aria-label="Next"
                     onClick={next}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#d9480f] text-white shadow-md hover:bg-[#f5653b] sm:hidden"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand)] text-white shadow-md hover:bg-[var(--brand)] sm:hidden"
                   >
                     ›
                   </button>
@@ -140,7 +140,7 @@ export default function PressCarousel({ autoPlay = true, intervalMs = 4500 }) {
               onClick={() => setI(idx)}
               aria-label={`Go to ${idx + 1}`}
               className={`h-2.5 rounded-full transition-all ${
-                i === idx ? "w-6 bg-[#f5653b]" : "w-2.5 bg-black/20"
+                i === idx ? "w-6 bg-[var(--brand)]" : "w-2.5 bg-black/20"
               }`}
             />
           ))}

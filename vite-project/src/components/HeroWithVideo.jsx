@@ -8,7 +8,7 @@ import YouTubeWithThumbnail from "./YouTubeWithThumbnail.jsx";
  */
 export default function HeroWithVideo() {
   return (
-    <section className="bg-[#fcfcf4]">
+    <section className="bg-[var(--secondBackground)]">
       <div className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Left side: video + button */}
@@ -18,7 +18,11 @@ export default function HeroWithVideo() {
             </div>
             <a
               href="#get"
-              className="block w-full rounded-full bg-[#f5653b] px-6 py-4 text-center text-lg font-semibold text-white shadow hover:opacity-90 sm:w-auto"
+              className="block w-full rounded-full  px-6 py-4 text-center text-lg font-semibold text-white shadow hover:opacity-90 sm:w-auto"
+              style={{
+                  background:
+                    "linear-gradient(to right, var(--brand-from), var(--brand-to))",
+                }}
             >
               Get Sensate
             </a>
@@ -38,7 +42,8 @@ export default function HeroWithVideo() {
               <li className="flex items-start gap-3">
                 <span className="text-2xl">😊</span>
                 <div>
-                  <p className="font-semibold text-[#f5653b]">Calms your anxiety</p>
+                  <p className="font-semibold "
+                   style={{ color: "var(--brand)" }}>Calms your anxiety</p>
                   <p className="text-gray-600 text-sm">In just 10 minutes</p>
                 </div>
               </li>
@@ -46,7 +51,8 @@ export default function HeroWithVideo() {
               <li className="flex items-start gap-3">
                 <span className="text-2xl">❤️</span>
                 <div>
-                  <p className="font-semibold text-[#f5653b]">Lowers your stress</p>
+                  <p className="font-semibold "
+                   style={{ color: "var(--brand)" }}>Lowers your stress</p>
                   <p className="text-gray-600 text-sm">Anywhere, any time</p>
                 </div>
               </li>
@@ -54,7 +60,8 @@ export default function HeroWithVideo() {
               <li className="flex items-start gap-3">
                 <span className="text-2xl">💤</span>
                 <div>
-                  <p className="font-semibold text-[#f5653b]">Improves your sleep</p>
+                  <p className="font-semibold"
+                   style={{ color: "var(--brand)" }}>Improves your sleep</p>
                   <p className="text-gray-600 text-sm">No pill, no hangovers</p>
                 </div>
               </li>

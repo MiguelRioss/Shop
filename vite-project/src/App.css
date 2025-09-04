@@ -1,2 +1,14 @@
 @import "tailwindcss";
 
+:root {
+  /* Brand core (Bluebell Mist) */
+  --brand-from: #8A9CF0;  /* misty bluebell */
+  --brand-to:   #C3CCFF;  /* soft pastel blue */
+  --brand: color-mix(in srgb, var(--brand-from) 50%, var(--brand-to) 50%);
+  --brand-gradient: linear-gradient(to right, var(--brand-from), var(--brand-to));
+
+  /* Backgrounds */
+  --background-column-3Balons: #f0f8ff; /* light blue */
+  --ballons-background: #fdfdfd;        /* very light cream */
+  --secondBackground: #fdfdfd;          /* very light cream */
+}

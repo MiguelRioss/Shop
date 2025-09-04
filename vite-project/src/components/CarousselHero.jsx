@@ -80,14 +80,14 @@ export default function CarouselsHero({ autoPlay = true, intervalMs = 6000 }) {
   }, [next, prev]);
 
   return (
-    <section className="bg-[#fbfbf3]">
+    <section className="bg-[var(--secondBackground)]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20" ref={hoverRef}>
         {/* Header */}
         <div className="text-center">
           <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">Sensate Stories</h2>
           <a
             href="#get"
-            className="mt-4 inline-flex items-center rounded-full border border-[#f5653b] px-6 py-2 text-[#f5653b] font-semibold hover:bg-[#f5653b] hover:text-white transition"
+            className="mt-4 inline-flex items-center rounded-full  border border-[var(--brand)]   px-6 py-2 hover:bg-[var(--brand)] text-[var(--brand)] font-semibold hover:text-white transition"
           >
             Get Sensate
           </a>
@@ -118,7 +118,7 @@ export default function CarouselsHero({ autoPlay = true, intervalMs = 6000 }) {
 
           {/* content */}
           <div className="mx-auto max-w-4xl text-center px-12">
-            <h3 className="font-serif text-3xl sm:text-5xl text-[#f5653b]">
+            <h3 className="font-serif text-3xl sm:text-5xl text-[var(--brand)]">
               {ITEMS[i].headline}
             </h3>
             <p className="mt-6 text-gray-800 text-lg leading-relaxed">{ITEMS[i].body}</p>
@@ -133,7 +133,7 @@ export default function CarouselsHero({ autoPlay = true, intervalMs = 6000 }) {
                 aria-label={`Go to slide ${idx + 1}`}
                 onClick={() => setI(idx)}
                 className={`h-2.5 w-2.5 rounded-full transition-all ${
-                  i === idx ? "bg-[#f5653b] w-6" : "bg-black/20"
+                  i === idx ? "bg-[var(--brand)] w-6" : "bg-black/20"
                 }`}
               />
             ))}

@@ -1,5 +1,6 @@
 import React from "react";
 import productPng from '/DROPS.png'; // adjust path
+import bottles from '/bottles.png'; // adjust path
 
 /**
  * Promo banner: product image is in its own container, overlapping the banner.
@@ -9,21 +10,22 @@ import productPng from '/DROPS.png'; // adjust path
  */
 export default function PromoBanner() {
   return (
-    <section className="bg-[#f5653b] text-white">
+    <section className="bg-[#f5653b] text-white" style={{background:"linear-gradient(to right, var(--brand-from), var(--brand-to))"}}>
       {/* Orange banner (now relative so the absolute image anchors here) */}
-      <div className="relative mx-auto max-w-5xl px-4 py-16">
+      <div className="relative mx-auto max-w-5xl px-4 py-16" >
         {/* Separate image container positioned on top, but now INSIDE the wrapper */}
         <div
           className="
             absolute
             left-1/2 top-0 -translate-x-1/2 -translate-y-20
-            sm:left-10 sm:translate-x-0 sm:-translate-y-6
+            sm:left-10 sm:translate-x-10 sm:-translate-y-6
           "
         >
+          
           <img
-            src={productPng}
+            src={bottles}
             alt="Sensate Device"
-            className="h-40 w-auto sm:h-80 drop-shadow-lg"
+            className="h-30 w-auto sm:h-60 drop-shadow-lg"
           />
         </div>
 

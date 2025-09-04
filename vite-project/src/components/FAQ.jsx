@@ -31,7 +31,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="bg-[#fbfbf3]">
+    <section className="bg-[var(--secondBackground)]">
       <div className="mx-auto max-w-3xl px-4 py-16">
         <h2 className="text-center font-serif text-3xl text-gray-900">FAQ</h2>
 
@@ -40,7 +40,7 @@ export default function FAQ() {
             <div key={idx}>
               <button
                 onClick={() => toggle(idx)}
-                className="flex w-full items-center justify-between py-4 text-left text-lg font-medium text-gray-900 hover:text-[#f5653b] focus:outline-none"
+                className="flex w-full items-center justify-between py-4 text-left text-lg font-medium text-gray-900 hover:text-[var(--brand)] focus:outline-none"
                 aria-expanded={openIndex === idx}
               >
                 {faq.q}

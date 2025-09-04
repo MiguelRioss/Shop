@@ -44,7 +44,7 @@ const ITEMS = [
 
 export default function ThreeFloatHeadersHero() {
   return (
-    <section className="bg-[#dee7f7]">
+    <section  style={{ background: "var(--background-column-3Balons)" }}>
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
         {/* Heading */}
         <div className="text-center max-w-3xl mx-auto">
@@ -64,14 +64,18 @@ export default function ThreeFloatHeadersHero() {
               </div>
 
               {/* Balloon card right */}
-              <div className="lg:col-span-6 bg-[#fbfbf3] p-6 sm:p-8 lg:p-10 rounded-b-3xl lg:rounded-bl-none lg:rounded-r-3xl">
+              <div className="lg:col-span-6  p-6 sm:p-8 lg:p-10 rounded-b-3xl lg:rounded-bl-none lg:rounded-r-3xl"
+              style={{ background: "var(--ballons-background)" }}
+              >
                 <h3 className="font-serif text-2xl text-gray-900">{item.title}</h3>
                 <p className="mt-3 text-gray-700">{item.copy}</p>
 
                 <ul className="mt-6 space-y-4">
                   {item.bullets.map((b, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-gray-800">
-                      <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#ff6a3d] text-white text-[11px] font-bold">•</span>
+                      <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full  text-white text-[11px] font-bold"
+                      style={{ background: "var(--brand" }}
+                      >•</span>
                       <span className="leading-relaxed">
                         {b.includes("more restful") || b.includes("feeling energized") ? (
                           <>

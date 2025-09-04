@@ -7,6 +7,7 @@ import CartPage from "./Pages/CartPage.jsx";
 import Footer from "./components/Footer.jsx";
 import { CartProvider } from "./components/CartContext.jsx";
 import CartToast from "./components/CartToast.jsx";
+import HeroCheckout from "./Pages/CheckOutPage.jsx";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<HeroCheckout />} />
         </Routes>
         <Footer />
         {/* Toast lives once, globally */}

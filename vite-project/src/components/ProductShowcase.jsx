@@ -14,7 +14,7 @@ import { useCart } from "../components/CartContext.jsx";
  */
 const OPTIONS = [
   {
-    id: 0,
+    id: 4,
     label: "LUCIA",
     price: 39,
     title: "Ibogenics LUCIA (60 ml)",
@@ -29,7 +29,7 @@ const OPTIONS = [
     usage: ["Shake well", "5–20 drops, 1–2x/dia", "Ciclos 5–7 dias ON / 2–3 OFF"],
   },
   {
-    id: 1,
+    id: 3,
     label: "TANIA",
     price: 39,
     title: "Ibogenics TANIA (60 ml)",
@@ -62,7 +62,7 @@ const OPTIONS = [
     ],
   },
   {
-    id: 2,
+    id: 5,
     label: "CLARA",
     price: 39,
     title: "Ibogenics CLARA (60 ml)",
@@ -77,7 +77,7 @@ const OPTIONS = [
     usage: ["Agitar bem", "5–15 gotas 1–2x/dia", "Ciclos 5–7/2–3"],
   },
   {
-    id: 3,
+    id: 1,
     label: "DROPS RB",
     price: 45,
     title: "Ibogenics DROPS RB (60 ml)",
@@ -85,14 +85,13 @@ const OPTIONS = [
     description: "Refined Blend para efeitos suaves e consistentes — pensado para regularidade.",
     image: RB,
     thumb: RB,
-    note: "Popular",
     overview: "Mistura refinada para consistência dia-a-dia.",
     benefits: ["Suavidade", "Perfil equilibrado", "Boa tolerabilidade"],
     formula: ["Refined blend", "Ethanol (food grade), água destilada"],
     usage: ["Agitar", "5–20 gotas 1–2x/dia", "Ciclos 5–7/2–3"],
   },
   {
-    id: 4,
+    id: 0,
     label: "DROPS TA",
     price: 45,
     title: "Ibogenics DROPS TA (60 ml)",
@@ -100,6 +99,7 @@ const OPTIONS = [
     description: "Traditional Alkaloids com caráter clássico e robusto.",
     image: TA,
     thumb: TA,
+    note: "Popular",
     overview: "Perfil tradicional com presença robusta.",
     benefits: ["Caráter clássico", "Sensação mais marcante"],
     formula: ["Traditional alkaloids", "Ethanol (food grade), água destilada"],
@@ -108,9 +108,20 @@ const OPTIONS = [
 ];
 
 export default function ProductShowcase() {
+  
   const { addItem } = useCart();
-  const [plan, setPlan] = React.useState(OPTIONS.find(o => o.featured)?.id ?? OPTIONS[0].id);
-  const current = OPTIONS.find(o => o.id === plan);
+// put this near the top of ProductShowcase()
+      const SORTED = React.useMemo(
+        () => OPTIONS.slice().sort((a, b) => a.id - b.id),
+        []
+      );
+
+      // default to the lowest id (ignore `featured` when ordering by id)
+      const [plan, setPlan] = React.useState(SORTED[0].id);
+
+      // helper
+      const current = SORTED.find(o => o.id === plan);
+
 
   return (
     <section className="bg-[var(--secondBackground)]">
@@ -139,30 +150,30 @@ export default function ProductShowcase() {
           {/* Painel de compra + conteúdo */}
           <div className="order-2 lg:col-span-5">
             {/* Thumbs */}
-            <div className="mb-6 flex flex-wrap gap-4">
-              {OPTIONS.map((o) => (
-                <button
-                  key={o.id}
-                  onClick={() => setPlan(o.id)}
-                  className={`relative w-28 h-28 rounded-xl border bg-white flex items-center justify-center shadow-sm transition hover:shadow ${
-                    plan === o.id ? "border-[var(--brand)] ring-2 ring-[var(--brand)]" : "border-black/10"
-                  }`}
-                  aria-label={o.label}
-                  title={o.title}
-                >
-                  {o.note && (
-                    <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-[var(--brand)] px-2 py-0.5 text-[10px] font-semibold text-white shadow">
-                      {o.note}
-                    </span>
-                  )}
-                  {o.thumb ? (
-                    <img src={o.thumb} alt={`${o.label} thumbnail`} className="h-full w-full object-contain p-2" />
-                  ) : (
-                    <div className="h-14 w-14 rounded-lg bg-slate-200" />
-                  )}
-                </button>
-              ))}
-            </div>
+           <div className="mb-6 flex flex-wrap gap-4">
+  {SORTED.map((o) => (
+    <button
+      key={o.id}
+      onClick={() => setPlan(o.id)}
+      className={`relative w-28 h-28 rounded-xl border bg-white flex items-center justify-center shadow-sm transition hover:shadow ${
+        plan === o.id ? "border-[var(--brand)] ring-2 ring-[var(--brand)]" : "border-black/10"
+      }`}
+      aria-label={o.label}
+      title={o.title}
+    >
+      {o.note && (
+        <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-[var(--brand)] px-2 py-0.5 text-[10px] font-semibold text-white shadow">
+          {o.note}
+        </span>
+      )}
+      {o.thumb ? (
+        <img src={o.thumb} alt={`${o.label} thumbnail`} className="h-full w-full object-contain p-2" />
+      ) : (
+        <div className="h-14 w-14 rounded-lg bg-slate-200" />
+      )}
+    </button>
+  ))}
+</div>
 
             <h1 className="mb-1 font-serif text-3xl text-gray-900">{current?.title}</h1>
             <p className="text-gray-700">{current?.description}</p>

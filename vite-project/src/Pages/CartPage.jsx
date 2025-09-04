@@ -1,10 +1,10 @@
-import React from "react";
 import { useCart } from "../components/CartContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const { items, setQty, removeItem, subtotal } = useCart();
   const fmt = (n) => `€${(n ?? 0).toFixed(2)}`;
-
+  const navigate = useNavigate();
   return (
     <section className="bg-[#fcfcf6] min-h-screen py-8 sm:py-10 px-4">
       <div className="max-w-6xl mx-auto">
@@ -113,6 +113,7 @@ export default function Cart() {
             <button
               className="w-full bg-var hover:bg-orange-600 text-white font-semibold py-3 sm:py-3.5 rounded-lg mt-4"
               style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
+              onClick={() => navigate("/checkout")}
             >
               Checkout
             </button>

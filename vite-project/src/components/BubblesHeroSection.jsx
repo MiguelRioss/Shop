@@ -1,4 +1,3 @@
-import React from "react";
 
 /**
  * HowItWorks
@@ -29,7 +28,7 @@ export default function HowItWorks() {
             <div className="relative mx-auto h-52 w-52">
               <div className="absolute inset-0 overflow-hidden rounded-full">
                 <img
-                  src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=600&auto=format&fit=crop"
+                  src="/Images/friends.JPG"
                   alt="Place the device"
                   className="h-full w-full object-cover"
                 />
@@ -47,7 +46,7 @@ export default function HowItWorks() {
             <div className="relative mx-auto h-52 w-52">
               <div className="absolute inset-0 overflow-hidden rounded-full">
                 <img
-                  src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600&auto=format&fit=crop"
+                  src="/Images/YOGA.JPG"
                   alt="Turn on the device"
                   className="h-full w-full object-cover"
                 />
@@ -65,7 +64,7 @@ export default function HowItWorks() {
             <div className="relative mx-auto h-52 w-52">
               <div className="absolute inset-0 overflow-hidden rounded-full bg-[#e6eefb]">
                 <img
-                  src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?q=80&w=600&auto=format&fit=crop"
+                  src="Images/nature.JPG"
                   alt="Listen to calming sounds"
                   className="h-full w-full object-cover"
                 />

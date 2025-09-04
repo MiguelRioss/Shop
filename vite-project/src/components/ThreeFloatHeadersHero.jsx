@@ -16,7 +16,7 @@ const ITEMS = [
       "Helps reduce symptoms of anxieties",
       "Easy to use anytime, anywhere",
     ],
-    img: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?q=80&w=1600&auto=format&fit=crop",
+    img: "/Images/car.JPG",
   },
   {
     title: "Better Focus, Fewer Worries",
@@ -27,7 +27,7 @@ const ITEMS = [
       "Lower baseline stress levels",
       "Create a simple daily habit",
     ],
-    img: "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?q=80&w=1600&auto=format&fit=crop",
+    img: "/Images/girl.JPG",
   },
   {
     title: "Sleep better at night",
@@ -38,7 +38,7 @@ const ITEMS = [
       "Promotes deeper, more restful sleep",
       "Wake up feeling energized",
     ],
-    img: "https://images.unsplash.com/photo-1517511620798-cec17d428bc0?q=80&w=1600&auto=format&fit=crop",
+    img: "/Images/Lisbon.JPG",
   },
 ];
 

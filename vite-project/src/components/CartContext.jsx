@@ -1,29 +1,8 @@
-// CartContext.jsx
+// CartContext.jsx (only the changed/added bits shown)
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const CartContext = createContext(null);
 const CART_KEY = "cart:v1";
-
-// Example default product
-const DEFAULT_CART = [
-  {
-    id: 0,
-    label: "DROPS RB",
-    price: 45,
-    title: "Ibogenics DROPS RB (60 ml)",
-    bullets: [
-      "Botanical food supplement",
-      "Refined Blend (RB)",
-      "Vegan • Gluten-free • Natural",
-    ],
-    description:
-      "Refined Blend for smooth, even effects—built for consistency day to day.",
-    image: "/RB.png",  // make sure this exists in /public or import it
-    thumb: "/RB.png",
-    note: "Popular",
-    qty: 1,
-  },
-];
 
 function safeParse(json, fallback) {
   try {
@@ -37,21 +16,20 @@ export function CartProvider({ children }) {
   const [items, setItems] = useState(() => {
     const raw = localStorage.getItem(CART_KEY);
     const parsed = raw ? safeParse(raw, null) : null;
-
-    // Seed if nothing stored or empty
     if (!parsed || !Array.isArray(parsed) || parsed.length === 0) {
-      localStorage.setItem(CART_KEY, JSON.stringify(DEFAULT_CART));
-      return DEFAULT_CART;
+      localStorage.setItem(CART_KEY, JSON.stringify([]));   // start empty in prod
+      return [];
     }
     return parsed;
   });
 
-  // persist to localStorage
+  // NEW: track what was just added for the toast
+  const [lastAdded, setLastAdded] = useState(null); // { product, qty, at: number } | null
+
   useEffect(() => {
     localStorage.setItem(CART_KEY, JSON.stringify(items));
   }, [items]);
 
-  // keep multiple tabs in sync
   useEffect(() => {
     const onStorage = (e) => {
       if (e.key === CART_KEY && e.newValue) {
@@ -62,7 +40,6 @@ export function CartProvider({ children }) {
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
-  // cart operations
   const addItem = (product, qty = 1) => {
     setItems((prev) => {
       const i = prev.findIndex((p) => p.id === product.id);
@@ -73,18 +50,16 @@ export function CartProvider({ children }) {
       }
       return [...prev, { ...product, qty }];
     });
+    // signal the toast
+    setLastAdded({ product, qty, at: Date.now() });
   };
 
   const setQty = (id, qty) => {
     const q = Math.max(1, Number(qty) || 1);
-    setItems((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, qty: q } : p))
-    );
+    setItems((prev) => prev.map((p) => (p.id === id ? { ...p, qty: q } : p)));
   };
 
-  const removeItem = (id) =>
-    setItems((prev) => prev.filter((p) => p.id !== id));
-
+  const removeItem = (id) => setItems((prev) => prev.filter((p) => p.id !== id));
   const clear = () => setItems([]);
 
   const subtotal = useMemo(
@@ -94,7 +69,7 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, setQty, removeItem, clear, subtotal }}
+      value={{ items, addItem, setQty, removeItem, clear, subtotal, lastAdded, setLastAdded }}
     >
       {children}
     </CartContext.Provider>

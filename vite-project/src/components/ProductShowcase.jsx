@@ -1,6 +1,6 @@
 import React from "react";
 import Lucia from "/LUCIA.png";
-import TA from "/TA.png"; 
+import TA from "/DROPS.png"; 
 import RB from "/RB.png";
 import Clara from "/CLARA.png";
 import Tania from "/TANIA.png";
@@ -108,7 +108,7 @@ export default function ProductShowcase() {
                   <img
                     src={current.image}
                     alt={current.title}
-                    className="mx-auto max-h-150 object-contain"  // 👈 adjust height here
+                    className="mx-auto max-h-150 p-25 object-contain"  // 👈 adjust height here
                     loading="eager"
                   />
 

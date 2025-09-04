@@ -111,7 +111,8 @@ export default function Cart() {
               <span className="font-semibold">{fmt(subtotal)}</span>
             </div>
             <button
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 sm:py-3.5 rounded-lg mt-4"
+              className="w-full bg-var hover:bg-orange-600 text-white font-semibold py-3 sm:py-3.5 rounded-lg mt-4"
+              style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
             >
               Checkout
             </button>

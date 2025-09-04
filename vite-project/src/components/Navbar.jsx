@@ -24,7 +24,8 @@ export default function Navbar() {
                 alt="Sensate"
                 className="h-120 
                   sm:-translate-x-[30px] /* tablet: more left */
-                  md:-translate-x-[187px] /* desktop: your original */
+                  md:-translate-x-[187px]
+                  -translate-x-25 /* desktop: your original */
                   w-auto select-none"
                 draggable="false"
                 decoding="async"

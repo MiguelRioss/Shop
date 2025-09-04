@@ -16,20 +16,28 @@ export default function Navbar() {
       {/* Main nav */}
       <div className="w-full bg-[#fcfcf4] border-b border-black/5">
         <div className="mx-auto max-w-7xl py-6">
-          <nav className="flex h-16 items-center justify-between">
+          <nav className="flex h-20 items-center justify-between">
             {/* Left: Logo */}
             <a href="/" aria-label="Home" className="flex items-center gap-2">
-              <img
-                src={logoPng}
-                alt="Sensate"
-                className="h-120 
-                  sm:-translate-x-[30px] /* tablet: more left */
-                  md:-translate-x-[187px]
-                  -translate-x-25 /* desktop: your original */
-                  w-auto select-none"
-                draggable="false"
-                decoding="async"
-              />
+             <img
+  src={logoPng}
+  alt="Sensate"
+  className="
+    w-auto select-none
+    h-[350px]              /* mobile: smaller */
+    sm:h-[110px]          /* tablet */
+    md:h-[300px]          /* desktop: bigger */
+    lg:h-[480px]          /* large screens */
+    -translate-x-[30px]   /* mobile shift */
+    sm:-translate-x-[30px]/* tablet shift */
+    md:-translate-x-[90px]/* desktop shift */
+    lg:-translate-x-[180px]   /* mobile shift */
+
+  "
+  draggable="false"
+  decoding="async"
+/>
+
              
             </a>
 

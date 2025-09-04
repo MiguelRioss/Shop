@@ -29,7 +29,7 @@ export default function Navbar() {
                 sm:w-[420px]           /* tablet: even bigger */
                 md:w-[660px]           /* desktop: normalize */
                 lg:w-[620px]           /* large desktop: slightly larger */
-                -translate-x-[20px]    /* mobile shift */
+                -translate-x-[75px]    /* mobile shift */
                 sm:-translate-x-[30px] /* tablet shift */
                 md:-translate-x-[80px] /* desktop shift */
                 lg:-translate-x-[160px]

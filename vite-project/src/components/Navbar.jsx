@@ -19,24 +19,25 @@ export default function Navbar() {
           <nav className="flex h-20 items-center justify-between">
             {/* Left: Logo */}
             <a href="/" aria-label="Home" className="flex items-center gap-2">
-             <img
+<img
   src={logoPng}
   alt="Sensate"
   className="
-    w-auto select-none
-    h-[350px]              /* mobile: smaller */
-    sm:h-[110px]          /* tablet */
-    md:h-[300px]          /* desktop: bigger */
-    lg:h-[480px]          /* large screens */
-    -translate-x-[30px]   /* mobile shift */
-    sm:-translate-x-[30px]/* tablet shift */
-    md:-translate-x-[90px]/* desktop shift */
-    lg:-translate-x-[180px]   /* mobile shift */
-
+    select-none
+    h-auto
+    w-[450px]              /* mobile: nice and big */
+    sm:w-[420px]           /* tablet: even bigger */
+    md:w-[660px]           /* desktop: normalize */
+    lg:w-[620px]           /* large desktop: slightly larger */
+    -translate-x-[20px]    /* mobile shift */
+    sm:-translate-x-[30px] /* tablet shift */
+    md:-translate-x-[80px] /* desktop shift */
+    lg:-translate-x-[160px]
   "
   draggable="false"
   decoding="async"
 />
+
 
              
             </a>

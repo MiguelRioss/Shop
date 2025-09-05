@@ -16,7 +16,7 @@ const ITEMS = [
       "Helps reduce symptoms of anxieties",
       "Easy to use anytime, anywhere",
     ],
-    img: "/Images/car.JPG",
+    img: "/Images/mesodose_immediate stress relief.jpg",
   },
   {
     title: "Better Focus, Fewer Worries",
@@ -27,7 +27,7 @@ const ITEMS = [
       "Lower baseline stress levels",
       "Create a simple daily habit",
     ],
-    img: "/Images/girl.JPG",
+    img: "/Images/Mesodose_better focus fewer worries.jpg",
   },
   {
     title: "Sleep better at night",
@@ -38,8 +38,19 @@ const ITEMS = [
       "Promotes deeper, more restful sleep",
       "Wake up feeling energized",
     ],
-    img: "/Images/Lisbon.JPG",
+    img: "/Images/Sleep better at night.jpg",
   },
+   {
+    title: "Inner Support, Lasting Strength",
+    copy:
+      "Build resilience from the inside out, so you feel supported no matter what life throws at you.",
+    bullets: [
+      "Steadier moods and fewer emotional ups and downs",
+      "A sense of grounded calm through your day",
+      " Strengthen your inner resources naturally",
+    ],
+    img: "/Images/inner support lasting strenght.jpg",
+  },  
 ];
 
 export default function ThreeFloatHeadersHero() {

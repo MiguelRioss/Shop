@@ -3,6 +3,9 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext.jsx";
 
+const STRIPE_ENDPOINT = "https://yourdomain.com/api/create-checkout-session.php";
+
+
 const countries = [
   { code: "", name: "Choose..." },
   { code: "PT", name: "Portugal" },
@@ -61,49 +64,50 @@ export default function CheckoutPage() {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validate() || !items?.length) return;
 
-    setSubmitting(true);
-    try {
-      // Build payload for your API
-      const payload = {
-        items: items.map(({ id, title, price, qty, note }) => ({
-          id,
-          title,
-          price,
-          qty,
-          note,
-          lineTotal: price * qty,
+  setSubmitting(true);
+  try {
+    const orderId = `ORD-${Date.now()}`;
+
+    const res = await fetch(STRIPE_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId,
+        items: items.map(p => ({
+          title: p.title,
+          price: Number(p.price),
+          qty:   Number(p.qty),
         })),
-        amounts: { subtotal, shipping: 0, tax: 0, total },
         customer: {
           fullName: form.fullName,
           email: form.email,
           phone: form.phone,
           notes: form.notes,
         },
-        shippingAddress: {
-          address1: form.address1,
-          address2: form.address2,
-          city: form.city,
-          postcode: form.postcode,
-          country: form.country,
-        },
-        createdAt: new Date().toISOString(),
-      };
+      }),
+    });
 
-      // TODO: POST to your backend endpoint
-      console.log("Checkout payload:", payload);
+    const data = await res.json();
 
-      // Example success flow
-      // clear(); // optionally clear the cart now or after payment
-      navigate("/checkout/confirm", { state: { total } });
-    } finally {
-      setSubmitting(false);
+    if (data?.url) {
+      // ✅ Go to Stripe Checkout (cart matches exactly)
+      window.location.href = data.url;
+      return; // stop here; page is navigating
     }
-  };
+
+    alert(data?.error || "Payment error. Please try again.");
+  } catch (err) {
+    console.error(err);
+    alert("Unexpected error. Please try again.");
+  } finally {
+    setSubmitting(false);
+  }
+};
+
 
   return (
     <section className="bg-[#fcfcf6] min-h-screen py-10 px-4">

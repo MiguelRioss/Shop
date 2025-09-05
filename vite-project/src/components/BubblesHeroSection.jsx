@@ -27,7 +27,7 @@ body, by calming the nervous system.
             <div className="relative mx-auto h-52 w-52">
               <div className="absolute inset-0 overflow-hidden rounded-full">
                 <img
-                  src="/Images/friends.JPG"
+                  src="/Images/friends.jpg"
                   alt="Place the device"
                   className="h-full w-full object-cover"
                 />
@@ -46,7 +46,7 @@ body, by calming the nervous system.
             <div className="relative mx-auto h-52 w-52">
               <div className="absolute inset-0 overflow-hidden rounded-full">
                 <img
-                  src="/Images/YOGA.JPG"
+                  src="/Images/YOGA.jpg"
                   alt="Turn on the device"
                   className="h-full w-full object-cover"
                 />
@@ -65,7 +65,7 @@ body, by calming the nervous system.
             <div className="relative mx-auto h-52 w-52">
               <div className="absolute inset-0 overflow-hidden rounded-full bg-[#e6eefb]">
                 <img
-                  src="Images/nature.JPG"
+                  src="Images/nature.jpg"
                   alt="Listen to calming sounds"
                   className="h-full w-full object-cover"
                 />

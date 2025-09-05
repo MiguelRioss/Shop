@@ -11,13 +11,14 @@ import { useCart } from "../components/CartContext.jsx";
  * benefits: string[]
  * formula: string[]
  * usage: string[]
+ * 
  */
 const OPTIONS = [
   {
     id: 4,
     label: "LUCIA",
     price: 39,
-    title: "Ibogenics LUCIA (60 ml)",
+    title: "Ibogenics LUCIA (60 ml)", 
     bullets: ["Botanical food supplement", "Vegan • Gluten-free • Natural", "Contains alcohol"],
     description: "Bright, uplifting daytime profile. Great starter for gentle clarity and focus.",
     image: Lucia,

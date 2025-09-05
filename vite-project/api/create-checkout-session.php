@@ -6,9 +6,17 @@
 /* ====== CONFIG ====== */
 $STRIPE_SECRET = 'sk_test_xxx'; // TEST key now, replace with live when ready
 $YOUR_FRONTEND_ORIGIN = 'https://yourdomain.com'; // allow your site for CORS
-$SUCCESS_URL = 'https://yourdomain.com/checkout/success?session_id={CHECKOUT_SESSION_ID}';
-$CANCEL_URL  = 'https://yourdomain.com/cart';
+$SUCCESS_URL = 'http://localhost:5173/checkout/success?session_id={CHECKOUT_SESSION_ID}';
+$CANCEL_URL  = 'http://localhost:5173/cart';
+
 /* ==================== */
+// before any output:
+$DEV_ORIGIN = 'http://localhost:5173';
+header('Access-Control-Allow-Origin: ' . $DEV_ORIGIN);
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
+header('Content-Type: application/json');
 
 // CORS
 header('Access-Control-Allow-Origin: ' . $YOUR_FRONTEND_ORIGIN);

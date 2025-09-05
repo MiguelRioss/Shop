@@ -1,4 +1,4 @@
-
+import YOGA from "/YOGA.jpg";
 /**
  * HowItWorks
  * Three-step explainer matching your reference.
@@ -46,7 +46,7 @@ body, by calming the nervous system.
             <div className="relative mx-auto h-52 w-52">
               <div className="absolute inset-0 overflow-hidden rounded-full">
                 <img
-                  src="/Images/YOGA.jpg"
+                  src= {YOGA}
                   alt="Turn on the device"
                   className="h-full w-full object-cover"
                 />

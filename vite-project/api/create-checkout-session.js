@@ -1,9 +1,9 @@
-import Stripe from "stripe";
+// api/create-checkout-session.js
+const Stripe = require("stripe");
 
-// ⚠️ For testing only — do NOT commit this to GitHub if public
-const stripe = new Stripe("sk_test_51S0iBhBjCoDp1ugvPU77tC8rOey2EB6XR1tOfU0YTCq13OhizlkLaXs97A8GdxT3MBNIe70mgHzx5eZPiHJ4nu0b00pVs9UUkl", {
-  apiVersion: "2024-06-20",
-});
+// ⚠️ TEST ONLY: hardcoded test key. Move to env var before pushing public.
+const SECRET = "sk_test_51S0iBhBjCoDp1ugvPU77tC8rOey2EB6XR1tOfU0YTCq13OhizlkLaXs97A8GdxT3MBNIe70mgHzx5eZPiHJ4nu0b00pVs9UUkl"; // <-- your sk_test_...
+const stripe = new Stripe(SECRET, { apiVersion: "2024-06-20" });
 
 const ALLOWED_ORIGINS = [
   "http://localhost:5173",

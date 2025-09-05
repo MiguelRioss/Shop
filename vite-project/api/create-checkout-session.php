@@ -3,7 +3,7 @@
 // Minimal Stripe Checkout Session creator (no Composer; uses cURL)
 
 // ====== CONFIG ======
-$STRIPE_SECRET = 'sk_test_XXXXXXXXXXXXXXXXXXXXXXXX'; // <-- your TEST secret key
+$STRIPE_SECRET = 'sk_test_51S0iBhBjCoDp1ugvPU77tC8rOey2EB6XR1tOfU0YTCq13OhizlkLaXs97A8GdxT3MBNIe70mgHzx5eZPiHJ4nu0b00pVs9UUkl'; // <-- your TEST secret key
 
 // Allow your frontends (Vercel preview + local dev)
 $ALLOWED_ORIGINS = [

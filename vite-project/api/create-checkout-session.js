@@ -1,6 +1,9 @@
 import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" });
 
+// ⚠️ For testing only — do NOT commit this to GitHub if public
+const stripe = new Stripe("sk_test_51S0iBhBjCoDp1ugvPU77tC8rOey2EB6XR1tOfU0YTCq13OhizlkLaXs97A8GdxT3MBNIe70mgHzx5eZPiHJ4nu0b00pVs9UUkl", {
+  apiVersion: "2024-06-20",
+});
 const ALLOWED_ORIGINS = [
   "http://localhost:5173",
   "https://iboga-shop.vercel.app",
@@ -52,4 +55,3 @@ export default async function handler(req, res) {
     res.status(400).json({ error: e.message || "Stripe error" });
   }
 }
-    

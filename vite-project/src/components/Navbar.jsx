@@ -138,7 +138,7 @@ export default function Navbar() {
         style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
       >
         <div className="mx-auto max-w-7xl px-4 py-3 text-center">
-         Experience calm on demand. Meso help you unwind, focus, and ground yourself, anytime, anywhere.
+         Experience calm on demand. Mesos help you unwind, focus, and ground yourself, anytime, anywhere.
         </div>
       </div>
     </header>

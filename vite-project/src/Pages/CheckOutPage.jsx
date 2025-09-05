@@ -3,8 +3,9 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext.jsx";
 
+// For local PHP built-in server: php -S localhost:8000 -t public
+// In production, replace with your real domain path to the PHP file
 const STRIPE_ENDPOINT = "http://localhost:8000/api/create-checkout-session.php";
-
 
 const countries = [
   { code: "", name: "Choose..." },
@@ -22,10 +23,10 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
   const { items, subtotal, clear } = useCart();
 
-  // If cart empty, nudge back to /cart
+  // If cart empty, nudge back to /cart (optional)
   React.useEffect(() => {
     if (!items?.length) {
-      // optional: navigate("/cart");
+      // navigate("/cart");
     }
   }, [items]);
 
@@ -64,50 +65,47 @@ export default function CheckoutPage() {
     return Object.keys(e).length === 0;
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validate() || !items?.length) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate() || !items?.length) return;
 
-  setSubmitting(true);
-  try {
-    const orderId = `ORD-${Date.now()}`;
+    setSubmitting(true);
+    try {
+      const res = await fetch(STRIPE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          currency: "eur",
+          items: items.map((p) => ({
+            name: p.title,
+            unit_amount: Math.round(Number(p.price) * 100), // euros → cents
+            quantity: Number(p.qty),
+          })),
+          customer: {
+            name: form.fullName,
+            email: form.email,
+            phone: form.phone,
+            notes: form.notes,
+          },
+          // Optionally, you could also send shipping fields here and store them in session metadata server-side
+        }),
+      });
 
-    const res = await fetch(STRIPE_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        orderId,
-        items: items.map(p => ({
-          title: p.title,
-          price: Number(p.price),
-          qty:   Number(p.qty),
-        })),
-        customer: {
-          fullName: form.fullName,
-          email: form.email,
-          phone: form.phone,
-          notes: form.notes,
-        },
-      }),
-    });
+      const data = await res.json();
 
-    const data = await res.json();
+      if (data?.url) {
+        window.location.href = data.url; // redirect to Stripe Checkout
+        return;
+      }
 
-    if (data?.url) {
-      // ✅ Go to Stripe Checkout (cart matches exactly)
-      window.location.href = data.url;
-      return; // stop here; page is navigating
+      alert(data?.error || "Payment error. Please try again.");
+    } catch (err) {
+      console.error(err);
+      alert("Unexpected error. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
-
-    alert(data?.error || "Payment error. Please try again.");
-  } catch (err) {
-    console.error(err);
-    alert("Unexpected error. Please try again.");
-  } finally {
-    setSubmitting(false);
-  }
-};
-
+  };
 
   return (
     <section className="bg-[#fcfcf6] min-h-screen py-10 px-4">
@@ -126,9 +124,7 @@ const handleSubmit = async (e) => {
             >
               {/* Customer details */}
               <div>
-                <h2 className="text-lg font-semibold mb-4">
-                  Customer details
-                </h2>
+                <h2 className="text-lg font-semibold mb-4">Customer details</h2>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
@@ -254,9 +250,7 @@ const handleSubmit = async (e) => {
                       placeholder="Lisboa"
                     />
                     {errors.city && (
-                      <p className="text-xs text-red-500 mt-1">
-                        {errors.city}
-                      </p>
+                      <p className="text-xs text-red-500 mt-1">{errors.city}</p>
                     )}
                   </div>
 
@@ -326,10 +320,7 @@ const handleSubmit = async (e) => {
                 >
                   {submitting ? "Creating..." : "Create Order"}
                 </button>
-                <Link
-                  to="/cart"
-                  className="text-sm text-gray-600 hover:underline"
-                >
+                <Link to="/cart" className="text-sm text-gray-600 hover:underline">
                   ← Back to cart
                 </Link>
               </div>
@@ -340,9 +331,12 @@ const handleSubmit = async (e) => {
           <aside className="bg-white rounded-xl shadow p-6 h-fit">
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
-            {!items.length ? (
+            {!items?.length ? (
               <p className="text-gray-600">
-                Your cart is empty. <Link className="underline" to="/">Continue shopping</Link>
+                Your cart is empty.{" "}
+                <Link className="underline" to="/">
+                  Continue shopping
+                </Link>
               </p>
             ) : (
               <>
@@ -394,33 +388,4 @@ const handleSubmit = async (e) => {
       </div>
     </section>
   );
-}
-// in CheckoutPage.jsx (after form validation passes)
-async function payWithStripe(items, form) {
-  const orderId = `ORD-${Date.now()}`;
-  const res = await fetch('https://yourdomain.com/api/create-checkout-session.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      orderId,
-      items: items.map(p => ({
-        title: p.title,        // e.g., "Ibogenics CLARA (60 ml)"
-        price: Number(p.price),// 39
-        qty:   Number(p.qty),  // 3
-      })),
-      customer: {
-        email: form.email,
-        fullName: form.fullName,
-        phone: form.phone,
-        notes: form.notes,
-      },
-    }),
-  });
-
-  const data = await res.json();
-  if (data.url) {
-    window.location.href = data.url;        // redirect to Stripe Checkout
-  } else {
-    alert(data.error || 'Payment error');
-  }
 }

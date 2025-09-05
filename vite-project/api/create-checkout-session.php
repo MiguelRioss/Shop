@@ -1,37 +1,40 @@
 <?php
 // /api/create-checkout-session.php
-// Minimal PHP endpoint (no Composer) to create a Stripe Checkout Session
-// Requires: PHP cURL enabled
+// Minimal Stripe Checkout Session creator (no Composer; uses cURL)
 
-/* ====== CONFIG ====== */
-$STRIPE_SECRET = 'sk_test_xxx'; // TEST key now, replace with live when ready
-$YOUR_FRONTEND_ORIGIN = 'https://yourdomain.com'; // allow your site for CORS
-$SUCCESS_URL = 'http://localhost:5173/checkout/success?session_id={CHECKOUT_SESSION_ID}';
-$CANCEL_URL  = 'http://localhost:5173/cart';
+// ====== CONFIG ======
+$STRIPE_SECRET = 'sk_test_XXXXXXXXXXXXXXXXXXXXXXXX'; // <-- your TEST secret key
 
-/* ==================== */
-// before any output:
-$DEV_ORIGIN = 'http://localhost:5173';
-header('Access-Control-Allow-Origin: ' . $DEV_ORIGIN);
+// Allow your frontends (Vercel preview + local dev)
+$ALLOWED_ORIGINS = [
+  'http://localhost:5173',                 // Vite dev
+  'https://YOUR-APP.vercel.app',           // your Vercel test domain
+];
+
+// Where Stripe sends the user after payment/cancel
+$SUCCESS_URL = 'https://iboga-shop.vercel.app/checkout/success?session_id={CHECKOUT_SESSION_ID}';
+$CANCEL_URL  = 'https://iboga-shop.vercel.app/cart';
+// ====================
+
+// --- CORS ---
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $ALLOWED_ORIGINS, true)) {
+  header('Access-Control-Allow-Origin: ' . $origin);
+}
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 header('Content-Type: application/json');
 
-// CORS
-header('Access-Control-Allow-Origin: ' . $YOUR_FRONTEND_ORIGIN);
-header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json');
-
-// Read JSON body
+// --- Read JSON body ---
 $input = json_decode(file_get_contents('php://input'), true);
-$items   = $input['items'] ?? [];  // [{ title, price, qty }]
-$orderId = $input['orderId'] ?? ('ORD-'.time());
+$items    = $input['items'] ?? [];
+$orderId  = $input['orderId'] ?? ('ORD-'.time());
 $customer = $input['customer'] ?? []; // { email, fullName, phone, notes }
 
-if (!$items || !is_array($items)) {
+if (!is_array($items) || count($items) === 0) {
   http_response_code(400);
-  echo json_encode(['error' => 'Missing or invalid "items" array']);
+  echo json_encode(['error' => 'Missing items']);
   exit;
 }
 
@@ -44,7 +47,7 @@ $params = [
   'customer_email' => $customer['email'] ?? null,
   'allow_promotion_codes' => 'true',
   'phone_number_collection[enabled]' => 'true',
-  // Shipping countries (adjust to your needs)
+  // shipping countries (adjust to your needs)
   'shipping_address_collection[allowed_countries][0]' => 'PT',
   'shipping_address_collection[allowed_countries][1]' => 'ES',
   'shipping_address_collection[allowed_countries][2]' => 'FR',
@@ -55,7 +58,7 @@ $params = [
   'shipping_address_collection[allowed_countries][7]' => 'GB',
 ];
 
-// Add cart items as dynamic prices
+// Add cart items as dynamic price_data
 $i = 0;
 foreach ($items as $it) {
   $title = isset($it['title']) ? (string)$it['title'] : 'Item';
@@ -69,11 +72,12 @@ foreach ($items as $it) {
   $i++;
 }
 
-// Optional metadata (visible in Dashboard / webhooks)
-if (!empty($customer['fullName'])) $params['metadata[name]'] = $customer['fullName'];
+// Optional metadata
+if (!empty($customer['fullName'])) $params['metadata[name]']  = $customer['fullName'];
 if (!empty($customer['phone']))    $params['metadata[phone]'] = $customer['phone'];
 if (!empty($customer['notes']))    $params['metadata[notes]'] = $customer['notes'];
 
+// Call Stripe
 $ch = curl_init('https://api.stripe.com/v1/checkout/sessions');
 curl_setopt_array($ch, [
   CURLOPT_POST => true,
@@ -82,7 +86,7 @@ curl_setopt_array($ch, [
   CURLOPT_USERPWD => $STRIPE_SECRET . ':',
   CURLOPT_POSTFIELDS => http_build_query($params),
 ]);
-$res = curl_exec($ch);
+$res  = curl_exec($ch);
 $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
@@ -91,5 +95,5 @@ if ($code >= 200 && $code < 300) {
   echo json_encode(['url' => $data['url']]);
 } else {
   http_response_code($code);
-  echo $res; // Stripe error JSON (helpful while developing)
+  echo $res; // Stripe error JSON while developing
 }

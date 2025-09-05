@@ -3,7 +3,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext.jsx";
 
-const STRIPE_ENDPOINT = "/api/create-checkout-session";
+const STRIPE_ENDPOINT = "http://localhost:8000/api/create-checkout-session.php";
 
 
 const countries = [

@@ -38,29 +38,30 @@ export default function HeroWithVideo() {
 stress. A simple ritual with Meso can support a more balanced, relaxed state over time.
             </p>
 
-            <ul className="mt-8 space-y-6">
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">😊</span>
+            <ul className="mt-8 ">
+              <li className="flex items-start ">
+                <img src="/icon_sparkles.png" alt="Feel calmer" className="w-25 h-25 inline-block align-center" />
                 <div>
-                  <p className="font-semibold "
+                  <p className="font-semibold mt-7"
                    style={{ color: "var(--brand)" }}>Feel calmer, fast</p>
                   <p className="text-gray-600 text-sm">Within the hour.*</p>
                 </div>
               </li>
 
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">❤️</span>
+              <li className="flex items-start ">
+                <img src="/icon_moon.png" alt="Feel calmer" className="w-25 h-25 inline-block align-center" />
                 <div>
-                  <p className="font-semibold "
+                  <p className="font-semibold mt-7 "
                    style={{ color: "var(--brand)" }}>Ease everyday stress</p>
                   <p className="text-gray-600 text-sm">Use anywhere, any time.</p>
                 </div>
               </li>
 
-              <li className="flex items-start gap-3">
-                <span className="text-2xl">💤</span>
+              <li className="flex items-start ">
+                <img src="/icon_sun.png" alt="Feel calmer" className="w-25 h-25 inline-block align-center" />
+
                 <div>
-                  <p className="font-semibold"
+                  <p className="font-semibold mt-7"
                    style={{ color: "var(--brand)" }}>Wind down for better rest</p>
                   <p className="text-gray-600 text-sm">No sleeping pills, no grogginess.</p>
                 </div>

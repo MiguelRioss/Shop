@@ -1,4 +1,7 @@
 import YOGA from "/YOGA.jpg";
+import friends from "/friends.jpg";
+import NATURE from "/nature.jpg";
+
 /**
  * HowItWorks
  * Three-step explainer matching your reference.
@@ -27,7 +30,7 @@ body, by calming the nervous system.
             <div className="relative mx-auto h-52 w-52">
               <div className="absolute inset-0 overflow-hidden rounded-full">
                 <img
-                  src="/Images/friends.jpg"
+                  src={friends}
                   alt="Place the device"
                   className="h-full w-full object-cover"
                 />
@@ -65,7 +68,7 @@ body, by calming the nervous system.
             <div className="relative mx-auto h-52 w-52">
               <div className="absolute inset-0 overflow-hidden rounded-full bg-[#e6eefb]">
                 <img
-                  src="Images/nature.jpg"
+                  src={NATURE}
                   alt="Listen to calming sounds"
                   className="h-full w-full object-cover"
                 />

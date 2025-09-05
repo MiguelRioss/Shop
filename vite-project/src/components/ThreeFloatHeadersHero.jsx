@@ -29,18 +29,7 @@ const ITEMS = [
     ],
     img: "/Images/Mesodose_better focus fewer worries.jpg",
   },
-  {
-    title: "Sleep better at night",
-    copy:
-      "Rest easy and wake refreshed, without pills or hangovers.",
-    bullets: [
-      "Calms racing thoughts before bed",
-      "Promotes deeper, more restful sleep",
-      "Wake up feeling energized",
-    ],
-    img: "/Images/Sleep better at night.jpg",
-  },
-   {
+    {
     title: "Inner Support, Lasting Strength",
     copy:
       "Build resilience from the inside out, so you feel supported no matter what life throws at you.",
@@ -51,6 +40,18 @@ const ITEMS = [
     ],
     img: "/Images/inner support lasting strenght.jpg",
   },  
+  {
+    title: "Sleep better at night",
+    copy:
+      "Rest easy and wake refreshed, without pills or hangovers.",
+    bullets: [
+      "Calms racing thoughts before bed",
+      "Promotes deeper, more restful sleep",
+      "Wake up feeling energized",
+    ],
+    img: "/Images/Sleep better at night.jpg",
+  }
+ 
 ];
 
 export default function ThreeFloatHeadersHero() {

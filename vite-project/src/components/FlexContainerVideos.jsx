@@ -83,7 +83,7 @@ export default function HeroVideos({
               {heading.split(" ").slice(2).join(" ")}
             </h2>
             <p className="mt-4 max-w-md text-neutral-600">
-              Vídeos reais da comunidade. Reproduza diretamente aqui. A grelha adapta-se ao seu ecrã: telemóveis, tablets e portáteis.
+              /* Texto para introduzir */
             </p>
           </div>
 

@@ -1,21 +1,22 @@
 <?php
-// /backend/api/create-checkout-session.php
-
 // ---- CORS (single block) ----
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowed = [
-  'http://localhost:5173',                 // Vite dev
-  'https://ibogenics.com',                 // your prod site
-  'https://iboga-shop.vercel.app/'     // (optional) vercel preview
+  'http://localhost:5173',            // Vite dev
+  'https://ibogenics.com',            // your prod site
+  'https://iboga-shop.vercel.app',    // vercel preview  ✅ no trailing slash
 ];
 
-if (in_array($origin, $allowed, true)) {
+if ($origin && in_array($origin, $allowed, true)) {
   header("Access-Control-Allow-Origin: $origin");
   header('Vary: Origin');
-  // header('Access-Control-Allow-Credentials: true'); // only if you use cookies
+} else if (!$origin) {
+  // Non-browser clients (curl/Postman) often omit Origin
+  header("Access-Control-Allow-Origin: *");
 }
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Max-Age: 86400'); // cache preflight
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   http_response_code(204);
@@ -23,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 header('Content-Type: application/json');
+
 
 // ---- Autoload ----
 // If your structure is /backend/api/... and /backend/vendor/..., use '../vendor/...'

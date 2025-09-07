@@ -10,10 +10,10 @@ import React from "react";
  */
 
 const sampleVideos = [
-  { src: "video1.mp4", poster: "", title: "Community story — Hal" },
-  { src: "video2.mp4", poster: "", title: "Community story — Hal" },
-    { src: "video9.mp4", poster: "", title: "Community story — Pedro" },
-  { src: "video3.mp4", poster: "", title: "Community story — Hal" },
+  { src: "/videos/video1.mp4", poster: "", title: "Community story — Hal" },
+  { src: "/videos/video2.mp4", poster: "", title: "Community story — Hal" },
+    { src: "/videos/video9.mp4", poster: "", title: "Community story — Pedro" },
+  { src: "/videos/video3.mp4", poster: "", title: "Community story — Hal" },
 //   { src: "video4.mp4", poster: "", title: "Community story — 4" },
 //   { src: "video5.mp4", poster: "", title: "Community story — 5" },
 //   { src: "video6.mp4", poster: "", title: "Community story — 6" },

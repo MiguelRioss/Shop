@@ -4,7 +4,7 @@ import logoPng from "/logo.png"; // <- adjust the path
 
 const links = [
   { href: "#research", label: "Research" },
-  { href: "#stories", label: "Stories" },
+  { href: "/stories", label: "Stories" },
   { href: "#blog", label: "Blog" },
 ];
 
@@ -18,29 +18,39 @@ export default function Navbar() {
         <div className="mx-auto max-w-7xl py-6">
           <nav className="flex h-20 items-center justify-between">
             {/* Left: Logo */}
-            <a href="/" aria-label="Home" className="flex items-center gap-2">
-            <img
-              src={logoPng}
-              alt="Meso"
-              className="
-                select-none
-                h-auto
-                w-[450px]              /* mobile: nice and big */
-                sm:w-[420px]           /* tablet: even bigger */
-                md:w-[660px]           /* desktop: normalize */
-                lg:w-[620px]           /* large desktop: slightly larger */
-                -translate-x-[75px]    /* mobile shift */
-                sm:-translate-x-[30px] /* tablet shift */
-                md:-translate-x-[80px] /* desktop shift */
-                lg:-translate-x-[160px]
-              "
-              draggable="false"
-              decoding="async"
-            />
+          <div
+  className="
+    relative inline-block
+    -translate-x-[75px] sm:-translate-x-[30px] md:-translate-x-[80px] lg:-translate-x-[160px]
+  "
+>
+  {/* Visual logo (no link) */}
+  <img
+    src={logoPng}
+    alt="Ibogenics"
+    className="select-none h-auto w-[450px] sm:w-[420px] md:w-[660px] lg:w-[620px]"
+    draggable="false"
+    decoding="async"
+  />
 
+  {/* Invisible, smaller clickable box on top */}
+  <a
+    href="/"
+    aria-label="Home"
+    title="Home"
+    className="
+      absolute block
+      top-[34%] left-[30%] w-[45%] h-[28%]           /* base (mobile) */
+      sm:top-[33%] sm:left-[30%] sm:w-[45%] sm:h-[28%]
+      md:top-[31%] md:left-[29%] md:w-[44%] md:h-[26%]
+      lg:top-[30%] lg:left-[28%] lg:w-[43%] lg:h-[24%]
+      cursor-pointer
+    "
+    style={{ background: "transparent" }}
+    /* For fine-tuning, temporarily add: className+=" ring-2 ring-black/40" */
+  />
+</div>
 
-             
-            </a>
 
             {/* Center: Links (desktop) */}
             <ul className="hidden md:flex items-center gap-8 text-sm">

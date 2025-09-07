@@ -8,7 +8,7 @@ import Footer from "./components/Footer.jsx";
 import { CartProvider } from "./components/CartContext.jsx";
 import CartToast from "./components/CartToast.jsx";
 import HeroCheckout from "./Pages/CheckOutPage.jsx";
-
+import StoriesP from "./Pages/StoriesPage.jsx";
 export default function App() {
   return (
     <CartProvider>
@@ -18,6 +18,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<HeroCheckout />} />
+          <Route path="/stories" element={<StoriesP/>} />
         </Routes>
         <Footer />
         {/* Toast lives once, globally */}

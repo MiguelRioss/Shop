@@ -6,7 +6,7 @@ $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowed = [
   'http://localhost:5173',                 // Vite dev
   'https://ibogenics.com',                 // your prod site
-  'https://your-vercel-app.vercel.app'     // (optional) vercel preview
+  'https://iboga-shop.vercel.app/'     // (optional) vercel preview
 ];
 
 if (in_array($origin, $allowed, true)) {

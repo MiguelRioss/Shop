@@ -37,36 +37,32 @@ export default function HeroWithVideo() {
               Your body has a built-in calm switch—the vagus nerve—that helps you settle after everyday
 stress. A simple ritual with Meso can support a more balanced, relaxed state over time.
             </p>
+           <ul className="mt-8 space-y-4">
+  <li className="flex items-center">
+    <img src="/icon_sparkles.png" alt="Feel calmer" className="w-15 h-15 mr-3" />
+    <div>
+      <p className="font-semibold" style={{ color: "var(--brand)" }}>Feel calmer, fast</p>
+      <p className="text-gray-600 text-sm">Within the hour.*</p>
+    </div>
+  </li>
 
-            <ul className="mt-8 ">
-              <li className="flex items-start ">
-                <img src="/icon_sparkles.png" alt="Feel calmer" className="w-25 h-25 inline-block align-center" />
-                <div>
-                  <p className="font-semibold mt-7"
-                   style={{ color: "var(--brand)" }}>Feel calmer, fast</p>
-                  <p className="text-gray-600 text-sm">Within the hour.*</p>
-                </div>
-              </li>
+  <li className="flex items-center">
+    <img src="/icon_moon.png" alt="Ease stress" className="w-15 h-15 mr-3" />
+    <div>
+      <p className="font-semibold" style={{ color: "var(--brand)" }}>Ease everyday stress</p>
+      <p className="text-gray-600 text-sm">Use anywhere, any time.</p>
+    </div>
+  </li>
 
-              <li className="flex items-start ">
-                <img src="/icon_moon.png" alt="Feel calmer" className="w-25 h-25 inline-block align-center" />
-                <div>
-                  <p className="font-semibold mt-7 "
-                   style={{ color: "var(--brand)" }}>Ease everyday stress</p>
-                  <p className="text-gray-600 text-sm">Use anywhere, any time.</p>
-                </div>
-              </li>
+  <li className="flex items-center">
+    <img src="/icon_sun.png" alt="Better rest" className="w-15 h-15 mr-3" />
+    <div>
+      <p className="font-semibold" style={{ color: "var(--brand)" }}>Wind down for better rest</p>
+      <p className="text-gray-600 text-sm">No sleeping pills, no grogginess.</p>
+    </div>
+  </li>
+</ul>
 
-              <li className="flex items-start ">
-                <img src="/icon_sun.png" alt="Feel calmer" className="w-25 h-25 inline-block align-center" />
-
-                <div>
-                  <p className="font-semibold mt-7"
-                   style={{ color: "var(--brand)" }}>Wind down for better rest</p>
-                  <p className="text-gray-600 text-sm">No sleeping pills, no grogginess.</p>
-                </div>
-              </li>
-            </ul>
                  <div>
                   <p className="text-gray-600 mt-7 text-sm">* Results and timing vary. For general wellness; not intended to diagnose, treat, cure, or
 prevent any disease.</p>

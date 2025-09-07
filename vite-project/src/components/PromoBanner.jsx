@@ -17,11 +17,10 @@ export default function PromoBanner() {
         <div
           className="
             absolute
-            left-1/2 top-0 -translate-x-1/2 -translate-y-20
-            sm:left-10 sm:translate-x-10 sm:-translate-y-6
+            left-1/2 top-0 -translate-x-1/2 -translate-y-11
+            sm:left-10 sm:translate-x-10 sm:-translate-y-10
           "
         >
-          
           <img
             src={bottles}
             alt="Sensate Device"

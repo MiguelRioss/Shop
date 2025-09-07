@@ -9,15 +9,19 @@ const STRIPE_ENDPOINT = "https://ibogenics.com/backend/api/create-checkout-sessi
 
 const countries = [
   { code: "", name: "Choose..." },
-  { code: "PT", name: "Portugal" },
-  { code: "ES", name: "Spain" },
-  { code: "FR", name: "France" },
+  { code: "AU", name: "Australia" },
+  { code: "BR", name: "Brazil" },
+  { code: "CA", name: "Canada" },
+  { code: "CR", name: "Costa Rica" },
   { code: "DE", name: "Germany" },
+  { code: "MX", name: "Mexico" },
   { code: "NL", name: "Netherlands" },
-  { code: "IT", name: "Italy" },
-  { code: "IE", name: "Ireland" },
-  { code: "GB", name: "United Kingdom" },
+  { code: "NZ", name: "New Zealand" },
+  { code: "PT", name: "Portugal" },
+  { code: "ZA", name: "South Africa" },
+  { code: "UY", name: "Uruguay" },
 ];
+
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -278,6 +282,12 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-medium text-gray-700">
                       Country *
                     </label>
+
+                    {/* subtle helper text */}
+                    <p className="text-sm text-gray-500 mb-2">
+                      If you don’t see your location listed, send us a quick message and we’ll try to sort it out.
+                    </p>
+
                     <select
                       name="country"
                       value={form.country}
@@ -292,12 +302,12 @@ export default function CheckoutPage() {
                         </option>
                       ))}
                     </select>
+
                     {errors.country && (
-                      <p className="text-xs text-red-500 mt-1">
-                        {errors.country}
-                      </p>
+                      <p className="text-xs text-red-500 mt-1">{errors.country}</p>
                     )}
                   </div>
+
                 </div>
               </div>
 

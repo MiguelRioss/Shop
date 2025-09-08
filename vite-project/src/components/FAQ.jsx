@@ -14,7 +14,7 @@ const FAQS = [
     a: "Some people notice a shift within about 10–30 minutes of a dose; others feel benefits accumulate over a week or two with steady use. Treat it like a small daily practice; results and timing vary from person to person.",
   },
   {
-    q: "What’s the difference between mesodosing and microdosing?",
+    q: "What’s the difference between microdosing and mesodosing?",
     a: "Microdosing is often described as “just-below-perception.” Mesodosing is a touch more noticeable while remaining manageable for daily life, aimed at helping you stay present, notice patterns, and build new habits in real time.",
   },
   {

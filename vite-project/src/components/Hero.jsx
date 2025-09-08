@@ -1,71 +1,73 @@
+// src/components/Hero.jsx
 import React from "react";
-import bgHero from "/backgroundIbogenics.jpg";
-import productPng from "/handsTA.png";
 
-export default function Hero() {
+export default function Hero({
+  bgImage,
+  overlay,          // { show: boolean, color: string }
+  heading,
+  subheading,
+  cta,               // { show, label, href }
+  productImage,
+
+  // 👇 layout slots (all strings of Tailwind classes)
+  sectionClass,          // e.g. "relative bg-cover bg-center overflow-hidden"
+  containerClass,        // e.g. "relative mx-auto max-w-7xl px-6 py-20 lg:py-40"
+  gridClass,             // e.g. "grid items-center gap-10 lg:grid-cols-2 lg:pr-56"
+  textColClass,          // e.g. "space-y-6 text-center lg:text-left"
+  headingClass,          // e.g. "text-4xl sm:text-5xl font-bold leading-tight text-gray-900"
+  subheadingClass,       // e.g. "max-w-xl text-lg text-gray-700 mx-auto lg:mx-0"
+  ctaClass,              // e.g. "inline-flex items-center rounded-full px-6 py-3 text-white font-medium text-lg hover:opacity-90 transition-opacity"
+  mobileImgWrapClass,    // e.g. "mt-8 lg:hidden overflow-visible"
+  mobileImgClass,        // e.g. "ml-auto w-[78vw] sm:w-[65vw] md:w-[58vw] max-w-none object-contain mr-[-10vw] sm:mr-[-12vw] md:mr-[-14vw]"
+  desktopImgWrapClass,   // e.g. "pointer-events-none absolute bottom-6 right-0 hidden lg:block z-10"
+  desktopImgClass        // e.g. "h-[92vh] max-h-[1060px] object-contain mr-[-24px]"
+}) {
   return (
     <section
-      className="relative bg-[#f2f7fc] bg-cover bg-center overflow-hidden"
-      style={{ backgroundImage: `url(${bgHero})` }}
+      className={sectionClass}
+      style={{ backgroundImage: `url(${bgImage})` }}
     >
-      {/* overlay */}
-      <div className="absolute inset-0 bg-white/70" />
+      {overlay?.show && (
+        <div className="absolute inset-0" style={{ background: overlay.color }} />
+      )}
 
-      <div className="relative mx-auto max-w-7xl px-8 py-30 lg:py-44">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:pr-56">
-          {/* TEXT COLUMN */}
-          <div className="space-y-6 text-center lg:text-left">
-            <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
-              Stress relief has never <br /> been easier
-            </h1>
-            <p className="max-w-xl text-lg text-gray-700 mx-auto lg:mx-0">
-              Meso are gentle, plant-based drops that support a calm, centered state within the
-              hour. 
-            </p>
-            <div>
-              <a
-                href="#get"
-                className="inline-flex items-center rounded-full px-6 py-3 text-white font-medium text-lg hover:opacity-90 transition-opacity"
-                style={{
-                  background:
-                    "linear-gradient(to right, var(--brand-from), var(--brand-to))",
-                }}
-              >
-                Get Meso
-              </a>
-            </div>
+      <div className={containerClass}>
+        <div className={gridClass}>
+          <div className={textColClass}>
+            <h1 className={headingClass}>{heading}</h1>
 
-            {/* MOBILE IMAGE — inline under text */}
-            <div className="mt-8 lg:hidden overflow-visible">
-              <img
-                src={productPng}
-                alt="Product"
-                className="
-                  ml-auto
-                  w-[78vw]
-                  sm:w-[65vw] md:w-[58vw]
-                  max-w-none
-                  object-contain
-                  mr-[-10vw]
-                  sm:mr-[-12vw] md:mr-[-14vw]
-                "
-              />
-            </div>
+            {subheading && (
+              <p className={subheadingClass}>{subheading}</p>
+            )}
+
+            {cta?.show && (
+              <div>
+                <a
+                  href={cta.href}
+                  className={ctaClass}
+                  style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
+                >
+                  {cta.label}
+                </a>
+              </div>
+            )}
+
+            {productImage && (
+              <div className={mobileImgWrapClass}>
+                <img src={productImage} alt="Product" className={mobileImgClass} />
+              </div>
+            )}
           </div>
 
-          {/* Empty right column (desktop spacing) */}
-          <div />
+          <div /> {/* spacer col */}
         </div>
       </div>
 
-      {/* DESKTOP IMAGE — absolute to right edge */}
-      <div className="pointer-events-none absolute bottom-6 right-0 hidden lg:block z-10">
-        <img
-          src={productPng}
-          alt="Product"
-          className="h-[92vh] max-h-[1060px] object-contain mr-[-24px]"
-        />
-      </div>
+      {productImage && (
+        <div className={desktopImgWrapClass}>
+          <img src={productImage} alt="Product" className={desktopImgClass} />
+        </div>
+      )}
     </section>
   );
 }

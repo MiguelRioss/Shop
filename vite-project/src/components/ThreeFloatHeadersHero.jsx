@@ -1,83 +1,40 @@
 import React from "react";
 
-/**
- * WhyChoose
- * Three "balloon" rows: large image on the left, rounded off‑white text card on the right.
- * Background is a soft blue, like the reference.
- */
-
-const ITEMS = [
-  {
-    title: "Immediate Stress Relief",
-    copy:
-      "Find calm in just 10 minutes whenever you feel stressed.",
-    bullets: [
-      "Quick relaxation on demand",
-      "Helps reduce symptoms of anxieties",
-      "Easy to use anytime, anywhere",
-    ],
-    img: "/Images/mesodose_immediate stress relief.jpg",
-  },
-  {
-    title: "Better Focus, Fewer Worries",
-    copy:
-      "Gently tone your nervous system and improve day‑to‑day resilience.",
-    bullets: [
-      "Feel more balanced and present",
-      "Lower baseline stress levels",
-      "Create a simple daily habit",
-    ],
-    img: "/Images/Mesodose_better focus fewer worries.jpg",
-  },
-    {
-    title: "Inner Support, Lasting Strength",
-    copy:
-      "Build resilience from the inside out, so you feel supported no matter what life throws at you.",
-    bullets: [
-      "Steadier moods and fewer emotional ups and downs",
-      "A sense of grounded calm through your day",
-      " Strengthen your inner resources naturally",
-    ],
-    img: "/Images/inner support lasting strenght.jpg",
-  },  
-  {
-    title: "Sleep better at night",
-    copy:
-      "Rest easy and wake refreshed, without pills or hangovers.",
-    bullets: [
-      "Calms racing thoughts before bed",
-      "Promotes deeper, more restful sleep",
-      "Wake up feeling energized",
-    ],
-    img: "/Images/Sleep better at night.jpg",
-  }
- 
-];
-
-export default function ThreeFloatHeadersHero() {
+export default function ThreeFloatHeadersHero({
+  heading,
+  subheading,
+  items,
+  disclaimer
+}) {
   return (
-    <section  style={{ background: "var(--background-column-3Balons)" }}>
+    <section style={{ background: "var(--background-column-3Balons)" }}>
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
         {/* Heading */}
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">Why choose Meso?</h2>
-          <p className="mt-3 text-gray-700">The simplest way to deal with stress and anxieties.</p>
+          <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">
+            {heading}
+          </h2>
+          <p className="mt-3 text-gray-700">{subheading}</p>
         </div>
 
         {/* Rows */}
         <div className="mt-12 space-y-10 sm:space-y-12">
-          {ITEMS.map((item, i) => (
-            <article key={i} className="grid gap-0 overflow-hidden rounded-3xl sm:rounded-[28px] lg:grid-cols-12">
+          {items?.map((item, i) => (
+            <article
+              key={i}
+              className="grid gap-0 overflow-hidden rounded-3xl sm:rounded-[28px] lg:grid-cols-12"
+            >
               {/* Image left */}
               <div className="lg:col-span-6">
                 <div className="h-72 sm:h-80 lg:h-96 overflow-hidden rounded-t-3xl lg:rounded-tr-none lg:rounded-l-3xl">
-                  <img src={item.img} alt="" className="h-full w-full object-cover" />
+                  <img src={item.img} alt={item.title} className="h-full w-full object-cover" />
                 </div>
               </div>
 
               {/* Balloon card right */}
-              <div className="lg:col-span-6  p-6 sm:p-8 lg:p-10 rounded-b-3xl lg:rounded-bl-none lg:rounded-r-3xl"
-              style={{ background: "var(--ballons-background)" }}
+              <div
+                className="lg:col-span-6 p-6 sm:p-8 lg:p-10 rounded-b-3xl lg:rounded-bl-none lg:rounded-r-3xl"
+                style={{ background: "var(--ballons-background)" }}
               >
                 <h3 className="font-serif text-2xl text-gray-900">{item.title}</h3>
                 <p className="mt-3 text-gray-700">{item.copy}</p>
@@ -85,22 +42,13 @@ export default function ThreeFloatHeadersHero() {
                 <ul className="mt-6 space-y-4">
                   {item.bullets.map((b, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-gray-800">
-                      <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full  text-white text-[11px] font-bold"
-                      style={{ background: "var(--brand" }}
-                      >•</span>
-                      <span className="leading-relaxed">
-                        {b.includes("more restful") || b.includes("feeling energized") ? (
-                          <>
-                            {b.split(/(more restful|feeling energized)/).map((part, i2) => (
-                              <strong key={i2} className={part === "more restful" || part === "feeling energized" ? "font-semibold" : "font-normal"}>
-                                {part}
-                              </strong>
-                            ))}
-                          </>
-                        ) : (
-                          b
-                        )}
+                      <span
+                        className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full text-white text-[11px] font-bold"
+                        style={{ background: "var(--brand)" }}
+                      >
+                        •
                       </span>
+                      <span className="leading-relaxed">{b}</span>
                     </li>
                   ))}
                 </ul>
@@ -108,13 +56,14 @@ export default function ThreeFloatHeadersHero() {
             </article>
           ))}
         </div>
-         {/* Heading */}
-        <div className="text-center max-w-3xl mx-auto">
-          <p className="mt-3 text-gray-700">*Timing and results vary. For general wellness; not intended to diagnose, treat, cure, or
-prevent any disease.</p>
-        </div>
+
+        {/* Disclaimer */}
+        {disclaimer && (
+          <div className="text-center max-w-3xl mx-auto">
+            <p className="mt-3 text-gray-700">{disclaimer}</p>
+          </div>
+        )}
       </div>
-      
     </section>
   );
 }

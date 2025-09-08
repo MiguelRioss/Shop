@@ -16,7 +16,7 @@
 
 ---
 ## TODO
-- [ ] Create Stories WebPage
+- [X] ~~*Create Stories WebPage*~~ [2025-09-08]
 - [ ] Maybe put on a database or something like that to be checking stock
 - Alvaro
   - [ ] Check Information on the bottles to be changed
@@ -24,3 +24,4 @@
 - [ ] Make the CheckOut only ask once for the information like name , adrees , and country , I want to be on my web page because of the message to contact us
 - [ ] How to Contact Us? Callendly
 - [ ] Enviriament Variable of Shopify should be private
+- [ ] Trust Pilot

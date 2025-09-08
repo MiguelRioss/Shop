@@ -1,33 +1,32 @@
-import { useState } from 'react'
-import Hero from '../components/Hero'
-import ProductShowcase from '../components/ProductShowcase'
-import PromoBanner from '../components/PromoBanner'
-import BubblesHeroSection from '../components/BubblesHeroSection'
-import HeroWithVideo from '../components/HeroWithVideo'
-import ThreeFloatHeadersHero from '../components/ThreeFloatHeadersHero'
-import CarouselsHero from '../components/CarousselHero'
-import PressCarousel from '../components/PressCarousel'
-import FAQ from '../components/FAQ'
+// Pages/HomePage.jsx
+import Hero from "../components/Hero";
+import ProductShowcase from "../components/ProductShowcase";
+import PromoBanner from "../components/PromoBanner";
+import BubblesHeroSection from "../components/BubblesHeroSection";
+import HeroWithVideo from "../components/HeroWithVideo";
+import ThreeFloatHeadersHero from "../components/ThreeFloatHeadersHero";
+import CarouselsHero from "../components/CarousselHero";
+import PressCarousel from "../components/PressCarousel";
+import FAQ from "../components/FAQ";
 
-
-function HomePage() {
-  const [count, setCount] = useState(0)
-
+function HomePage({ hero, productShowcase , promoBanner, HowItWorks, heroWithVideo, threeFloatHero,caroussel,pressCarousel,faq}) {
   return (
-    <>
     <div className="NavBar">
-      <Hero />
-      <ProductShowcase  />
-      <PromoBanner />
-      <BubblesHeroSection />
-      <HeroWithVideo/>
-      <ThreeFloatHeadersHero />
-      <CarouselsHero />
-      <PressCarousel />
-      <FAQ />
+      <Hero {...hero} />
+      <ProductShowcase
+        products={productShowcase.products}
+        usageDefault={productShowcase.usageDefault}
+        warningsDefault={productShowcase.warningsDefault}
+      />
+      <PromoBanner {...promoBanner} />
+      <BubblesHeroSection {...HowItWorks} />
+      <HeroWithVideo {...heroWithVideo} />
+      <ThreeFloatHeadersHero {...threeFloatHero} />
+      <CarouselsHero {...caroussel} />
+      <PressCarousel {...pressCarousel} />
+      <FAQ {...faq}/>
     </div>
-    </>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;

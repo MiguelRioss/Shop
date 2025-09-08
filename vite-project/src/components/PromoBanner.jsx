@@ -1,51 +1,59 @@
-import React from "react";
-import productPng from '/DROPS.png'; // adjust path
-import bottles from '/bottles.png'; // adjust path
-
-/**
- * Promo banner: product image is in its own container, overlapping the banner.
- * - Mobile: image centered above text
- * - Tablet/Desktop: image left, text right
- * (Image is positioned relative to the inner container to avoid tablet misalignment.)
- */
-export default function PromoBanner() {
+// src/components/PromoBanner.jsx
+  
+export default function PromoBanner({
+  heading,          // string
+  intro,            // string (paragraph above the banner)
+  bgGradient,       // CSS string (fallback linear-gradient)
+  image,            // string path
+  imageAlt,         // string
+  imageClass,       // Tailwind classes for <img>
+  imageWrapClass,   // Tailwind classes for wrapper positioning
+  textHeading,      // string (heading inside the banner)
+  textLines         // array of strings
+}) {
   return (
-    <section className="bg-[#f5653b] text-white" style={{background:"linear-gradient(to right, var(--brand-from), var(--brand-to))"}}>
-      {/* Orange banner (now relative so the absolute image anchors here) */}
-      <div className="relative mx-auto max-w-5xl px-4 py-16" >
-        {/* Separate image container positioned on top, but now INSIDE the wrapper */}
-        <div
-          className="
-            absolute
-            left-1/2 top-0 -translate-x-1/2 -translate-y-11
-            sm:left-10 sm:translate-x-10 sm:-translate-y-10
-          "
-        >
-          <img
-            src={bottles}
-            alt="Sensate Device"
-            className="h-30 w-auto sm:h-60 drop-shadow-lg"
-          />
-        </div>
+    <div>
+      {/* Heading block */}
+      <div className="mx-auto max-w-3xl text-center mb-10">
+        <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">
+          {heading}
+        </h2>
+        <p className="mt-4 text-gray-700 text-base sm:text-lg leading-relaxed">
+          {intro}
+        </p>
+      </div>
 
-        <div className="flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left sm:gap-12 sm:justify-center">
-          {/* Spacer reserves room for the absolute image on tablet/desktop */}
-          <div className="hidden sm:block w-40 md:w-48" />
+      {/* Banner section */}
+      <section
+        className="text-white"
+        style={{ background: bgGradient || "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
+      >
+        <div className="relative mx-auto max-w-5xl px-4 py-16">
+          {/* Image container */}
+          {image && (
+            <div className={imageWrapClass}>
+              <img src={image} alt={imageAlt} className={imageClass} />
+            </div>
+          )}
 
           {/* Text */}
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-bold sm:text-3xl">
-              Still unsure about our Meso?
-            </h2>
-            <p className="mt-3 text-base leading-relaxed">
-              We are so sure you’re going to love it, so we invite you to try before you buy
-            </p>
-            <p className="mt-3 text-base leading-relaxed">
-              Restrictions apply
-            </p>
+          <div className="flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left sm:gap-12 sm:justify-center">
+            {/* Spacer for image on larger screens */}
+            <div className="hidden sm:block w-40 md:w-48" />
+
+            <div className="max-w-2xl">
+              <h2 className="text-2xl font-bold sm:text-3xl">
+                {textHeading}
+              </h2>
+              {textLines?.map((line, i) => (
+                <p key={i} className="mt-3 text-base leading-relaxed">
+                  {line}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

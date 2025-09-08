@@ -1,76 +1,67 @@
+// src/components/HeroWithVideo.jsx
 import React from "react";
 import YouTubeWithThumbnail from "./YouTubeWithThumbnail.jsx";
-/**
- * HeroWithVideo
- * - Left: video player + CTA button
- * - Right: heading, description, benefits list with icons
- * - Responsive: stacks on mobile, side-by-side on desktop
- */
-export default function HeroWithVideo() {
+
+export default function HeroWithVideo({
+  video,            // { id?: string, url?: string, thumbnail?: string, title?: string }
+  cta,              // { label: string, href: string }
+  heading,          // string
+  subheading,       // string
+  benefits,         // [{ icon: string, alt: string, title: string, note: string }]
+  disclaimer        // string
+}) {
   return (
     <section className="bg-[var(--secondBackground)]">
       <div className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          {/* Left side: video + button */}
+          {/* Left: video + button */}
           <div className="space-y-6">
             <div className="overflow-hidden rounded-xl shadow-lg">
-              <YouTubeWithThumbnail />
+              {/* Pass the video props down (component should handle id/url/thumbnail) */}
+              <YouTubeWithThumbnail {...video} />
             </div>
             <a
-              href="#get"
-              className="block w-full rounded-full  px-6 py-4 text-center text-lg font-semibold text-white shadow hover:opacity-90 sm:w-auto"
-              style={{
-                  background:
-                    "linear-gradient(to right, var(--brand-from), var(--brand-to))",
-                }}
+              href={cta?.href}
+              className="block w-full rounded-full px-6 py-4 text-center text-lg font-semibold text-white shadow hover:opacity-90 sm:w-auto"
+              style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
             >
-              Get Meso
+              {cta?.label}
             </a>
           </div>
 
-          {/* Right side: text */}
+          {/* Right: text */}
           <div className="lg:pl-10">
             <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">
-              How’s your nervous system doing now?
+              {heading}
             </h2>
             <p className="mt-4 text-gray-700 text-base sm:text-lg leading-relaxed">
-              Your body has a built-in calm switch—the vagus nerve—that helps you settle after everyday
-stress. A simple ritual with Meso can support a more balanced, relaxed state over time.
+              {subheading}
             </p>
-           <ul className="mt-8 space-y-4">
-  <li className="flex items-center">
-    <img src="/icon_sparkles.png" alt="Feel calmer" className="w-15 h-15 mr-3" />
-    <div>
-      <p className="font-semibold" style={{ color: "var(--brand)" }}>Feel calmer, fast</p>
-      <p className="text-gray-600 text-sm">Within the hour.*</p>
-    </div>
-  </li>
 
-  <li className="flex items-center">
-    <img src="/icon_moon.png" alt="Ease stress" className="w-15 h-15 mr-3" />
-    <div>
-      <p className="font-semibold" style={{ color: "var(--brand)" }}>Ease everyday stress</p>
-      <p className="text-gray-600 text-sm">Use anywhere, any time.</p>
-    </div>
-  </li>
+            <ul className="mt-8 space-y-4">
+              {benefits?.map((b, i) => (
+                <li key={i} className="flex items-center">
+                  {/* keep your exact icon sizing classes */}
+                  <img src={b.icon} alt={b.alt} className="w-15 h-15 mr-3" />
+                  <div>
+                    <p className="font-semibold" style={{ color: "var(--brand)" }}>
+                      {b.title}
+                    </p>
+                    <p className="text-gray-600 text-sm">{b.note}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
 
-  <li className="flex items-center">
-    <img src="/icon_sun.png" alt="Better rest" className="w-15 h-15 mr-3" />
-    <div>
-      <p className="font-semibold" style={{ color: "var(--brand)" }}>Wind down for better rest</p>
-      <p className="text-gray-600 text-sm">No sleeping pills, no grogginess.</p>
-    </div>
-  </li>
-</ul>
-
-                 <div>
-                  <p className="text-gray-600 mt-7 text-sm">* Results and timing vary. For general wellness; not intended to diagnose, treat, cure, or
-prevent any disease.</p>
-                </div>
+            {disclaimer && (
+              <div>
+                <p className="text-gray-600 mt-7 text-sm">
+                  {disclaimer}
+                </p>
+              </div>
+            )}
           </div>
-          
         </div>
-        
       </div>
     </section>
   );

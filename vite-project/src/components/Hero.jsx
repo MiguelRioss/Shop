@@ -22,6 +22,21 @@ export default function Hero({
   desktopImgWrapClass,   // e.g. "pointer-events-none absolute bottom-6 right-0 hidden lg:block z-10"
   desktopImgClass        // e.g. "h-[92vh] max-h-[1060px] object-contain mr-[-24px]"
 }) {
+  const handleCtaClick = (e) => {
+    const href = (typeof cta?.href === 'string') ? cta.href : '';
+    if (!href) return;
+    const isHash = href.startsWith('#') || href.startsWith('/#');
+    if (isHash) {
+      e.preventDefault();
+      const id = href.replace('/#', '').replace('#', '');
+      const el = document.getElementById(id);
+      if (el && el.scrollIntoView) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.location.hash = id;
+      }
+    }
+  };
   return (
     <section
       className={sectionClass}
@@ -44,6 +59,7 @@ export default function Hero({
               <div>
                 <a
                   href={cta.href}
+                  onClick={handleCtaClick}
                   className={ctaClass}
                   style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
                 >

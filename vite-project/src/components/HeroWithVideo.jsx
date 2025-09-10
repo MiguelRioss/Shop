@@ -10,6 +10,21 @@ export default function HeroWithVideo({
   benefits,         // [{ icon: string, alt: string, title: string, note: string }]
   disclaimer        // string
 }) {
+  const handleCtaClick = (e) => {
+    const href = (typeof cta?.href === 'string') ? cta.href : '';
+    if (!href) return;
+    const isHash = href.startsWith('#') || href.startsWith('/#');
+    if (isHash) {
+      e.preventDefault();
+      const id = href.replace('/#', '').replace('#', '');
+      const el = document.getElementById(id);
+      if (el && el.scrollIntoView) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.location.hash = id;
+      }
+    }
+  };
   return (
     <section className="bg-[var(--secondBackground)]">
       <div className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
@@ -22,6 +37,7 @@ export default function HeroWithVideo({
             </div>
             <a
               href={cta?.href}
+              onClick={handleCtaClick}
               className="block w-full rounded-full px-6 py-4 text-center text-lg font-semibold text-white shadow hover:opacity-90 sm:w-auto"
               style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
             >
@@ -38,7 +54,7 @@ export default function HeroWithVideo({
               {subheading}
             </p>
 
-            <ul className="mt-8 space-y-4">
+            <ul className="mt-8 space-y-4 list-none pl-0">
               {benefits?.map((b, i) => (
                 <li key={i} className="flex items-center">
                   {/* keep your exact icon sizing classes */}

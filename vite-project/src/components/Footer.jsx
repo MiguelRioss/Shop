@@ -9,7 +9,7 @@ export default function Footer({
   disclaimer: { heading: discHeading, body: discBody },
   topLinks,               // [{ label, href }]
   bottomLinks,            // [{ label, href }]
-  copyrightName           // e.g., "Sensate"
+  copyrightName           // e.g., "z
 }) {
   return (
     <footer className="bg-[#1f1f1f] text-white/90">

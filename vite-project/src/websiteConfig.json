@@ -350,7 +350,7 @@
     },
     "topLinks": [
       { "label": "Help", "href": "#help" },
-      { "label": "Buzz", "href": "#buzz" },
+      { "label": "Buzz", "href": "/stories" },
       { "label": "Affiliate", "href": "#affiliate" }
     ],
     "bottomLinks": [

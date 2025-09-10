@@ -27,6 +27,20 @@ export default function Navbar({
   const borderCls = border ? "border-b border-black/5" : "";
   const stickyCls = sticky ? "sticky top-0 z-50" : "";
 
+  const handleAnchorClick = (e, href) => {
+    if (typeof href !== "string") return;
+    const isHash = href.startsWith('#') || href.startsWith('/#');
+    if (!isHash) return; // let browser handle normal links
+    e.preventDefault();
+    const id = href.replace('/#', '').replace('#', '');
+    const el = document.getElementById(id);
+    if (el && el.scrollIntoView) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.location.hash = id;
+    }
+  };
+
   return (
     <header className={stickyCls}>
       {/* Main nav */}
@@ -77,6 +91,7 @@ export default function Navbar({
                   <a
                     href={l.href}
                     className="text-black/80 hover:text-black transition-colors"
+                    onClick={(e) => handleAnchorClick(e, l.href)}
                   >
                     {l.label}
                   </a>
@@ -117,6 +132,7 @@ export default function Navbar({
                   href={cta.href}
                   className="inline-flex items-center rounded-full px-5 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity"
                   style={{ background: grad }}
+                  onClick={(e) => handleAnchorClick(e, cta.href)}
                 >
                   {cta.label}
                 </a>
@@ -147,7 +163,7 @@ export default function Navbar({
                     <a
                       href={l.href}
                       className="block rounded-lg px-2 py-2 text-black/80 hover:bg-black/5"
-                      onClick={() => setOpen(false)}
+                      onClick={(e) => { handleAnchorClick(e, l.href); setOpen(false); }}
                     >
                       {l.label}
                     </a>
@@ -187,7 +203,7 @@ export default function Navbar({
                     href={cta.href}
                     className="inline-flex flex-1 items-center justify-center rounded-full px-5 py-2 text-sm font-medium text-white"
                     style={{ background: grad }}
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => { handleAnchorClick(e, cta.href); setOpen(false); }}
                   >
                     {cta.label}
                   </a>

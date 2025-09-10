@@ -19,7 +19,13 @@ function HomePage({ hero, productShowcase , promoBanner, HowItWorks, heroWithVid
         usageDefault={productShowcase.usageDefault}
         warningsDefault={productShowcase.warningsDefault}
       />
-      <PromoHeading heading={promoBanner.heading} intro={promoBanner.intro} />
+      <PromoHeading 
+        heading={promoBanner.heading} 
+        intro={promoBanner.intro} 
+        imageSrc={promoBanner.imageText}
+        imageAlt={promoBanner.imageTextAlt}
+        imageClass={promoBanner.imageTextClass}
+      />
       <PromoBanner {...promoBanner} />
       <BubblesHeroSection {...HowItWorks} />
       <HeroWithVideo {...heroWithVideo} />

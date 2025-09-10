@@ -2,6 +2,7 @@
 import Hero from "../components/Hero";
 import ProductShowcase from "../components/ProductShowcase";
 import PromoBanner from "../components/PromoBanner";
+import PromoHeading from "../components/PromoHeading";
 import BubblesHeroSection from "../components/BubblesHeroSection";
 import HeroWithVideo from "../components/HeroWithVideo";
 import ThreeFloatHeadersHero from "../components/ThreeFloatHeadersHero";
@@ -18,6 +19,7 @@ function HomePage({ hero, productShowcase , promoBanner, HowItWorks, heroWithVid
         usageDefault={productShowcase.usageDefault}
         warningsDefault={productShowcase.warningsDefault}
       />
+      <PromoHeading heading={promoBanner.heading} intro={promoBanner.intro} />
       <PromoBanner {...promoBanner} />
       <BubblesHeroSection {...HowItWorks} />
       <HeroWithVideo {...heroWithVideo} />

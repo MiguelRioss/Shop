@@ -8,6 +8,7 @@ import { CartProvider } from "./components/CartContext.jsx";
 import CartToast from "./components/CartToast.jsx";
 import HeroCheckout from "./Pages/CheckOutPage.jsx";
 import StoriesP from "./Pages/StoriesPage.jsx";
+import PromoHeading from "./components/PromoHeading.jsx";
 
 import config from "./websiteConfig.json";
 

@@ -1,5 +1,3 @@
-// src/components/PromoBanner.jsx
-  
 export default function PromoBanner({
   heading,          // string
   intro,            // string (paragraph above the banner)
@@ -13,16 +11,7 @@ export default function PromoBanner({
 }) {
   return (
     <div>
-      {/* Heading block */}
-      <div className="mx-auto max-w-3xl text-center mb-10">
-        <h2 className="font-serif text-3xl sm:text-4xl text-gray-900">
-          {heading}
-        </h2>
-        <p className="mt-4 text-gray-700 text-base sm:text-lg leading-relaxed">
-          {intro}
-        </p>
-      </div>
-
+     
       {/* Banner section */}
       <section
         className="text-white"
@@ -35,12 +24,10 @@ export default function PromoBanner({
               <img src={image} alt={imageAlt} className={imageClass} />
             </div>
           )}
-
           {/* Text */}
           <div className="flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left sm:gap-12 sm:justify-center">
             {/* Spacer for image on larger screens */}
             <div className="hidden sm:block w-40 md:w-48" />
-
             <div className="max-w-2xl">
               <h2 className="text-2xl font-bold sm:text-3xl">
                 {textHeading}

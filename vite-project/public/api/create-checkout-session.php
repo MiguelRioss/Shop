@@ -2,10 +2,10 @@
 // ---- CORS (single block) ----
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowed = [
-  'http://localhost:5173',       // Vite dev
-  'https://mesodose.com',        // your prod site
-  'https://ibogenics.com',       // (if you also serve from here)
-  'https://iboga-shop.vercel.app', // vercel preview
+  'http://localhost:5173',          // Vite dev
+  'https://mesodose.com',           // your prod site
+  'https://ibogenics.com',          // if you also serve from here
+  'https://iboga-shop.vercel.app',  // vercel preview
 ];
 
 if ($origin && in_array($origin, $allowed, true)) {
@@ -26,9 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 header('Content-Type: application/json');
 
-
 // ---- Autoload ----
-// If your structure is /backend/api/... and /backend/vendor/..., use '../vendor/...'
 require __DIR__ . '/vendor/autoload.php';
 
 use Stripe\Stripe;
@@ -40,11 +38,6 @@ try {
   if (!$secret) { throw new Exception('Missing STRIPE_SECRET_KEY'); }
   Stripe::setApiKey($secret);
 
-  // ---- Determine frontend origin for success/cancel URLs ----
-  $frontend_origin = in_array($origin, $allowed, true)
-    ? $origin
-    : 'https://mesodose.com'; // fallback to your real prod domain
-
   // ---- Parse input ----
   $raw = file_get_contents('php://input');
   $input = json_decode($raw, true);
@@ -53,8 +46,8 @@ try {
   $currency = $input['currency'] ?? 'eur';
   $items    = $input['items'] ?? [];
   $customer = $input['customer'] ?? [];
-  $shipping = $input['shipping'] ?? [];              // from your React form
-  $clientRef = $input['clientReferenceId'] ?? null;  // optional cart ref
+  $shipping = $input['shipping'] ?? [];
+  $clientRef = $input['clientReferenceId'] ?? null;
 
   if (empty($items)) { throw new Exception('No items provided'); }
 
@@ -76,11 +69,7 @@ try {
     ];
   }, $items);
 
-  // ---- Success/Cancel URLs ----
-  $success_url = $frontend_origin . '/checkout/success?session_id={CHECKOUT_SESSION_ID}';
-  $cancel_url  = $frontend_origin . '/checkout/cancel';
-
-  // ---- Create session ----
+  // ---- Create session (Stripe-hosted confirmation; no redirect) ----
   $session = Session::create([
     'mode' => 'payment',
     'line_items' => $line_items,
@@ -90,34 +79,40 @@ try {
 
     'phone_number_collection' => ['enabled' => true],
     'shipping_address_collection' => [
-      // Stripe will collect/normalize address on Checkout, too
       'allowed_countries' => ['PT','ES','FR','DE','NL','IT','IE','GB'],
     ],
 
-    // Reference to help you join client/cart if needed
+    // If the customer cancels checkout, send them back somewhere on your site:
+    'cancel_url' => 'https://mesodose.com/checkout/cancel', // adjust as you like
+
+    // Show Stripe's default hosted success page (no redirect)
+    'after_completion' => [
+      'type' => 'hosted_confirmation',
+      'hosted_confirmation' => [
+        // Optional message shown on Stripe’s confirmation page:
+        'custom_message' => 'Obrigado! Iremos processar a sua encomenda brevemente.',
+      ],
+    ],
+
+    // Reference & metadata
     'client_reference_id' => $clientRef,
-
-    // All metadata values must be strings
     'metadata' => [
-      'fullName' => (string)($customer['name'] ?? ''),
-      'phone'    => (string)($customer['phone'] ?? ''),
-      'notes'    => (string)($customer['notes'] ?? ''),
+      'fullName'      => (string)($customer['name'] ?? ''),
+      'phone'         => (string)($customer['phone'] ?? ''),
+      'notes'         => (string)($customer['notes'] ?? ''),
 
-      // Original address from your form
-      'addr_line1'   => (string)($shipping['address1'] ?? ''),
-      'addr_line2'   => (string)($shipping['address2'] ?? ''),
-      'addr_city'    => (string)($shipping['city'] ?? ''),
-      'addr_zip'     => (string)($shipping['postcode'] ?? ''),
-      'addr_country' => (string)($shipping['country'] ?? ''),
+      // original shipping from your form
+      'addr_line1'    => (string)($shipping['address1'] ?? ''),
+      'addr_line2'    => (string)($shipping['address2'] ?? ''),
+      'addr_city'     => (string)($shipping['city'] ?? ''),
+      'addr_zip'      => (string)($shipping['postcode'] ?? ''),
+      'addr_country'  => (string)($shipping['country'] ?? ''),
 
-      // Operational flags (strings in Stripe; booleans in your DB via webhook)
+      // operational flags as strings (webhook will coerce to booleans)
       'fulfilled'     => 'false',
       'track_url'     => '',
       'email_sended'  => 'false',
     ],
-
-    'success_url' => $success_url,
-    'cancel_url'  => $cancel_url,
   ]);
 
   echo json_encode(['url' => $session->url]);

@@ -34,7 +34,8 @@ export default function ProductShowcase({
                     src={current.image}
                     alt={current.title}
                     className="mx-auto h-full w-full object-contain p-6"
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
                   />
                 ) : (
                   <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500">
@@ -65,7 +66,13 @@ export default function ProductShowcase({
                     </span>
                   )}
                   {o.thumb ? (
-                    <img src={o.thumb} alt={`${o.label} thumbnail`} className="h-full w-full object-contain p-2" />
+                    <img
+                      src={o.thumb}
+                      alt={`${o.label} thumbnail`}
+                      className="h-full w-full object-contain p-2"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   ) : (
                     <div className="h-14 w-14 rounded-lg bg-slate-200" />
                   )}

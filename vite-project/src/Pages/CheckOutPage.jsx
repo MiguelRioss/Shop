@@ -5,7 +5,7 @@ import { useCart } from "../components/CartContext.jsx";
 
 // For local PHP built-in server: php -S localhost:8000 -t public
 // In production, replace with your real domain path to the PHP file
-const STRIPE_ENDPOINT = "https://ibogenics.com/backend/api/create-checkout-session.php";
+const STRIPE_ENDPOINT = "https://mesodose.com/api/create-checkout-session.php";
 
 const countries = [
   { code: "", name: "Choose..." },
@@ -358,6 +358,8 @@ export default function CheckoutPage() {
                           src={p.thumb || p.image}
                           alt={p.title}
                           className="w-12 h-12 rounded-lg object-contain border"
+                          loading="lazy"
+                          decoding="async"
                         />
                       ) : (
                         <div className="w-12 h-12 rounded-lg bg-gray-100" />

@@ -10,6 +10,8 @@ export default function PromoHeading({ heading, intro, imageSrc, imageAlt, wrapp
             src={imageSrc}
             alt={imageAlt}
             className={`${imageClass && imageClass.length ? imageClass : "w-52 sm:w-64 md:w-80"} h-auto object-contain mx-auto sm:mx-0 drop-shadow`}
+            loading="lazy"
+            decoding="async"
           />
         </div>
 

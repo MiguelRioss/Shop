@@ -38,6 +38,8 @@ export default function Footer({
                   -translate-x-27
                   -ml-2 md:-ml-3
                 "
+                loading="lazy"
+                decoding="async"
               />
 
               {/* Clickable brand link (kept empty in your original; optional text supported) */}

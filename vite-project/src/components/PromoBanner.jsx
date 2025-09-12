@@ -21,7 +21,13 @@ export default function PromoBanner({
           {/* Image container */}
           {image && (
             <div className={imageWrapClass}>
-              <img src={image} alt={imageAlt} className={imageClass} />
+              <img
+                src={image}
+                alt={imageAlt}
+                className={imageClass}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
           )}
           {/* Text */}

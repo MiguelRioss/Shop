@@ -80,7 +80,13 @@ export default function PressCarousel({
               key={item._key}
               className="relative flex flex-col items-center justify-center rounded-lg border border-gray-200 bg-white p-6 text-center"
             >
-              <img src={item.logo} alt={item.alt || "logo"} className="mb-4 h-12 object-contain" />
+              <img
+                src={item.logo}
+                alt={item.alt || "logo"}
+                className="mb-4 h-12 object-contain"
+                loading="lazy"
+                decoding="async"
+              />
               <p className="italic text-gray-700">“{item.quote}”</p>
 
               {/* Mobile arrows (single card view) */}

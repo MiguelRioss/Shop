@@ -28,7 +28,7 @@ header('Content-Type: application/json');
 
 // ---- Autoload ----
 // If your structure is /backend/api/... and /backend/vendor/..., use '../vendor/...'
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 use Stripe\Stripe;
 use Stripe\Checkout\Session;

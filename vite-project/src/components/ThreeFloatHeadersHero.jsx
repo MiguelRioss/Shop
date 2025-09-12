@@ -27,7 +27,13 @@ export default function ThreeFloatHeadersHero({
               {/* Image left */}
               <div className="lg:col-span-6">
                 <div className="h-72 sm:h-80 lg:h-96 overflow-hidden rounded-t-3xl lg:rounded-tr-none lg:rounded-l-3xl">
-                  <img src={item.img} alt={item.title} className="h-full w-full object-cover" />
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               </div>
 

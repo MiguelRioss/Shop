@@ -44,6 +44,8 @@ export default function CartToast() {
             src={product?.thumb || product?.image}
             alt={product?.title || product?.label || "Product"}
             className="h-12 w-12 rounded-lg object-cover border border-black/5"
+            loading="lazy"
+            decoding="async"
           />
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-black">

@@ -58,7 +58,13 @@ export default function HeroWithVideo({
               {benefits?.map((b, i) => (
                 <li key={i} className="flex items-center">
                   {/* keep your exact icon sizing classes */}
-                  <img src={b.icon} alt={b.alt} className="w-15 h-15 mr-3" />
+                  <img
+                    src={b.icon}
+                    alt={b.alt}
+                    className="w-15 h-15 mr-3"
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <div>
                     <p className="font-semibold" style={{ color: "var(--brand)" }}>
                       {b.title}

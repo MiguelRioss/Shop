@@ -27,6 +27,8 @@ export default function HowItWorks({
                     src={step.image}
                     alt={step.alt}
                     className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <span className="absolute left-1/2 bottom-0 translate-y-1/2 -translate-x-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black text-white text-lg font-semibold shadow-lg">

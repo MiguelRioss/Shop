@@ -26,12 +26,12 @@
         "logoOffsetClass": "relative inline-block -translate-x-[75px] sm:-translate-x-[30px] md:-translate-x-[80px] lg:-translate-x-[160px]"
     },
     "hero": {
-        "bgImage": "/backgroundIbogenics.jpg",
+        "bgImage": "/backgroundIbogenics.webp",
         "overlay": { "show": true, "color": "rgba(255,255,255,0.7)" },
         "heading": "Stress relief has never been easier",
         "subheading": "Meso are gentle, plant-based drops that support a calm, centered state within the hour.",
         "cta": { "show": true, "label": "Get Meso", "href": "#get" },
-        "productImage": "/handsTA.png",
+        "productImage": "/handsTA.webp",
 
         "sectionClass": "relative bg-[#f2f7fc] bg-cover bg-center overflow-hidden",
         "containerClass": "relative mx-auto max-w-7xl px-8 py-30 lg:py-44",
@@ -86,8 +86,8 @@
             "title": "Ibotincture™ Bark Extract (60 ml)",
             "bullets": ["Botanical Concentrate Formula", "Vegan • Gluten-free • Natural", "Contains alcohol"],
             "description": "Preserves the raw, earthy essence of the root—carrying forward the traditional character of the plant.",
-            "image": "/RB.png",
-            "thumb": "/RB.png",
+            "image": "/RB.webp",
+            "thumb": "/RB.webp",
             "overview": "Bark Extract preserves the raw, earthy essence of the root in a Botanical Concentrate Formula, carrying forward the traditional character of the plant.",
             "benefits": [
             "Deepens grounding and connection to the natural world.",
@@ -102,8 +102,8 @@
             "title": "Ibotincture™ TANIA (60 ml)",
             "bullets": ["Botanical Concentrate Formula", "Vegan • Gluten-free • Natural", "Contains alcohol"],
             "description": "The gentlest personality—supportive, soft entry into meso-dosing.",
-            "image": "/TANIA.png",
-            "thumb": "/TANIA.png",
+            "image": "/TANIA.webp",
+            "thumb": "/TANIA.webp",
             "overview": "TANIA is the gentlest personality in the collection — a Botanical Concentrate Formula for those seeking a soft, approachable entry point into meso-dosing.",
             "benefits": [
             "Promotes gentle balance, emotional calm, and subtle clarity.",
@@ -118,8 +118,8 @@
             "title": "Ibotincture™ LUCIA (60 ml)",
             "bullets": ["Botanical Concentrate Formula", "Vegan • Gluten-free • Natural", "Contains alcohol"],
             "description": "Mid-range clarity and steady functionality—balanced without heaviness.",
-            "image": "/LUCIA.png",
-            "thumb": "/LUCIA.png",
+            "image": "/LUCIA.webp",
+            "thumb": "/LUCIA.webp",
             "overview": "LUCIA delivers mid-range clarity and steady functionality, presented as a Botanical Concentrate Formula for those seeking balance without heaviness.",
             "benefits": [
             "Enhances focus, flow, and present-moment awareness.",
@@ -134,8 +134,8 @@
             "title": "Ibotincture™ CLARA (60 ml)",
             "bullets": ["Botanical Concentrate Formula", "Vegan • Gluten-free • Natural", "Contains alcohol"],
             "description": "Deepest, most introspective tincture—made for experienced inner work.",
-            "image": "/CLARA.png",
-            "thumb": "/CLARA.png",
+            "image": "/CLARA.webp",
+            "thumb": "/CLARA.webp",
             "featured": true,
             "overview": "CLARA is the deepest and most introspective tincture in the line — a Botanical Concentrate Formula for those ready to explore inner depth.",
             "benefits": [
@@ -148,12 +148,12 @@
     },
   "promoBanner": {
     "heading": "What Is Meso?",
-    "intro": "Meso is the practice of meeting yourself halfway. It’s especially suited for those who find that microdosing doesn’t quite fit, with the guiding ethos of not too little, not too much, but just enough to notice. As a ritual, it weaves awareness into daily life, helping you stay grounded while creating space for deeper self-inquiry and change. And it isn’t a path walked alone; the meso-dosing journey is enriched by community: a circle of peers committed to presence, balance, and authentic connection.",
+    "intro": "Meso is the practice of meeting yourself halfway. It’s especially suited for those who find that microdosing doesn’t quite fit, with the guiding ethos of not too little, not too much, but just enough to notice. As a ritual, it weaves awareness into daily life, helping you stay grounded while creating space for deeper self-inquiry and change.This isn’t a solitary road; each person’s practice is a drop that rings outward, and in those ripples our mesodosing community finds presence, balance, and real connection.",
     "bgGradient": "linear-gradient(to right, var(--brand-from), var(--brand-to))",
     "imageText":"/mesoDrops.jpg",
     "imageTextAlt":"mesoDrops",
     "imageTextClass": "w-36 sm:w-48 md:w-200 rounded-2xl",
-    "image": "/bottles.png",
+    "image": "/bottles.webp",
     "imageAlt": "Meso bottles",
     "imageClass": "h-30 w-auto sm:h-60 drop-shadow-lg",
     "imageWrapClass": "absolute left-1/2 top-0 -translate-x-1/2 -translate-y-11 sm:left-10 sm:translate-x-10 sm:-translate-y-10",
@@ -169,19 +169,19 @@
     "subheading": "Meso tinctures are plant based liquid technologies that emit waves of stillness through the body, by calming the nervous system.",
     "steps": [
       {
-        "image": "/friends.jpg",
+        "image": "/friends.webp",
         "alt": "Shake & dose",
         "title": "Shake & dose",
         "text": "Shake the bottle. Place 20-30 drops of Meso under your tongue. Find your way."
       },
       {
-        "image": "/YOGA.jpg",
+        "image": "/YOGA.webp",
         "alt": "Tune in & notice",
         "title": "Tune in & notice",
         "text": "Meso emits a calm vibration that soothes your nervous system."
       },
       {
-        "image": "/nature.jpg",
+        "image": "/nature.webp",
         "alt": "Go into nature",
         "title": "Go into nature",
         "text": "Get away from your usual environment to mindfully notice the changes within."
@@ -232,7 +232,7 @@
           "Helps reduce symptoms of anxieties",
           "Easy to use anytime, anywhere"
         ],
-        "img": "/Images/mesodose_immediate stress relief.jpg"
+        "img": "/mesodose_immediate stress relief.webp"
       },
       {
         "title": "Better Focus, Fewer Worries",
@@ -242,7 +242,7 @@
           "Lower baseline stress levels",
           "Create a simple daily habit"
         ],
-        "img": "/Images/Mesodose_better focus fewer worries.jpg"
+        "img": "/Mesodose_better focus fewer worries.webp"
       },
       {
         "title": "Inner Support, Lasting Strength",
@@ -252,7 +252,7 @@
           "A sense of grounded calm through your day",
           "Strengthen your inner resources naturally"
         ],
-        "img": "/Images/inner support lasting strenght.jpg"
+        "img": "/inner support lasting strenght.webp"
       },
       {
         "title": "Sleep better at night",
@@ -262,7 +262,7 @@
           "Promotes deeper, more restful sleep",
           "Wake up feeling energized"
         ],
-        "img": "/Images/Sleep better at night.jpg"
+        "img": "/sleep-better-night.webp"
       }
     ],
     "disclaimer": "*Timing and results vary. For general wellness; not intended to diagnose, treat, cure, or prevent any disease."
@@ -336,7 +336,7 @@
     ]
   },
   "footer": {
-    "logoSrc": "/logo_white.png",
+    "logoSrc": "/logo_white.webp",
     "brandHref": "/",
     "brandText": "Meso",
     "community": {
@@ -363,7 +363,7 @@
     "copyrightName": "Sensate"
   },
   "promoHeading": {
-    "src": "/drops.jpg",
+    "src": "/drops.webp",
     "alt": "Promo visual"
   }
 

@@ -2,9 +2,10 @@
 // ---- CORS (single block) ----
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowed = [
-  'http://localhost:5173',            // Vite dev
-  'https://ibogenics.com',            // your prod site
-  'https://iboga-shop.vercel.app',    // vercel preview  ✅ no trailing slash
+  'http://localhost:5173',       // Vite dev
+  'https://mesodose.com',        // your prod site
+  'https://ibogenics.com',       // (if you also serve from here)
+  'https://iboga-shop.vercel.app', // vercel preview
 ];
 
 if ($origin && in_array($origin, $allowed, true)) {
@@ -34,18 +35,26 @@ use Stripe\Stripe;
 use Stripe\Checkout\Session;
 
 try {
-  // ---- Stripe key (TEMP: hardcoded for testing; rotate/remove before prod) ----
-  $secret = 'sk_test_51S0iBhBjCoDp1ugvPU77tC8rOey2EB6XR1tOfU0YTCq13OhizlkLaXs97A8GdxT3MBNIe70mgHzx5eZPiHJ4nu0b00pVs9UUkl';
+  // ---- Stripe key (TEMP: hardcoded for testing; move to env in prod) ----
+  $secret = 'sk_test_51S0iBXPjytaoBek73jooh4FSq8smPNgOHaK1R5OhQSe9JhDJKGw2ChgroYJla64CwZwUfDlROW8ThhFmLMJe0nvA00d1VDlYUk';
   if (!$secret) { throw new Exception('Missing STRIPE_SECRET_KEY'); }
   Stripe::setApiKey($secret);
 
+  // ---- Determine frontend origin for success/cancel URLs ----
+  $frontend_origin = in_array($origin, $allowed, true)
+    ? $origin
+    : 'https://mesodose.com'; // fallback to your real prod domain
+
   // ---- Parse input ----
-  $input = json_decode(file_get_contents('php://input'), true);
-  if (!$input) { throw new Exception('Invalid JSON'); }
+  $raw = file_get_contents('php://input');
+  $input = json_decode($raw, true);
+  if (!is_array($input)) { throw new Exception('Invalid JSON'); }
 
   $currency = $input['currency'] ?? 'eur';
   $items    = $input['items'] ?? [];
   $customer = $input['customer'] ?? [];
+  $shipping = $input['shipping'] ?? [];              // from your React form
+  $clientRef = $input['clientReferenceId'] ?? null;  // optional cart ref
 
   if (empty($items)) { throw new Exception('No items provided'); }
 
@@ -68,8 +77,6 @@ try {
   }, $items);
 
   // ---- Success/Cancel URLs ----
-  // Use the request origin if allowed; otherwise fall back to your prod site.
-  $frontend_origin = in_array($origin, $allowed, true) ? $origin : 'https://ibogenics.com';
   $success_url = $frontend_origin . '/checkout/success?session_id={CHECKOUT_SESSION_ID}';
   $cancel_url  = $frontend_origin . '/checkout/cancel';
 
@@ -77,16 +84,38 @@ try {
   $session = Session::create([
     'mode' => 'payment',
     'line_items' => $line_items,
+
+    // If you already pass the email from the form:
     'customer_email' => $customer['email'] ?? null,
+
     'phone_number_collection' => ['enabled' => true],
     'shipping_address_collection' => [
+      // Stripe will collect/normalize address on Checkout, too
       'allowed_countries' => ['PT','ES','FR','DE','NL','IT','IE','GB'],
     ],
+
+    // Reference to help you join client/cart if needed
+    'client_reference_id' => $clientRef,
+
+    // All metadata values must be strings
     'metadata' => [
-      'fullName' => $customer['name'] ?? '',
-      'phone'    => $customer['phone'] ?? '',
-      'notes'    => $customer['notes'] ?? '',
+      'fullName' => (string)($customer['name'] ?? ''),
+      'phone'    => (string)($customer['phone'] ?? ''),
+      'notes'    => (string)($customer['notes'] ?? ''),
+
+      // Original address from your form
+      'addr_line1'   => (string)($shipping['address1'] ?? ''),
+      'addr_line2'   => (string)($shipping['address2'] ?? ''),
+      'addr_city'    => (string)($shipping['city'] ?? ''),
+      'addr_zip'     => (string)($shipping['postcode'] ?? ''),
+      'addr_country' => (string)($shipping['country'] ?? ''),
+
+      // Operational flags (strings in Stripe; booleans in your DB via webhook)
+      'fulfilled'     => 'false',
+      'track_url'     => '',
+      'email_sended'  => 'false',
     ],
+
     'success_url' => $success_url,
     'cancel_url'  => $cancel_url,
   ]);

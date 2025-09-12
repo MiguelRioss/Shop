@@ -22,7 +22,6 @@ const countries = [
   { code: "UY", name: "Uruguay" },
 ];
 
-
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { items, subtotal, clear } = useCart();
@@ -75,6 +74,7 @@ export default function CheckoutPage() {
 
     setSubmitting(true);
     try {
+      // in CheckoutPage.jsx (inside handleSubmit)
       const res = await fetch(STRIPE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -82,7 +82,7 @@ export default function CheckoutPage() {
           currency: "eur",
           items: items.map((p) => ({
             name: p.title,
-            unit_amount: Math.round(Number(p.price) * 100), // euros → cents
+            unit_amount: Math.round(Number(p.price) * 100),
             quantity: Number(p.qty),
           })),
           customer: {
@@ -91,7 +91,14 @@ export default function CheckoutPage() {
             phone: form.phone,
             notes: form.notes,
           },
-          // Optionally, you could also send shipping fields here and store them in session metadata server-side
+          shipping: {
+            address1: form.address1,
+            address2: form.address2,
+            city: form.city,
+            postcode: form.postcode,
+            country: form.country,
+          },
+          clientReferenceId: `cart_${Date.now()}`,
         }),
       });
 
@@ -285,7 +292,8 @@ export default function CheckoutPage() {
 
                     {/* subtle helper text */}
                     <p className="text-sm text-gray-500 mb-2">
-                      If you don’t see your location listed, send us a quick message and we’ll try to sort it out.
+                      If you don’t see your location listed, send us a quick
+                      message and we’ll try to sort it out.
                     </p>
 
                     <select
@@ -304,10 +312,11 @@ export default function CheckoutPage() {
                     </select>
 
                     {errors.country && (
-                      <p className="text-xs text-red-500 mt-1">{errors.country}</p>
+                      <p className="text-xs text-red-500 mt-1">
+                        {errors.country}
+                      </p>
                     )}
                   </div>
-
                 </div>
               </div>
 
@@ -330,7 +339,10 @@ export default function CheckoutPage() {
                 >
                   {submitting ? "Creating..." : "Create Order"}
                 </button>
-                <Link to="/cart" className="text-sm text-gray-600 hover:underline">
+                <Link
+                  to="/cart"
+                  className="text-sm text-gray-600 hover:underline"
+                >
                   ← Back to cart
                 </Link>
               </div>

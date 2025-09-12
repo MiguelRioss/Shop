@@ -1,3 +1,0 @@
-time,event_id,session_id,amount,currency,email
-2025-09-11T23:34:32+00:00,evt_1S6K0aPjytaoBek753hhbuQl,cs_test_a1udPU9jjE4je1aNjvArmXhySQl81JCw0jDRAtF27crk4aI9ClADZVmVTz,3000,usd,stripe@example.com
-2025-09-11T23:35:15+00:00,evt_1S6K1HPjytaoBek75qA7JqCV,cs_test_a1EToapxUMLndtwSOJpVxmlKYKs8kHJ178sNWk41csG8M268Whlr8EyqZs,3000,usd,stripe@example.com

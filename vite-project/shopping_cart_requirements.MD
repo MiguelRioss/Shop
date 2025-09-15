@@ -19,8 +19,15 @@
 - [X] ~~*Create Stories WebPage*~~ [2025-09-08]
 - [ ] Maybe put on a database or something like that to be checking stock
 - Alvaro
-  - [ ] Check Information on the bottles to be changed
-  - [ ] Stripe Configuration Very carefully
+  - [X] ~~*Check Information on the bottles to be changed*~~ [2025-09-15]
+  - [X] ~~*Stripe Configuration Very carefully*~~ [2025-09-15]
+- [ ] Change the tittle and description of mesodose.com/Stories
+- [ ] Create mesodose.com stories able to upload photos
+  - [ ] Join the community button
+  - [ ] Where to upload the photos(database google?)
+  - [ ] Aproval method in the reactUI of database 
+    - [ ] Being able to see them on the react page 
+    - [ ] Aprove button or reject 
 - [ ] Make the CheckOut only ask once for the information like name , adrees , and country , I want to be on my web page because of the message to contact us
 - [ ] How to Contact Us? Callendly
 - [ ] Enviriament Variable of Shopify should be private

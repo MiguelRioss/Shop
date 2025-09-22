@@ -65,7 +65,7 @@
         {
             "id": 0,
             "label": "TOTAL EXTRACT",
-            "price": 45,
+            "priceInEuros": 300,
             "title": "Ibotincture™ Total Extract (60 ml)",
             "bullets": ["Botanical Concentrate Formula", "Vegan • Gluten-free • Natural", "Contains alcohol"],
             "description": "The all-rounder—complete, balanced expression of the plant.",
@@ -82,7 +82,7 @@
         {
             "id": 2,
             "label": "BARK EXTRACT",
-            "price": 45,
+            "priceInEuros": 300,
             "title": "Ibotincture™ Bark Extract (60 ml)",
             "bullets": ["Botanical Concentrate Formula", "Vegan • Gluten-free • Natural", "Contains alcohol"],
             "description": "Preserves the raw, earthy essence of the root—carrying forward the traditional character of the plant.",
@@ -98,7 +98,7 @@
         {
             "id": 3,
             "label": "TANIA",
-            "price": 39,
+            "priceInEuros": 350,
             "title": "Ibotincture™ TANIA (60 ml)",
             "bullets": ["Botanical Concentrate Formula", "Vegan • Gluten-free • Natural", "Contains alcohol"],
             "description": "The gentlest personality—supportive, soft entry into meso-dosing.",
@@ -114,7 +114,7 @@
         {
             "id": 4,
             "label": "LUCIA",
-            "price": 39,
+            "priceInEuros": 350,
             "title": "Ibotincture™ LUCIA (60 ml)",
             "bullets": ["Botanical Concentrate Formula", "Vegan • Gluten-free • Natural", "Contains alcohol"],
             "description": "Mid-range clarity and steady functionality—balanced without heaviness.",
@@ -130,7 +130,7 @@
         {
             "id": 5,
             "label": "CLARA",
-            "price": 39,
+            "priceInEuros": 350,
             "title": "Ibotincture™ CLARA (60 ml)",
             "bullets": ["Botanical Concentrate Formula", "Vegan • Gluten-free • Natural", "Contains alcohol"],
             "description": "Deepest, most introspective tincture—made for experienced inner work.",

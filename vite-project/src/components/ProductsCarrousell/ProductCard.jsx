@@ -37,10 +37,10 @@ export default function ProductCard({
     <article
       style={{ ["--content-to-buttons-gap"]: contentButtonGap }}
       className="
-        w-48
-        sm:w-56
-        md:w-[360px]
-        p-2 bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 flex-shrink-0
+        w-full
+        md:w-[560px]
+        max-w-full
+       bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 flex-shrink-0
         flex flex-col
         h-[480px]
         sm:h-[480px]
@@ -110,3 +110,4 @@ export default function ProductCard({
     </article>
   );
 }
+  

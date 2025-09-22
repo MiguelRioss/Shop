@@ -17,8 +17,6 @@ function HomePage({ hero, productShowcase , promoBanner, HowItWorks, heroWithVid
       <Hero {...hero} />
       <ProductCarousel
         products={productShowcase.products}
-        direction="rtl"    // "ltr" moves right-to-left? use "ltr" for left->right motion
-        duration={20}      // seconds per loop (tweak higher = slower)
       />
       <ProductShowcase
         products={productShowcase.products}

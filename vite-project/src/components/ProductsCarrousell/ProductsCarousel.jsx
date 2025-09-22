@@ -3,8 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard.jsx";
 
 /**
- * ProductCarousel (pixel-accurate, 1-by-1 navigation, mobile-centered, arrows hidden on mobile,
- * subtle arrows, pagination dots)
+ * ProductCarousel (pixel-accurate, 1-by-1 navigation, centered for 1 and 2 visible)
+ *
+ * - mobile: 1 column, centered
+ * - tablet: 2 columns, centered
+ * - desktop: 3 columns (unchanged)
  *
  * Props:
  *  - products: array of product objects
@@ -14,11 +17,10 @@ import ProductCard from "./ProductCard.jsx";
  */
 export default function ProductCarousel({
   products = [],
-  cardMaxWidth = "420px",
-  gap = "0.6rem",
+  gap = "0.2rem",
   className = "",
 }) {
-  const containerRef = useRef(null);
+  const outerRef = useRef(null); // wrapper that is bigger than the cards
   const trackRef = useRef(null);
   const transitionMs = 420;
 
@@ -30,19 +32,19 @@ export default function ProductCarousel({
   const [index, setIndex] = useState(productsLen || 0);
   const isTransitioningRef = useRef(false);
 
-  // pixel measures
+  // pixel measures: slide width, gap and container width
   const [slidePx, setSlidePx] = useState({ width: 0, gapPx: 0, containerWidth: 0 });
 
-  // measure slide width, gap and container width
+  // measure slide width + gap + container width
   useEffect(() => {
     function measure() {
-      if (!trackRef.current || !containerRef.current) return;
+      if (!trackRef.current || !outerRef.current) return;
       const firstSlide = trackRef.current.querySelector(".pc-slide");
       if (!firstSlide) return;
       const rect = firstSlide.getBoundingClientRect();
       const computed = getComputedStyle(trackRef.current);
       const gapPx = parseFloat(computed.gap || "0") || 0;
-      const containerWidth = Math.round(containerRef.current.clientWidth);
+      const containerWidth = Math.round(outerRef.current.clientWidth);
       setSlidePx({
         width: Math.round(rect.width),
         gapPx: Math.round(gapPx),
@@ -79,7 +81,7 @@ export default function ProductCarousel({
     return () => window.removeEventListener("resize", updateVisible);
   }, []);
 
-  // reset to middle when visible changes to keep duplication safe
+  // reset to middle when visible changes (keeps duplication safe)
   useEffect(() => {
     setIndex(productsLen);
     if (trackRef.current) {
@@ -90,18 +92,21 @@ export default function ProductCarousel({
     }
   }, [visible, productsLen]);
 
-  // compute transform in px. when visible===1, center the single slide
+  // compute transform in px; center group for visible===1 and visible===2
   const computeTransformPx = (i = index) => {
     const w = slidePx.width;
     const g = slidePx.gapPx;
-    const containerW = slidePx.containerWidth || (containerRef.current ? containerRef.current.clientWidth : 0);
+    const containerW = slidePx.containerWidth || (outerRef.current ? outerRef.current.clientWidth : 0);
 
     if (!w) return `translateX(0px)`;
     const stepPx = w + g;
+    // base translate to move i-th slide to left edge
     let x = -(i * stepPx);
 
-    if (visible === 1 && containerW && w) {
-      const centerOffset = Math.round((containerW - w) / 2);
+    // center the "group" of visible slides when visible === 1 or 2
+    if ((visible === 1 || visible === 2) && containerW && w) {
+      const groupWidth = visible * w + Math.max(0, visible - 1) * g;
+      const centerOffset = Math.round((containerW - groupWidth) / 2);
       x += centerOffset;
     }
 
@@ -170,140 +175,99 @@ export default function ProductCarousel({
   const logicalIndex = ((index % productsLen) + productsLen) % productsLen;
 
   return (
-    <div
-      ref={containerRef}
-      className={`product-carousel relative overflow-hidden ${className}`}
-      aria-roledescription="carousel"
-    >
-      <style>{`
-        .product-carousel {
-          padding: 1.25rem 1.25rem;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-
-        .pc-viewport {
-          width: 100%;
-          overflow: hidden;
-        }
-
-        .pc-track {
-          display:flex;
-          gap: ${gap};
-          align-items: stretch;
-          will-change: transform;
-        }
-
-        .pc-slide {
-          flex: 0 0 calc(100% / var(--visible));
-          display:flex;
-          justify-content:center;
-        }
-
-        .card-wrap {
-          width:100%;
-          max-width: ${cardMaxWidth};
-        }
-
-        .pc-arrow {
-          position:absolute;
-          top:50%;
-          transform: translateY(-50%);
-          z-index:30;
-          width:44px;
-          height:44px;
-          border-radius:999px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          background: rgba(255,255,255,0.95);
-          box-shadow: 0 12px 28px rgba(15,23,42,0.06);
-          cursor:pointer;
-          border: none;
-          opacity: 0.65;
-          transition: opacity .18s ease, transform .12s ease;
-        }
-        .pc-arrow:hover { opacity: 1; transform: translateY(-50%) scale(1.02); }
-        .pc-arrow:active { transform: translateY(-50%) scale(0.98); }
-        .pc-arrow-left { left: 8px; }
-        .pc-arrow-right { right: 8px; }
-
-        /* hide arrows on small mobile screens */
-        @media (max-width: 767px) {
-          .pc-arrow { display: none; }
-        }
-
-        /* dots container */
-        .pc-dots { margin-top: 14px; display:flex; justify-content:center; gap:8px; align-items:center; }
-        .pc-dot { width:9px; height:9px; border-radius:50%; border:none; padding:0; cursor:pointer; }
-      `}</style>
-
-      <button className="pc-arrow pc-arrow-left" onClick={prev} aria-label="Previous" title="Previous">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <path d="M15 18l-6-6 6-6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </button>
-
-      <button className="pc-arrow pc-arrow-right" onClick={next} aria-label="Next" title="Next">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <path d="M9 6l6 6-6 6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </button>
-
+    // OUTER WRAPPER — intentionally wider than the cards so cards sit inside it
+    <div className="pc-outer" ref={outerRef} style={{ padding: "2rem 1rem" }}>
       <div
-        className="pc-viewport"
-        style={{
-          "--visible": visible,
-        }}
+        className={`product-carousel relative overflow-hidden ${className}`}
+        aria-roledescription="carousel"
       >
+        <style>{`
+          .product-carousel { padding: 0; max-width: 150vw; }
+
+          .pc-viewport { width: 100%; overflow: hidden; }
+
+          .pc-track { display:flex; gap: ${gap}; align-items: center; will-change: transform; }
+
+          .pc-slide { flex: 0 0 calc(100% / var(--visible)); display:flex; justify-content:center; }
+
+
+          .pc-arrow { position:absolute; top:50%; transform: translateY(-50%); z-index:30; width:44px; height:44px; border-radius:999px; display:flex; align-items:center; justify-content:center; background: rgba(255,255,255,0.95); box-shadow: 0 12px 28px rgba(15,23,42,0.06); cursor:pointer; border: none; opacity: 0.75; transition: opacity .18s ease, transform .12s ease; }
+          .pc-arrow:hover { opacity: 1; transform: translateY(-50%) scale(1.02); }
+          .pc-arrow:active { transform: translateY(-50%) scale(0.98); }
+          .pc-arrow-left { left: 8px; }
+          .pc-arrow-right { right: 8px; }
+
+          .pc-dots { margin-top: 14px; display:flex; justify-content:center; gap:8px; align-items:center; }
+          .pc-dot { width:9px; height:9px; border-radius:50%; border:none; padding:0; cursor:pointer; }
+        `}</style>
+
+        {/* Left arrow (always visible) */}
+        <button className="pc-arrow pc-arrow-left" onClick={prev} aria-label="Previous" title="Previous">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M15 18l-6-6 6-6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+
+        {/* Right arrow (always visible) */}
+        <button className="pc-arrow pc-arrow-right" onClick={next} aria-label="Next" title="Next">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M9 6l6 6-6 6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+
         <div
-          ref={trackRef}
-          className="pc-track"
+          className="pc-viewport"
           style={{
-            transform: computeTransformPx(index),
+            "--visible": visible,
           }}
         >
-          {slides.map((p, idx) => (
-            <div className="pc-slide" key={`slide-${idx}-${p?.id ?? idx}`}>
-              <div className="card-wrap">
-                <ProductCard
-                  image={p.image}
-                  price={p.price}
-                  title={p.title}
-                  description={p.description}
-                  onBuy={() => p.onBuy && p.onBuy(p)}
-                  liked={p.liked}
-                />
+          <div
+            ref={trackRef}
+            className="pc-track"
+            style={{
+              transform: computeTransformPx(index),
+            }}
+          >
+            {slides.map((p, idx) => (
+              <div className="pc-slide" key={`slide-${idx}-${p?.id ?? idx}`}>
+                <div className="card-wrap p-10">
+                  <ProductCard
+                    image={p.image}
+                    price={p.price}
+                    title={p.title}
+                    description={p.description}
+                    onBuy={() => p.onBuy && p.onBuy(p)}
+                    liked={p.liked}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* pagination dots */}
-      <div className="pc-dots" aria-hidden>
-        {products.map((_, i) => {
-          const active = logicalIndex === i;
-          return (
-            <button
-              key={`dot-${i}`}
-              className="pc-dot"
-              onClick={() => {
-                // jump to middle copy + i
-                const target = productsLen + i;
-                if (!trackRef.current) return;
-                // ensure a smooth jump
-                trackRef.current.style.transition = `transform 280ms ease`;
-                setIndex(target);
-              }}
-              style={{
-                background: active ? "#111827" : "#E5E7EB",
-                boxShadow: active ? "0 6px 16px rgba(17,24,39,0.12)" : "none",
-              }}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          );
-        })}
+        {/* pagination dots */}
+        <div className="pc-dots" aria-hidden>
+          {products.map((_, i) => {
+            const active = logicalIndex === i;
+            return (
+              <button
+                key={`dot-${i}`}
+                className="pc-dot"
+                onClick={() => {
+                  const target = productsLen + i;
+                  if (!trackRef.current) return;
+                  trackRef.current.style.transition = `transform 280ms ease`;
+                  setIndex(target);
+                }}
+                style={{
+                  background: active ? "#111827" : "#E5E7EB",
+                  boxShadow: active ? "0 6px 16px rgba(17,24,39,0.12)" : "none",
+                }}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

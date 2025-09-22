@@ -4,12 +4,12 @@ import React from "react";
 export default function Footer({
   logoSrc,
   brandHref,
-  brandText,              // optional wordmark text next to the floating logo
+  brandText, // optional wordmark text next to the floating logo
   community: { heading: commHeading, body: commBody, socialsBlurb },
   disclaimer: { heading: discHeading, body: discBody },
-  topLinks,               // [{ label, href }]
-  bottomLinks,            // [{ label, href }]
-  copyrightName           // e.g., "z
+  topLinks, // [{ label, href }]
+  bottomLinks, // [{ label, href }]
+  copyrightName, // e.g., "z
 }) {
   return (
     <footer className="bg-[#1f1f1f] text-white/90">
@@ -56,15 +56,23 @@ export default function Footer({
 
             {/* Community */}
             <div className="mt-10">
-              <h3 className="text-xl font-semibold text-white">{commHeading}</h3>
+              <h3 className="text-2xl font-semibold text-white">
+                <a
+                  href=".#/stories"
+                  className="underline-offset-4 hover:underline focus:outline-none focus-visible:ring focus-visible:ring-white/60 rounded"
+                >
+                  {commHeading}
+                </a>
+              </h3>
+
               <p className="mt-3 max-w-2xl text-white/80">{commBody}</p>
 
-              <div className="mt-3 flex items-center gap-5">
-                {socialsBlurb}
-              </div>
-
+              <div className="mt-3 flex items-center gap-5">{socialsBlurb}</div>
+ 
               {/* Disclaimer */}
-              <h3 className="text-xl font-semibold mt-5 text-white">{discHeading}</h3>
+              <h3 className="text-xl font-semibold mt-5 text-white">
+                {discHeading}
+              </h3>
               <p className="mt-1 max-w-2xl text-white/80">{discBody}</p>
             </div>
           </div>
@@ -74,7 +82,9 @@ export default function Footer({
             <ul className="flex gap-8 md:gap-10 text-sm font-semibold text-white/90">
               {topLinks?.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="hover:text-white">{l.label}</a>
+                  <a href={l.href} className="hover:text-white">
+                    {l.label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -86,7 +96,11 @@ export default function Footer({
         <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
             {bottomLinks?.map((l) => (
-              <a key={l.href} href={l.href} className="hover:text-white underline underline-offset-4">
+              <a
+                key={l.href}
+                href={l.href}
+                className="hover:text-white underline underline-offset-4"
+              >
                 {l.label}
               </a>
             ))}

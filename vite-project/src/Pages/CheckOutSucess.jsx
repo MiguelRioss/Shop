@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { db } from "../firebase";
+import { db } from "../lib/firebase";
 import { ref, query, orderByChild, equalTo, get } from "firebase/database";
 
 

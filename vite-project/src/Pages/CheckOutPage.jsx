@@ -22,7 +22,7 @@ const countries = [
   { code: "UY", name: "Uruguay" },
 ];
 
-export default function CheckoutPage() {
+export default function   CheckoutPage() {
   const navigate = useNavigate();
   const { items, subtotal, clear } = useCart();
 
@@ -74,6 +74,7 @@ export default function CheckoutPage() {
 
     setSubmitting(true);
     try {
+      console.log(items)
       // in CheckoutPage.jsx (inside handleSubmit)
       const res = await fetch(STRIPE_ENDPOINT, {
         method: "POST",

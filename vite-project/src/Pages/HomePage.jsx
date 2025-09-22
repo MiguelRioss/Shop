@@ -9,11 +9,13 @@ import ThreeFloatHeadersHero from "../components/ThreeFloatHeadersHero";
 import CarouselsHero from "../components/CarousselHero";
 import PressCarousel from "../components/PressCarousel";
 import FAQ from "../components/FAQ";
+import ProductCarousel from "../components/ProductsCarousel";
 
 function HomePage({ hero, productShowcase , promoBanner, HowItWorks, heroWithVideo, threeFloatHero,caroussel,pressCarousel,faq}) {
   return (
     <div className="NavBar">
       <Hero {...hero} />
+      <ProductCarousel products={productShowcase.products} onBuy={() => {}}/>
       <ProductShowcase
         products={productShowcase.products}
         usageDefault={productShowcase.usageDefault}

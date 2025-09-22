@@ -1,7 +1,9 @@
 // src/components/Navbar.jsx
 import React from "react";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
+
 
 export default function Navbar({
   logoSrc,
@@ -313,30 +315,7 @@ export default function Navbar({
                   )
                 )}
 
-                {cta?.show && (
-                  isHashHref(cta.href) ? (
-                    <a
-                      href={cta.href}
-                      className="inline-flex flex-1 items-center justify-center rounded-full px-5 py-2 text-sm font-medium text-white"
-                      style={{ background: grad }}
-                      onClick={(e) => {
-                        handleAnchorClick(e, cta.href);
-                        setOpen(false);
-                      }}
-                    >
-                      {cta.label}
-                    </a>
-                  ) : (
-                    <Link
-                      to={cta.href}
-                      className="inline-flex flex-1 items-center justify-center rounded-full px-5 py-2 text-sm font-medium text-white"
-                      style={{ background: grad }}
-                      onClick={() => setOpen(false)}
-                    >
-                      {cta.label}
-                    </Link>
-                  )
-                )}
+                <NavbarCTA grad={grad} cta={cta} setOpen={set}/>
               </div>
             </div>
           </div>
@@ -352,5 +331,39 @@ export default function Navbar({
         </div>
       )}
     </header>
+  );
+}
+
+
+function NavbarCTA({ grad, cta, setOpen }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    setOpen?.(false);
+
+    if (location.pathname === "/" || location.hash === "#/") {
+      // already on Home (HashRouter uses "#/" for home)
+      e.preventDefault();
+      document.getElementById("get")?.scrollIntoView({ behavior: "smooth" });
+      // Optional: reflect the anchor in the URL
+      window.history.replaceState(null, "", "#/"); // clear route hash
+      window.location.hash = "#get";               // add anchor hash separately
+    } else {
+      // Navigate to Home and ask it to scroll after mount
+      e.preventDefault();
+      navigate("/", { state: { scrollTo: "get" } });
+    }
+  };
+
+  return (
+    <Link
+      to="/"   // IMPORTANT: go to Home, not "/#get"
+      className="inline-flex items-center rounded-full px-5 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity"
+      style={{ background: grad }}
+      onClick={handleClick}
+    >
+      {cta?.label ?? "Get"}
+    </Link>
   );
 }

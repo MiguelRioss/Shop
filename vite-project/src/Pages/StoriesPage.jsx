@@ -1,10 +1,7 @@
-import FlexContainerVideos from "../components/FlexContainerVideos";
+// src/pages/Stories.jsx
+import React from "react";
+import StoriesHeroVideosContainer from "../components/StoriesHeroVideosContainer";
 
-
-export default function CheckoutPage() {
-  
-
-  return (  
-    <FlexContainerVideos />
-  );
+export default function StoriesPage() {
+  return <StoriesHeroVideosContainer />;
 }

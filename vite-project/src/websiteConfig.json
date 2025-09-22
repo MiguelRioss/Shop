@@ -10,7 +10,7 @@
         ],
         "showCart": true,
         "cartHref": "/cart",
-        "cta": { "show": true, "label": "Get Meso", "href": "/#get" },
+        "cta": { "show": true, "label": "Get Meso", "href": "#get" },
         "announcement": {
         "show": true,
         "text": "Experience calm on demand. Meso helps you unwind, focus, and ground yourself, anytime, anywhere."
@@ -327,7 +327,7 @@
       },
       {
         "q": "What countries do you ship to?",
-        "a": "We ship to the following countries: Australia, Brazil, Canada, Costa Rica, Denmark, Finland, Gabon, Germany, Greece, Hungary, Mexico, Netherlands, New Zealand, Portugal, South Africa, Uruguay."
+        "a": "We ship to the following countries: Australia, Brazil, Canada, Costa Rica, Denmark, Finland, Gabon, Germany, Greece, Hungary, Mexico, Netherlands, New Zealand, Portugal, South Africa, Uruguay. \n\n If your contry is not listed enquire via Contact Form."
       },
       {
         "q": "What’s your return policy?",

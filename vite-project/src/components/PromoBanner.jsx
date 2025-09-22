@@ -34,7 +34,7 @@ export default function PromoBanner({
           <div className="flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left sm:gap-12 sm:justify-center">
             {/* Spacer for image on larger screens */}
             <div className="hidden sm:block w-40 md:w-48" />
-            <div className="max-w-2xl">
+            <div className="max-w-2xl mt-5">
               <h2 className="text-2xl font-bold sm:text-3xl">
                 {textHeading}
               </h2>

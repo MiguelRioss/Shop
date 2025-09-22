@@ -1,254 +1,310 @@
-    import React, { useRef, useState, useEffect } from "react";
-    import ProductCard from "./ProductCard";
+// ProductCarousel.jsx
+import React, { useEffect, useRef, useState } from "react";
+import ProductCard from "./ProductCard.jsx";
 
-    /**
-     * ProductCarousel
-     *
-     * Props:
-     *  - products: array of product objects { id, image, price, title, description }
-     *  - onBuy: function(product)
-     *  - showDots: boolean (show pagination dots on mobile)
-     *  - arrowStepCount: number (optional) how many items to advance when clicking arrow
-     *
-     * NOTE: does NOT import any default product image (uses p.image).
-     */
-    export function ProductCarousel({
-    products = [],
-    onBuy = () => {},
-    showDots = true,
-    arrowStepCount = 1,
-    }) {
-    const containerRef = useRef(null);
-    const [active, setActive] = useState(0);
-    const [isDesktop, setIsDesktop] = useState(false);
+/**
+ * ProductCarousel (pixel-accurate, 1-by-1 navigation, mobile-centered, arrows hidden on mobile,
+ * subtle arrows, pagination dots)
+ *
+ * Props:
+ *  - products: array of product objects
+ *  - cardMaxWidth: string e.g. "420px"
+ *  - gap: css gap string, e.g. "0.6rem"
+ *  - className: extra wrapper classes
+ */
+export default function ProductCarousel({
+  products = [],
+  cardMaxWidth = "420px",
+  gap = "0.6rem",
+  className = "",
+}) {
+  const containerRef = useRef(null);
+  const trackRef = useRef(null);
+  const transitionMs = 420;
 
-    // store a measured px step if you want to use pixel-based scrolling (not required here)
-    const stepRef = useRef(0);
+  const productsLen = products.length;
+  const slides = productsLen > 0 ? [...products, ...products] : [];
+  const slidesLen = slides.length;
 
-    // ---------- breakpoint detection ----------
-    useEffect(() => {
-        if (typeof window === "undefined") return;
-        const mq = window.matchMedia("(min-width: 768px)");
-        const update = (e) => setIsDesktop(e.matches);
-        setIsDesktop(mq.matches);
-        if (mq.addEventListener) mq.addEventListener("change", update);
-        else mq.addListener(update);
-        return () => {
-        if (mq.removeEventListener) mq.removeEventListener("change", update);
-        else mq.removeListener(update);
-        };
-    }, []);
+  const [visible, setVisible] = useState(1);
+  const [index, setIndex] = useState(productsLen || 0);
+  const isTransitioningRef = useRef(false);
 
-    // ---------- measure card spacing and set scroll-padding so first/last center ----------
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
+  // pixel measures
+  const [slidePx, setSlidePx] = useState({ width: 0, gapPx: 0, containerWidth: 0 });
 
-        function measure() {
-        const snaps = Array.from(container.querySelectorAll(".snap-center"));
-        if (!snaps.length) return;
+  // measure slide width, gap and container width
+  useEffect(() => {
+    function measure() {
+      if (!trackRef.current || !containerRef.current) return;
+      const firstSlide = trackRef.current.querySelector(".pc-slide");
+      if (!firstSlide) return;
+      const rect = firstSlide.getBoundingClientRect();
+      const computed = getComputedStyle(trackRef.current);
+      const gapPx = parseFloat(computed.gap || "0") || 0;
+      const containerWidth = Math.round(containerRef.current.clientWidth);
+      setSlidePx({
+        width: Math.round(rect.width),
+        gapPx: Math.round(gapPx),
+        containerWidth,
+      });
+    }
 
-        // accurate step between successive snap items
-        const first = snaps[0];
-        let step = first.offsetWidth;
-        if (snaps.length > 1) {
-            const second = snaps[1];
-            step = Math.abs(second.offsetLeft - first.offsetLeft);
+    measure();
+    let rAF = null;
+    const onResize = () => {
+      if (rAF) cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(measure);
+    };
+    window.addEventListener("resize", onResize);
+    window.addEventListener("load", measure);
+    const t = setTimeout(measure, 70);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("load", measure);
+      clearTimeout(t);
+      if (rAF) cancelAnimationFrame(rAF);
+    };
+  }, [visible, gap, productsLen]);
+
+  // responsive visible count
+  useEffect(() => {
+    function updateVisible() {
+      const w = window.innerWidth;
+      const v = w >= 1024 ? 3 : w >= 768 ? 2 : 1;
+      setVisible(v);
+    }
+    updateVisible();
+    window.addEventListener("resize", updateVisible);
+    return () => window.removeEventListener("resize", updateVisible);
+  }, []);
+
+  // reset to middle when visible changes to keep duplication safe
+  useEffect(() => {
+    setIndex(productsLen);
+    if (trackRef.current) {
+      trackRef.current.style.transition = "none";
+      setTimeout(() => {
+        if (trackRef.current) trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
+      }, 0);
+    }
+  }, [visible, productsLen]);
+
+  // compute transform in px. when visible===1, center the single slide
+  const computeTransformPx = (i = index) => {
+    const w = slidePx.width;
+    const g = slidePx.gapPx;
+    const containerW = slidePx.containerWidth || (containerRef.current ? containerRef.current.clientWidth : 0);
+
+    if (!w) return `translateX(0px)`;
+    const stepPx = w + g;
+    let x = -(i * stepPx);
+
+    if (visible === 1 && containerW && w) {
+      const centerOffset = Math.round((containerW - w) / 2);
+      x += centerOffset;
+    }
+
+    return `translateX(${x}px)`;
+  };
+
+  // single-slide step
+  const step = (n) => {
+    if (!productsLen) return;
+    if (isTransitioningRef.current) return;
+    isTransitioningRef.current = true;
+
+    const newIndex = index + n;
+    setIndex(newIndex);
+
+    const maxIndex = slidesLen - visible;
+    const minIndex = 0;
+
+    const onTransitionEnd = () => {
+      if (!trackRef.current) return;
+      trackRef.current.removeEventListener("transitionend", onTransitionEnd);
+
+      if (newIndex > maxIndex) {
+        const corrected = newIndex - productsLen;
+        trackRef.current.style.transition = "none";
+        setIndex(corrected);
+        trackRef.current.style.transform = computeTransformPx(corrected);
+        trackRef.current.offsetHeight; // force reflow
+        trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
+      }
+
+      if (newIndex < minIndex) {
+        const corrected = newIndex + productsLen;
+        trackRef.current.style.transition = "none";
+        setIndex(corrected);
+        trackRef.current.style.transform = computeTransformPx(corrected);
+        trackRef.current.offsetHeight; // force reflow
+        trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
+      }
+
+      setTimeout(() => {
+        isTransitioningRef.current = false;
+      }, 20);
+    };
+
+    if (trackRef.current) {
+      trackRef.current.addEventListener("transitionend", onTransitionEnd, { once: true });
+    } else {
+      setTimeout(() => (isTransitioningRef.current = false), transitionMs + 20);
+    }
+  };
+
+  const prev = () => step(-1);
+  const next = () => step(+1);
+
+  // sync transform whenever index/measurements change
+  useEffect(() => {
+    if (!trackRef.current) return;
+    trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
+    trackRef.current.style.transform = computeTransformPx(index);
+  }, [index, slidePx.width, slidePx.gapPx, slidePx.containerWidth, visible]);
+
+  if (!products || products.length === 0) return null;
+
+  // logical active index for dots (0..productsLen-1)
+  const logicalIndex = ((index % productsLen) + productsLen) % productsLen;
+
+  return (
+    <div
+      ref={containerRef}
+      className={`product-carousel relative overflow-hidden ${className}`}
+      aria-roledescription="carousel"
+    >
+      <style>{`
+        .product-carousel {
+          padding: 1.25rem 1.25rem;
+          max-width: 1200px;
+          margin: 0 auto;
         }
-        stepRef.current = Math.round(step);
 
-        // compute scroll-padding-inline so first / last items are centered
-        const pad = Math.max(0, Math.round((container.clientWidth - first.offsetWidth) / 2));
-        container.style.scrollPaddingInline = `${pad}px`;
-
-        // prefer native touch momentum
-        container.style.WebkitOverflowScrolling = "touch";
+        .pc-viewport {
+          width: 100%;
+          overflow: hidden;
         }
 
-        const raf = requestAnimationFrame(measure);
-        window.addEventListener("resize", measure);
-        return () => {
-        cancelAnimationFrame(raf);
-        window.removeEventListener("resize", measure);
-        };
-    }, [products]);
-
-    // ---------- update active index while the user scrolls ----------
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-
-        let raf = null;
-        function onScroll() {
-        if (raf) return;
-        raf = requestAnimationFrame(() => {
-            raf = null;
-            const snaps = Array.from(container.querySelectorAll(".snap-center"));
-            if (!snaps.length) return;
-            const center = container.scrollLeft + container.clientWidth / 2;
-            let bestIndex = 0;
-            let bestDist = Infinity;
-            snaps.forEach((snap, i) => {
-            const snapCenter = snap.offsetLeft + snap.offsetWidth / 2;
-            const dist = Math.abs(snapCenter - center);
-            if (dist < bestDist) {
-                bestDist = dist;
-                bestIndex = i;
-            }
-            });
-            setActive(bestIndex);
-        });
+        .pc-track {
+          display:flex;
+          gap: ${gap};
+          align-items: stretch;
+          will-change: transform;
         }
 
-        container.addEventListener("scroll", onScroll, { passive: true });
-        onScroll(); // init
-        return () => {
-        container.removeEventListener("scroll", onScroll);
-        if (raf) cancelAnimationFrame(raf);
-        };
-    }, [products]);
-
-    // ---------- helpers: nearest index and programmatic center scrolling ----------
-    function getNearestIndex() {
-        const container = containerRef.current;
-        if (!container) return 0;
-        const snaps = Array.from(container.querySelectorAll(".snap-center"));
-        if (!snaps.length) return 0;
-        const center = container.scrollLeft + container.clientWidth / 2;
-        let bestIndex = 0;
-        let bestDist = Infinity;
-        snaps.forEach((snap, i) => {
-        const snapCenter = snap.offsetLeft + snap.offsetWidth / 2;
-        const dist = Math.abs(snapCenter - center);
-        if (dist < bestDist) {
-            bestDist = dist;
-            bestIndex = i;
+        .pc-slide {
+          flex: 0 0 calc(100% / var(--visible));
+          display:flex;
+          justify-content:center;
         }
-        });
-        return bestIndex;
-    }
 
-    function scrollToIndex(index) {
-        const container = containerRef.current;
-        if (!container) return;
-        const snaps = Array.from(container.querySelectorAll(".snap-center"));
-        const safeIndex = Math.max(0, Math.min(index, snaps.length - 1));
-        const snap = snaps[safeIndex];
-        if (!snap) return;
-        const targetScrollLeft = Math.round(snap.offsetLeft + snap.offsetWidth / 2 - container.clientWidth / 2);
-        container.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-        setActive(safeIndex);
-    }
+        .card-wrap {
+          width:100%;
+          max-width: ${cardMaxWidth};
+        }
 
-    // ---------- arrows: compute nearest index at click time, then move exactly N indexes ----------
-    function prevOne() {
-        const current = getNearestIndex();
-        scrollToIndex(current - arrowStepCount);
-    }
-    function nextOne() {
-        const current = getNearestIndex();
-        scrollToIndex(current + arrowStepCount);
-    }
+        .pc-arrow {
+          position:absolute;
+          top:50%;
+          transform: translateY(-50%);
+          z-index:30;
+          width:44px;
+          height:44px;
+          border-radius:999px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background: rgba(255,255,255,0.95);
+          box-shadow: 0 12px 28px rgba(15,23,42,0.06);
+          cursor:pointer;
+          border: none;
+          opacity: 0.65;
+          transition: opacity .18s ease, transform .12s ease;
+        }
+        .pc-arrow:hover { opacity: 1; transform: translateY(-50%) scale(1.02); }
+        .pc-arrow:active { transform: translateY(-50%) scale(0.98); }
+        .pc-arrow-left { left: 8px; }
+        .pc-arrow-right { right: 8px; }
 
-    // ---------- snapping on interaction end (touch/pointer/mouse) ----------
-    function handleInteractionEnd() {
-        const idx = getNearestIndex();
-        scrollToIndex(idx);
-    }
+        /* hide arrows on small mobile screens */
+        @media (max-width: 767px) {
+          .pc-arrow { display: none; }
+        }
 
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-        container.addEventListener("touchend", handleInteractionEnd, { passive: true });
-        container.addEventListener("pointerup", handleInteractionEnd);
-        container.addEventListener("mouseup", handleInteractionEnd);
-        return () => {
-        container.removeEventListener("touchend", handleInteractionEnd);
-        container.removeEventListener("pointerup", handleInteractionEnd);
-        container.removeEventListener("mouseup", handleInteractionEnd);
-        };
-    }, [products]);
+        /* dots container */
+        .pc-dots { margin-top: 14px; display:flex; justify-content:center; gap:8px; align-items:center; }
+        .pc-dot { width:9px; height:9px; border-radius:50%; border:none; padding:0; cursor:pointer; }
+      `}</style>
 
-    // dots visible only when showDots true AND not desktop
-    const showDotsVisible = showDots && !isDesktop;
+      <button className="pc-arrow pc-arrow-left" onClick={prev} aria-label="Previous" title="Previous">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path d="M15 18l-6-6 6-6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
 
-    return (
-        <div className="w-full product-carousel relative">
-        {/* Local sizing & snap CSS (keeps your previous sizing rules) */}
-        <style>{`
-            .product-carousel .product-card article { width: 18rem !important; } /* mobile */
-            .product-carousel .product-card img { object-fit: contain !important; object-position: center top !important; height: 180px !important; }
-            @media (min-width: 640px) {
-            .product-carousel .product-card article { width: 20rem !important; } /* tablet */
-            .product-carousel .product-card img { height: 220px !important; }
-            }
-            @media (min-width: 1024px) {
-            .product-carousel .product-card article { width: 22.5rem !important; } /* desktop */
-            .product-carousel .product-card img { height: 240px !important; }
-            }
-            .product-carousel .product-card article .p-6 { padding: 0.9rem !important; }
+      <button className="pc-arrow pc-arrow-right" onClick={next} aria-label="Next" title="Next">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path d="M9 6l6 6-6 6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
 
-            /* reduce fling skipping when browser supports it */
-            .product-carousel .snap-center { scroll-snap-stop: always; }
-        `}</style>
-
-        <div className="relative">
-            {/* scrollable area */}
-            <div
-            ref={containerRef}
-            className="flex gap-12 ml-4 overflow-x-auto snap-x snap-mandatory px-6 py-3"
-            style={{ WebkitOverflowScrolling: "touch" }}
-            >
-            {products.map((p) => (
-                <div key={p.id ?? p.title} className="snap-center">
-                <div className="product-card">
-                    <ProductCard
-                    image={p.image}
-                    price={p.priceInEuros ?? p.price}
-                    title={p.title}
-                    description={p.description}
-                    onBuy={() => onBuy(p)}
-                    />
-                </div>
-                </div>
-            ))}
-            </div>
-
-            {/* arrows: visible on mobile & desktop */}
-            <button
-            onClick={prevOne}
-            aria-label="prev"
-            className="absolute z-20 left-3 md:left-6 top-1/2 -translate-y-1/2 flex items-center justify-center
-                        w-9 h-9 md:w-10 md:h-10 rounded-full shadow-md
-                        bg-white/30 hover:bg-white/60 backdrop-blur-sm border border-white/40 text-black"
-            >
-            <span className="text-lg md:text-xl select-none">‹</span>
-            </button>
-
-            <button
-            onClick={nextOne}
-            aria-label="next"
-            className="absolute z-20 right-3 md:right-6 top-1/2 -translate-y-1/2 flex items-center justify-center
-                        w-9 h-9 md:w-10 md:h-10 rounded-full shadow-md
-                        bg-white/30 hover:bg-white/60 backdrop-blur-sm border border-white/40 text-black"
-            >
-            <span className="text-lg md:text-xl select-none">›</span>
-            </button>
-        </div>
-
-        {/* dots for mobile when requested */}
-        {showDotsVisible && (
-            <div className="flex items-center justify-center gap-2 mt-3">
-            {products.map((_, i) => (
-                <button
-                key={i}
-                onClick={() => scrollToIndex(i)}
-                aria-label={`go to ${i + 1}`}
-                className={`w-2 h-2 rounded-full ${i === active ? "bg-gray-800" : "bg-gray-300"}`}
+      <div
+        className="pc-viewport"
+        style={{
+          "--visible": visible,
+        }}
+      >
+        <div
+          ref={trackRef}
+          className="pc-track"
+          style={{
+            transform: computeTransformPx(index),
+          }}
+        >
+          {slides.map((p, idx) => (
+            <div className="pc-slide" key={`slide-${idx}-${p?.id ?? idx}`}>
+              <div className="card-wrap">
+                <ProductCard
+                  image={p.image}
+                  price={p.price}
+                  title={p.title}
+                  description={p.description}
+                  onBuy={() => p.onBuy && p.onBuy(p)}
+                  liked={p.liked}
                 />
-            ))}
+              </div>
             </div>
-        )}
+          ))}
         </div>
-    );
-    }
+      </div>
+
+      {/* pagination dots */}
+      <div className="pc-dots" aria-hidden>
+        {products.map((_, i) => {
+          const active = logicalIndex === i;
+          return (
+            <button
+              key={`dot-${i}`}
+              className="pc-dot"
+              onClick={() => {
+                // jump to middle copy + i
+                const target = productsLen + i;
+                if (!trackRef.current) return;
+                // ensure a smooth jump
+                trackRef.current.style.transition = `transform 280ms ease`;
+                setIndex(target);
+              }}
+              style={{
+                background: active ? "#111827" : "#E5E7EB",
+                boxShadow: active ? "0 6px 16px rgba(17,24,39,0.12)" : "none",
+              }}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}

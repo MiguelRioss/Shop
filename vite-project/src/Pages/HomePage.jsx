@@ -11,21 +11,32 @@ import PressCarousel from "../components/PressCarousel";
 import FAQ from "../components/FAQ";
 import ProductCarousel from "../components/ProductsCarrousell/ProductsCarousel";
 
-function HomePage({ hero, productShowcase , promoBanner, HowItWorks, heroWithVideo, threeFloatHero,caroussel,pressCarousel,faq}) {
+function HomePage({
+  hero,
+  productShowcase,
+  promoBanner,
+  HowItWorks,
+  heroWithVideo,
+  threeFloatHero,
+  caroussel,
+  pressCarousel,
+  faq,
+}) {
   return (
     <div className="NavBar">
       <Hero {...hero} />
-      <ProductCarousel
-        products={productShowcase.products}
-      />
+      <div className="max-w-7xl p-2 mx-auto">
+        {/* ProductCarousel WILL fill this container width */}
+        <ProductCarousel products={productShowcase.products} />
+      </div>
       <ProductShowcase
         products={productShowcase.products}
         usageDefault={productShowcase.usageDefault}
         warningsDefault={productShowcase.warningsDefault}
       />
-      <PromoHeading 
-        heading={promoBanner.heading} 
-        intro={promoBanner.intro} 
+      <PromoHeading
+        heading={promoBanner.heading}
+        intro={promoBanner.intro}
         imageSrc={promoBanner.imageText}
         imageAlt={promoBanner.imageTextAlt}
         imageClass={promoBanner.imageTextClass}
@@ -36,7 +47,7 @@ function HomePage({ hero, productShowcase , promoBanner, HowItWorks, heroWithVid
       <ThreeFloatHeadersHero {...threeFloatHero} />
       <CarouselsHero {...caroussel} />
       <PressCarousel {...pressCarousel} />
-      <FAQ {...faq}/>
+      <FAQ {...faq} />
     </div>
   );
 }

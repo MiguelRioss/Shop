@@ -1,113 +1,54 @@
-// ProductCard.jsx
 import React from "react";
 
-/** helper: formats numbers or numeric strings into Euro currency */
-function formatPrice(raw) {
-  if (raw == null || raw === "") return "—";
-  if (typeof raw === "string" && /[€£$]/.test(raw)) return raw;
-  const cleaned = String(raw).trim().replace(/\s+/g, "").replace(",", ".");
-  const num = Number(cleaned.replace(/[^\d.-]/g, ""));
-  if (Number.isNaN(num)) return String(raw);
-  const isInteger = Number.isInteger(num);
-  return new Intl.NumberFormat("pt-PT", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: isInteger ? 0 : 2,
-    maximumFractionDigits: isInteger ? 0 : 2,
-  }).format(num);
-}
-
 /**
- * ProductCard
- * Props:
- *  - image, price, title, description, onBuy
- *  - liked (bool)
- *  - contentButtonGap: CSS gap between content and buttons (default "0.25rem")
+ * ProductCard (updated to show full photo)
  */
 export default function ProductCard({
   image,
-  price,
-  title = "Flor de 10–OH Lemon Haze Premium Strong 50%, 3g",
-  description,
+  price = "",
+  title = "",
+  description = "",
   onBuy = () => {},
-  liked = false,
-  contentButtonGap = "0.25rem",
 }) {
   return (
-    <article
-      style={{ ["--content-to-buttons-gap"]: contentButtonGap }}
-      className="
-        w-full
-        md:w-[560px]
-        max-w-full
-       bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 flex-shrink-0
-        flex flex-col
-        h-[480px]
-        sm:h-[480px]
-        md:h-[520px]
-      "
-    >
-      <style>{`
-        .pc-title {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        .pc-desc {
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        .pc-buttons {
-          margin-top: var(--content-to-buttons-gap);
-        }
-      `}</style>
-
-      <div className="relative bg-gray-50 rounded-lg overflow-hidden flex-shrink-0">
+    <article className="w-64 sm:w-72 md:w-80 lg:w-96 bg-dark rounded-2xl shadow-sm overflow-hidden border border-gray-100 mx-auto">
+      {/* image area: larger and uses object-contain so the whole photo appears */}
+      <div className="relative bg-white flex items-center justify-center p-4">
         <img
           src={image}
           alt={title}
-          className="
-            w-full
-            h-32
-            sm:h-40
-            md:h-56
-            object-contain block
-          "
-          draggable={false}
+          loading="lazy"
+          className="max-w-full h-48 sm:h-56 md:h-64 lg:h-80 xl:h-96 object-contain"
         />
+
+        {/* wishlist heart */}
+        <button
+          aria-label="Add to wishlist"
+          type="button"
+          className="absolute top-3 right-3 bg-white/90 dark:bg-black/60 p-2 rounded-full shadow-sm border border-gray-100"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
 
-      <div className="flex-1 flex flex-col justify-between p-3 text-center">
-        <div>
-          <div className="text-lg font-medium mb-2">{formatPrice(price)}</div>
+      <div className="p-5 text-center">
+        <div className="text-lg font-semibold mb-2">{price}</div>
 
-          <h3 className="text-sm leading-6 font-semibold text-gray-800 mb-2 pc-title">
-            {title}
-          </h3>
+        <h3 className="text-base font-medium text-gray-900 mb-2">{title}</h3>
 
-          <div className="text-sm text-gray-500 mb-3 pc-desc">{description}</div>
-        </div>
+        <p className="text-sm text-gray-500 mb-4 max-h-20 overflow-hidden">
+          {description}
+        </p>
 
-        <div className="pc-buttons space-y-2">
-          <button
-            onClick={onBuy}
-            className="inline-block w-full rounded-full py-2 px-4 bg-black text-white font-semibold shadow-sm hover:opacity-95 transition-opacity"
-          >
-            Comprar agora
-          </button>
-
-          <button
-            onClick={onBuy}
-            className="inline-block w-full rounded-full py-2 px-4 border border-gray-200 text-gray-800 font-semibold shadow-sm hover:bg-gray-50 transition"
-          >
-            Saber mais
-          </button>
-        </div>
+        <button
+          onClick={onBuy}
+          className="w-full inline-block py-3 rounded-full bg-black text-white font-semibold transition-transform active:scale-95"
+        >
+          Comprar agora
+        </button>
       </div>
     </article>
   );
 }
-  

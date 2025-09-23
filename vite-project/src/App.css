@@ -12,3 +12,70 @@
   --ballons-background: #fdfdfd;        /* very light cream */
   --secondBackground: #fdfdfd;          /* very light cream */
 }
+
+:root {
+  --brand-to: #C3CCFF; /* soft pastel blue */
+}
+
+/* --- Primary targets --- */
+
+/* Product cards: card border uses brand-to */
+.product-card-root {
+  border-color: var(--brand-to) !important;
+}
+
+/* Carousel arrow border and subtle tinted background */
+.pc-arrow {
+  border: 1px solid var(--brand-to);
+  background: rgba(255,255,255,0.95);
+}
+.pc-arrow:hover {
+  box-shadow: 0 10px 30px rgba(195, 204, 255, 0.14);
+  transform: translateY(-50%) scale(1.02);
+}
+
+/* Active / hovered pagination dot uses brand-to */
+.pc-dot {
+  background: #E5E7EB; /* default grey */
+}
+.pc-dot:focus,
+.pc-dot:hover {
+  background: var(--brand-to) !important;
+  box-shadow: 0 6px 14px rgba(195, 204, 255, 0.18);
+}
+.pc-dot[aria-pressed="true"],
+.pc-dot.active {
+  background: var(--brand-to) !important;
+  box-shadow: 0 6px 14px rgba(195, 204, 255, 0.18);
+}
+
+/* subtle brand divider utility */
+.hr-brand {
+  border-top: 1px solid var(--brand-to);
+}
+
+/* --- Helpful overrides for any remaining black borders (Tailwind utilities) --- */
+
+/* Some components may still use .border-black or darkest gray. Override those to brand color */
+.border-black,
+.border-gray-900,
+.border-gray-800 {
+  border-color: var(--brand-to) !important;
+}
+
+/* If any places used inline 'border: 1px solid #111827' or similar, this will override
+   more specifically where needed: target the most common containers (cards & arrows) */
+.product-card-root,
+.pc-arrow,
+.card-wrap,
+.product-carousel,
+.product-card-root * {
+  box-sizing: border-box;
+}
+
+/* If you want arrow border to be lighter on very large screens, tune here */
+@media (min-width: 1280px) {
+  .pc-arrow { border-color: rgba(195,204,255,0.95); }
+  .pc-arrow:hover { box-shadow: 0 12px 36px rgba(195,204,255,0.18); }
+}
+

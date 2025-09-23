@@ -6,7 +6,7 @@ export default function ProductShowcase({
   usageDefault, // array of strings
   warningsDefault, // array of strings
 }) {
-  const { addItem } = useCart();
+  
 
   // sort by id (keeps the original behavior)
   const SORTED = React.useMemo(

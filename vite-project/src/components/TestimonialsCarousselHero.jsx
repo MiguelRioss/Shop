@@ -1,13 +1,14 @@
 // src/components/CarouselsHero.jsx
 import React from "react";
 import { Link } from "react-router-dom"; // <-- FIXED
+import Arrow from "./UtilsComponent/Arrows.jsx";
 
-export default function CarouselsHero({
-  title,                 // string (e.g., "Meso Stories")
-  cta,                   // { label: string, href: string }
-  paragraphs = [],       // string[]
-  items = [],            // [{ headline, body, author }]
-  disclaimer,            // string
+export default function TestimonialsCarousselHero({
+  title, // string (e.g., "Meso Stories")
+  cta, // { label: string, href: string }
+  paragraphs = [], // string[]
+  items = [], // [{ headline, body, author }]
+  disclaimer, // string
   autoPlay = true,
   intervalMs = 6000,
 }) {
@@ -77,8 +78,8 @@ export default function CarouselsHero({
           {paragraphs.map((p, idx) =>
             idx === 1 ? (
               <Link
-                key={`para-${idx}`}             // <-- key on the outer element
-                to="/stories"                   // <-- your requested link
+                key={`para-${idx}`} // <-- key on the outer element
+                to="/stories" // <-- your requested link
                 className="group block"
                 aria-label="Read our stories"
               >
@@ -87,7 +88,10 @@ export default function CarouselsHero({
                 </p>
               </Link>
             ) : (
-              <p key={`para-${idx}`} className="mx-auto mt-5 max-w-3xl text-gray-700">
+              <p
+                key={`para-${idx}`}
+                className="mx-auto mt-5 max-w-3xl text-gray-700"
+              >
                 {p}
               </p>
             )
@@ -98,23 +102,19 @@ export default function CarouselsHero({
 
         {/* Slide */}
         <div className="relative mt-10">
-          {/* arrows */}
-          <button
-            type="button"
-            aria-label="Previous"
+          {/* arrows: replaced with shared Arrow component (classes preserved) */}
+          <Arrow
+            dir="prev"
             onClick={prev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/20 text-black/60 hover:bg-black/5"
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            aria-label="Next"
+            variant="desktop"
+            posClass="absolute left-0 top-1/2 -translate-y-1/2 z-10"
+          />
+          <Arrow
+            dir="next"
             onClick={next}
-            className="absolute right-0 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/20 text-black/60 hover:bg-black/5"
-          >
-            →
-          </button>
+            variant="desktop"
+            posClass="absolute right-0 top-1/2 -translate-y-1/2 z-10"
+          />
 
           {/* content */}
           <div className="mx-auto max-w-4xl text-center px-12">
@@ -150,4 +150,3 @@ export default function CarouselsHero({
     </section>
   );
 }
-  

@@ -1,4 +1,3 @@
-// CartContext.jsx (only the changed/added bits shown)
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const CartContext = createContext(null);
@@ -12,46 +11,99 @@ function safeParse(json, fallback) {
   }
 }
 
+/** Parse a price value into a number (handles "€19,90", "19.90", "19,90", 19.9, etc.) */
+function parsePrice(p) {
+  if (typeof p === "number" && Number.isFinite(p)) return p;
+  if (p == null) return 0;
+  const s = String(p)
+    .replace(/\s/g, "")
+    .replace(/€/g, "")
+    .replace(/\u00A0/g, "");
+
+  const cleaned = s.replace(/[^\d,.-]/g, "").replace(/,/g, ".");
+  const n = parseFloat(cleaned);
+  return Number.isFinite(n) ? n : 0;
+}
+
+/** Normalizes stored item shape: numeric price and sane qty
+ *  It prefers priceInEuros if present, otherwise falls back to price
+ */
+function normalizeItem(p) {
+  const sourcePrice = p?.priceInEuros ?? p?.price;
+  return {
+    ...p,
+    price: parsePrice(sourcePrice),
+    qty: Math.max(1, Number(p?.qty) || 1),
+  };
+}
+
 export function CartProvider({ children }) {
   const [items, setItems] = useState(() => {
-    const raw = localStorage.getItem(CART_KEY);
+    const raw = typeof window !== "undefined" ? localStorage.getItem(CART_KEY) : null;
     const parsed = raw ? safeParse(raw, null) : null;
+
     if (!parsed || !Array.isArray(parsed) || parsed.length === 0) {
-      localStorage.setItem(CART_KEY, JSON.stringify([]));   // start empty in prod
+      if (typeof window !== "undefined") localStorage.setItem(CART_KEY, JSON.stringify([]));
       return [];
     }
-    return parsed;
+
+    // normalize previously stored items (coerce price->number and qty->number)
+    return parsed.map(normalizeItem);
   });
 
-  // NEW: track what was just added for the toast
+  // track what was just added for the toast
   const [lastAdded, setLastAdded] = useState(null); // { product, qty, at: number } | null
 
   useEffect(() => {
-    localStorage.setItem(CART_KEY, JSON.stringify(items));
+    try {
+      localStorage.setItem(CART_KEY, JSON.stringify(items));
+    } catch (err) {
+      // ignore quota/localStorage errors gracefully
+    }
   }, [items]);
 
   useEffect(() => {
     const onStorage = (e) => {
       if (e.key === CART_KEY && e.newValue) {
-        setItems(safeParse(e.newValue, []));
+        const parsed = safeParse(e.newValue, []);
+        setItems(Array.isArray(parsed) ? parsed.map(normalizeItem) : []);
       }
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
+  /**
+   * addItem(product, qty)
+   * - prefers product.priceInEuros, falls back to product.price
+   * - stores items with numeric `price` and numeric `qty`
+   */
   const addItem = (product, qty = 1) => {
+    if (!product || product.id == null) {
+      console.warn("addItem called without product or product.id");
+      return;
+    }
+
+    const priceSource = product?.priceInEuros ?? product?.price;
+    const priceNum = parsePrice(priceSource);
+    // store price as numeric `price` for easy subtotal math while keeping original fields
+    const productToStore = { ...product, price: priceNum };
+
     setItems((prev) => {
-      const i = prev.findIndex((p) => p.id === product.id);
+      const i = prev.findIndex((p) => p.id === productToStore.id);
       if (i >= 0) {
         const next = [...prev];
-        next[i] = { ...next[i], qty: next[i].qty + qty };
+        next[i] = {
+          ...next[i],
+          qty: Math.max(1, Number(next[i].qty) || 1) + Math.max(1, Number(qty) || 1),
+          price: productToStore.price,
+        };
         return next;
       }
-      return [...prev, { ...product, qty }];
+      return [...prev, { ...productToStore, qty: Math.max(1, Number(qty) || 1) }];
     });
-    // signal the toast
-    setLastAdded({ product, qty, at: Date.now() });
+
+    setLastAdded({ product: { ...productToStore }, qty: Math.max(1, Number(qty) || 1), at: Date.now() });
   };
 
   const setQty = (id, qty) => {
@@ -63,7 +115,12 @@ export function CartProvider({ children }) {
   const clear = () => setItems([]);
 
   const subtotal = useMemo(
-    () => items.reduce((sum, p) => sum + (p.price ?? 0) * p.qty, 0),
+    () =>
+      items.reduce((sum, p) => {
+        const priceNum = parsePrice(p?.price);
+        const q = Math.max(1, Number(p?.qty) || 1);
+        return sum + priceNum * q;
+      }, 0),
     [items]
   );
 

@@ -5,6 +5,7 @@ export default function Cart() {
   const { items, setQty, removeItem, subtotal } = useCart();
   const fmt = (n) => `€${(n ?? 0).toFixed(2)}`;
   const navigate = useNavigate();
+  console.log(items)
   return (
     <section className="bg-[#fcfcf6] min-h-screen py-8 sm:py-10 px-4">
       <div className="max-w-6xl mx-auto">

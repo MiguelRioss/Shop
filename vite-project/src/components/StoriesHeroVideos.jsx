@@ -1,6 +1,5 @@
 import StoriesHeroVideosHeading from "./StoriesHeroVideosHeading";
 import StoriesHeroVideosGrid from "./StoriesHeroVideosGrid";
-import StoriesJoinButton from "./StoriesJoinButton";
 
 const sampleVideos = [
   { src: "/videos/video1.mp4", poster: "", title: "Community story — Hal" },

@@ -6,7 +6,7 @@ import PromoHeading from "../components/PromoHeading";
 import BubblesHeroSection from "../components/BubblesHeroSection";
 import HeroWithVideo from "../components/HeroWithVideo";
 import ThreeFloatHeadersHero from "../components/ThreeFloatHeadersHero";
-import CarouselsHero from "../components/CarousselHero";
+import TestimonialsCarousselHero from "../components/TestimonialsCarousselHero";
 import PressCarousel from "../components/PressCarousel";
 import FAQ from "../components/FAQ";
 import ProductCarousel from "../components/ProductsCarrousell/ProductsCarousel";
@@ -45,7 +45,7 @@ function HomePage({
       <BubblesHeroSection {...HowItWorks} />
       <HeroWithVideo {...heroWithVideo} />
       <ThreeFloatHeadersHero {...threeFloatHero} />
-      <CarouselsHero {...caroussel} />
+      <TestimonialsCarousselHero {...caroussel} />
       <PressCarousel {...pressCarousel} />
       <FAQ {...faq} />
     </div>

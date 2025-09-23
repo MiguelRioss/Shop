@@ -1,12 +1,16 @@
-// ProductCarousel.jsx
+// src/components/ProductCarousel.jsx
 import React, { useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard.jsx";
+import { useCart } from "../CartContext.jsx";
+import Arrow from "../UtilsComponent/Arrows.jsx";
 
 export default function ProductCarousel({
   products = [],
-  gap = "0.2rem",    // default gap between slides (change to "0rem" for touching)
+  gap = "0.12rem", // default gap between slides (change to "0rem" for touching)
   className = "",
 }) {
+  const { addItem } = useCart();
+
   const outerRef = useRef(null); // container measured (parent container width)
   const trackRef = useRef(null);
   const transitionMs = 420;
@@ -20,7 +24,11 @@ export default function ProductCarousel({
   const isTransitioningRef = useRef(false);
 
   // measured numbers (slide width determined from container / visible later)
-  const [measure, setMeasure] = useState({ containerWidth: 0, gapPx: 0, slideWidth: 0 });
+  const [measure, setMeasure] = useState({
+    containerWidth: 0,
+    gapPx: 0,
+    slideWidth: 0,
+  });
 
   // measure container width + computed gap
   useEffect(() => {
@@ -29,7 +37,10 @@ export default function ProductCarousel({
       const containerWidth = Math.round(outerRef.current.clientWidth);
       const computed = getComputedStyle(trackRef.current);
       const gapPx = parseFloat(computed.gap || "0") || 0;
-      const slideWidth = containerWidth && visible ? Math.round((containerWidth - (visible - 1) * gapPx) / visible) : 0;
+      const slideWidth =
+        containerWidth && visible
+          ? Math.round((containerWidth - (visible - 1) * gapPx) / visible)
+          : 0;
       setMeasure({ containerWidth, gapPx, slideWidth });
     }
 
@@ -69,7 +80,8 @@ export default function ProductCarousel({
     if (trackRef.current) {
       trackRef.current.style.transition = "none";
       setTimeout(() => {
-        if (trackRef.current) trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
+        if (trackRef.current)
+          trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
       }, 0);
     }
   }, [visible, productsLen]);
@@ -129,7 +141,9 @@ export default function ProductCarousel({
     };
 
     if (trackRef.current) {
-      trackRef.current.addEventListener("transitionend", onTransitionEnd, { once: true });
+      trackRef.current.addEventListener("transitionend", onTransitionEnd, {
+        once: true,
+      });
     } else {
       setTimeout(() => (isTransitioningRef.current = false), transitionMs + 20);
     }
@@ -143,7 +157,13 @@ export default function ProductCarousel({
     if (!trackRef.current) return;
     trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
     trackRef.current.style.transform = computeTransformPx(index);
-  }, [index, measure.slideWidth, measure.gapPx, measure.containerWidth, visible]);
+  }, [
+    index,
+    measure.slideWidth,
+    measure.gapPx,
+    measure.containerWidth,
+    visible,
+  ]);
 
   if (!products || products.length === 0) return null;
 
@@ -151,8 +171,15 @@ export default function ProductCarousel({
 
   return (
     // IMPORTANT: no fixed viewport-width here — we rely on the parent container width.
-    <div ref={outerRef} className={`pc-outer w-full ${className}`} style={{ width: "100%" }}>
-      <div className="product-carousel relative overflow-hidden" aria-roledescription="carousel">
+    <div
+      ref={outerRef}
+      className={`pc-outer w-full ${className}`}
+      style={{ width: "100%" }}
+    >
+      <div
+        className="product-carousel relative overflow-hidden"
+        aria-roledescription="carousel"
+      >
         <style>{`
           .product-carousel { padding: 0; }
           .pc-viewport { width: 100%; overflow: hidden; }
@@ -172,26 +199,36 @@ export default function ProductCarousel({
             box-sizing: border-box;
           }
 
-          .pc-arrow { position:absolute; top:50%; transform: translateY(-50%); z-index:30; width:44px; height:44px; border-radius:999px; display:flex; align-items:center; justify-content:center; background: rgba(255,255,255,0.95); box-shadow: 0 12px 28px rgba(15,23,42,0.06); cursor:pointer; border: none; opacity: 0.75; transition: opacity .18s ease, transform .12s ease; }
-          .pc-arrow:hover { opacity: 1; transform: translateY(-50%) scale(1.02); }
-          .pc-arrow-left { left: 8px; }
-          .pc-arrow-right { right: 8px; }
 
-          .pc-dots { margin-top: 14px; display:flex; justify-content:center; gap:8px; align-items:center; }
-          .pc-dot { width:9px; height:9px; border-radius:50%; border:none; padding:0; cursor:pointer; }
         `}</style>
 
-        <button className="pc-arrow pc-arrow-left" onClick={prev} aria-label="Previous" title="Previous">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M15 18l-6-6 6-6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
+        {/* Desktop arrows — moved a bit further from the left/right edges */}
+        <Arrow
+          dir="prev"
+          onClick={prev}
+          variant="desktop"
+          posClass="absolute left-8 lg:left-10 top-1/2 -translate-y-1/2 z-30"
+        />
+        <Arrow
+          dir="next"
+          onClick={next}
+          variant="desktop"
+          posClass="absolute right-8 lg:right-10 top-1/2 -translate-y-1/2 z-30"
+        />
 
-        <button className="pc-arrow pc-arrow-right" onClick={next} aria-label="Next" title="Next">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M9 6l6 6-6 6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
+        {/* Mobile arrows — slightly smaller inset so they sit closer on small screens */}
+        <Arrow
+          dir="prev"
+          onClick={prev}
+          variant="mobile"
+          posClass="absolute left-4 top-1/2 -translate-y-1/2 z-30"
+        />
+        <Arrow
+          dir="next"
+          onClick={next}
+          variant="mobile"
+          posClass="absolute right-4 top-1/2 -translate-y-1/2 z-30"
+        />
 
         <div
           className="pc-viewport"
@@ -212,8 +249,9 @@ export default function ProductCarousel({
               <div className="pc-slide" key={`slide-${idx}-${p?.id ?? idx}`}>
                 <div className="card-wrap">
                   <ProductCard
+                    id={p.id}
                     image={p.image}
-                    price={p.price}
+                    price={p.priceInEuros}
                     title={p.title}
                     description={p.description}
                     onBuy={() => p.onBuy && p.onBuy(p)}

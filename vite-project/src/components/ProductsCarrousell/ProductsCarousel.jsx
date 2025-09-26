@@ -1,16 +1,22 @@
 // src/components/ProductCarousel.jsx
 import React, { useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard.jsx";
-import { useCart } from "../CartContext.jsx";
 import Arrow from "../UtilsComponent/Arrows.jsx";
+
+import {
+  useMeasureCarousel,
+  useResponsiveVisible,
+  useResetIndexOnChange,
+  useApplyTransform,
+  useCarouselStepper,
+  computeTransformPx,
+} from "./utils/ProductsCarroussel.mjs";
 
 export default function ProductCarousel({
   products = [],
   gap = "0.12rem", // default gap between slides (change to "0rem" for touching)
   className = "",
 }) {
-  const { addItem } = useCart();
-
   const outerRef = useRef(null); // container measured (parent container width)
   const trackRef = useRef(null);
   const transitionMs = 420;
@@ -30,140 +36,29 @@ export default function ProductCarousel({
     slideWidth: 0,
   });
 
-  // measure container width + computed gap
-  useEffect(() => {
-    function measureNow() {
-      if (!outerRef.current || !trackRef.current) return;
-      const containerWidth = Math.round(outerRef.current.clientWidth);
-      const computed = getComputedStyle(trackRef.current);
-      const gapPx = parseFloat(computed.gap || "0") || 0;
-      const slideWidth =
-        containerWidth && visible
-          ? Math.round((containerWidth - (visible - 1) * gapPx) / visible)
-          : 0;
-      setMeasure({ containerWidth, gapPx, slideWidth });
-    }
-
-    measureNow();
-    let rAF = null;
-    const onResize = () => {
-      if (rAF) cancelAnimationFrame(rAF);
-      rAF = requestAnimationFrame(measureNow);
-    };
-    window.addEventListener("resize", onResize);
-    window.addEventListener("load", measureNow);
-    const t = setTimeout(measureNow, 60);
-    return () => {
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("load", measureNow);
-      clearTimeout(t);
-      if (rAF) cancelAnimationFrame(rAF);
-    };
-  }, [visible, productsLen]);
-
-  // responsive visible count
-  useEffect(() => {
-    function updateVisible() {
-      const w = window.innerWidth;
-      // desktop >= 1024 -> 3, tablet >= 768 -> 2, else 1
-      const v = w >= 1024 ? 3 : w >= 768 ? 2 : 1;
-      setVisible(v);
-    }
-    updateVisible();
-    window.addEventListener("resize", updateVisible);
-    return () => window.removeEventListener("resize", updateVisible);
-  }, []);
-
-  // reset to middle when visible or products length changes
-  useEffect(() => {
-    setIndex(productsLen);
-    if (trackRef.current) {
-      trackRef.current.style.transition = "none";
-      setTimeout(() => {
-        if (trackRef.current)
-          trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
-      }, 0);
-    }
-  }, [visible, productsLen]);
-
-  // compute transform in px using measured container and slide width
-  const computeTransformPx = (i = index) => {
-    const { slideWidth, gapPx, containerWidth } = measure;
-    if (!slideWidth || !containerWidth) return `translateX(0px)`;
-    const stepPx = slideWidth + gapPx;
-    let x = -(i * stepPx);
-
-    // center the visible group (works for visible=1,2,3)
-    const groupWidth = visible * slideWidth + Math.max(0, visible - 1) * gapPx;
-    const centerOffset = Math.round((containerWidth - groupWidth) / 2);
-    x += centerOffset;
-
-    return `translateX(${x}px)`;
-  };
-
-  // step logic (1-by-1)
-  const step = (n) => {
-    if (!productsLen) return;
-    if (isTransitioningRef.current) return;
-    isTransitioningRef.current = true;
-
-    const newIndex = index + n;
-    setIndex(newIndex);
-
-    const maxIndex = slidesLen - visible;
-    const minIndex = 0;
-
-    const onTransitionEnd = () => {
-      if (!trackRef.current) return;
-      trackRef.current.removeEventListener("transitionend", onTransitionEnd);
-
-      if (newIndex > maxIndex) {
-        const corrected = newIndex - productsLen;
-        trackRef.current.style.transition = "none";
-        setIndex(corrected);
-        trackRef.current.style.transform = computeTransformPx(corrected);
-        trackRef.current.offsetHeight;
-        trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
-      }
-
-      if (newIndex < minIndex) {
-        const corrected = newIndex + productsLen;
-        trackRef.current.style.transition = "none";
-        setIndex(corrected);
-        trackRef.current.style.transform = computeTransformPx(corrected);
-        trackRef.current.offsetHeight;
-        trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
-      }
-
-      setTimeout(() => {
-        isTransitioningRef.current = false;
-      }, 20);
-    };
-
-    if (trackRef.current) {
-      trackRef.current.addEventListener("transitionend", onTransitionEnd, {
-        once: true,
-      });
-    } else {
-      setTimeout(() => (isTransitioningRef.current = false), transitionMs + 20);
-    }
-  };
-
-  const prev = () => step(-1);
-  const next = () => step(+1);
-
-  // apply transform whenever index or measurements change
-  useEffect(() => {
-    if (!trackRef.current) return;
-    trackRef.current.style.transition = `transform ${transitionMs}ms ease`;
-    trackRef.current.style.transform = computeTransformPx(index);
-  }, [
-    index,
-    measure.slideWidth,
-    measure.gapPx,
-    measure.containerWidth,
+  useResponsiveVisible({ setVisible });
+  useMeasureCarousel({ outerRef, trackRef, visible, productsLen, setMeasure });
+  useResetIndexOnChange({
+    trackRef,
     visible,
-  ]);
+    productsLen,
+    setIndex,
+    transitionMs,
+  });
+
+  useApplyTransform({ trackRef, index, measure, visible, transitionMs });
+
+  const { prev, next, step } = useCarouselStepper({
+    trackRef,
+    slidesLen, // total items in track (including duplicates)
+    productsLen, // unique items count
+    visible,
+    index,
+    setIndex,
+    transitionMs,
+    isTransitioningRef,
+    measure,
+  });
 
   if (!products || products.length === 0) return null;
 
@@ -171,14 +66,15 @@ export default function ProductCarousel({
 
   return (
     // IMPORTANT: no fixed viewport-width here — we rely on the parent container width.
-    <div
-      ref={outerRef}
-      className={`pc-outer w-full ${className}`}
-      style={{ width: "100%" }}
-    >
+    <div ref={outerRef} className={`pc-outer w-full ${className || ""}`}>
       <div
-        className="product-carousel relative overflow-hidden"
+        className="product-carousel relative overflow-hidden p-0"
         aria-roledescription="carousel"
+        style={{
+          // dynamic vars consumed by Tailwind arbitrary values below
+          "--gap": gap, // e.g., "0.5rem" or "8px"
+          "--visible": String(visible),
+        }}
       >
         <style>{`
           .product-carousel { padding: 0; }
@@ -254,7 +150,6 @@ export default function ProductCarousel({
                     price={p.priceInEuros}
                     title={p.title}
                     description={p.description}
-                    onBuy={() => p.onBuy && p.onBuy(p)}
                     liked={p.liked}
                   />
                 </div>

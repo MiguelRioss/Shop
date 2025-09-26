@@ -11,7 +11,6 @@ export default function ProductCard({
   priceInEuros,    // optional (preferred if present)
   title,
   description,
-  onBuy = null, // if provided, it will be called; otherwise we call addItem(product, 1)
 }) {
   const { addItem } = useCart();
 

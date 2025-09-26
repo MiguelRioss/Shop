@@ -1,5 +1,6 @@
 // src/components/HeroWithVideo.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 import YouTubeWithThumbnail from "./YouTubeWithThumbnail.jsx";
 
 export default function HeroWithVideo({
@@ -10,21 +11,6 @@ export default function HeroWithVideo({
   benefits,         // [{ icon: string, alt: string, title: string, note: string }]
   disclaimer        // string
 }) {
-  const handleCtaClick = (e) => {
-    const href = (typeof cta?.href === 'string') ? cta.href : '';
-    if (!href) return;
-    const isHash = href.startsWith('#') || href.startsWith('/#');
-    if (isHash) {
-      e.preventDefault();
-      const id = href.replace('/#', '').replace('#', '');
-      const el = document.getElementById(id);
-      if (el && el.scrollIntoView) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        window.location.hash = id;
-      }
-    }
-  };
   return (
     <section className="bg-[var(--secondBackground)]">
       <div className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
@@ -35,14 +21,13 @@ export default function HeroWithVideo({
               {/* Pass the video props down (component should handle id/url/thumbnail) */}
               <YouTubeWithThumbnail {...video} />
             </div>
-            <a
-              href={cta?.href}
-              onClick={handleCtaClick}
+            <Link
+              to={cta?.href}
               className="block w-full rounded-full px-6 py-4 text-center text-lg font-semibold text-white shadow hover:opacity-90 sm:w-auto"
               style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
             >
               {cta?.label}
-            </a>
+            </Link>
           </div>
 
           {/* Right: text */}
@@ -88,3 +73,5 @@ export default function HeroWithVideo({
     </section>
   );
 }
+
+

@@ -29,11 +29,6 @@ function HomePage({
         {/* ProductCarousel WILL fill this container width */}
         <ProductCarousel products={productShowcase.products} />
       </div>
-      <ProductShowcase
-        products={productShowcase.products}
-        usageDefault={productShowcase.usageDefault}
-        warningsDefault={productShowcase.warningsDefault}
-      />
       <PromoHeading
         heading={promoBanner.heading}
         intro={promoBanner.intro}

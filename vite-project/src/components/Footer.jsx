@@ -1,5 +1,6 @@
 // src/components/Footer.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Footer({
   logoSrc,
@@ -43,26 +44,26 @@ export default function Footer({
               />
 
               {/* Clickable brand link (kept empty in your original; optional text supported) */}
-              <a
-                href={brandHref}
+                            <Link
+                to={brandHref}
                 className="relative inline-flex items-center pl-[calc(var(--logo)+14px)]"
                 aria-label={brandText || "Home"}
               >
                 {brandText ? (
                   <span className="sr-only">{brandText}</span>
                 ) : null}
-              </a>
+              </Link>
             </div>
 
             {/* Community */}
             <div className="mt-10">
               <h3 className="text-2xl font-semibold text-white">
-                <a
-                  href=".#/stories"
+                                <Link
+                  to="/stories"
                   className="underline-offset-4 hover:underline focus:outline-none focus-visible:ring focus-visible:ring-white/60 rounded"
                 >
                   {commHeading}
-                </a>
+                </Link>
               </h3>
 
               <p className="mt-3 max-w-2xl text-white/80">{commBody}</p>
@@ -82,9 +83,9 @@ export default function Footer({
             <ul className="flex gap-8 md:gap-10 text-sm font-semibold text-white/90">
               {topLinks?.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="hover:text-white">
+                  <Link to={l.href} className="hover:text-white">
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -96,13 +97,13 @@ export default function Footer({
         <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
             {bottomLinks?.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
+              <Link
+                              key={l.href}
+                              to={l.href}
                 className="hover:text-white underline underline-offset-4"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
           </div>
           <p className="text-xs text-white/70">
@@ -113,3 +114,11 @@ export default function Footer({
     </footer>
   );
 }
+
+
+
+
+
+
+
+

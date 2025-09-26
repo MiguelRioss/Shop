@@ -67,14 +67,13 @@ export default function TestimonialsCarousselHero({
           </h2>
 
           {cta?.label && cta?.href && (
-            <a
-              href={cta.href}
+            <Link
+              to={cta.href}
               className="mt-4 inline-flex items-center rounded-full border border-[var(--brand)] px-6 py-2 text-[var(--brand)] font-semibold transition hover:bg-[var(--brand)] hover:text-white"
             >
               {cta.label}
-            </a>
+            </Link>
           )}
-
           {paragraphs.map((p, idx) =>
             idx === 1 ? (
               <Link
@@ -150,3 +149,5 @@ export default function TestimonialsCarousselHero({
     </section>
   );
 }
+
+

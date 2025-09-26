@@ -4,13 +4,13 @@
         "homeHref": "/",
         "logoAlt": "Ibogenics",
         "links": [
-        { "href": "/#research", "label": "Research" },
+        { "href": "/research", "label": "Research" },
         { "href": "/stories",   "label": "Stories" },
-        { "href": "/#blog",     "label": "Blog" }
+        { "href": "/blog",     "label": "Blog" }
         ],
         "showCart": true,
         "cartHref": "/cart",
-        "cta": { "show": true, "label": "Get Meso", "href": "#get" },
+        "cta": { "show": true, "label": "Get Meso", "href": "/cart" },
         "announcement": {
         "show": true,
         "text": "Experience calm on demand. Meso helps you unwind, focus, and ground yourself, anytime, anywhere."
@@ -30,7 +30,7 @@
         "overlay": { "show": true, "color": "rgba(255,255,255,0.7)" },
         "heading": "Stress relief has never been easier",
         "subheading": "Meso are gentle, plant-based drops that support a calm, centered state within the hour.",
-        "cta": { "show": true, "label": "Get Meso", "href": "#get" },
+        "cta": { "show": true, "label": "Get Meso", "href": "/cart" },
         "productImage": "/handsTA.webp",
 
         "sectionClass": "relative bg-[#f2f7fc] bg-cover bg-center overflow-hidden",
@@ -195,7 +195,7 @@
       "thumbnail": "/video_poster.jpg",
       "title": "What is Meso?"
     },
-    "cta": { "label": "Get Meso", "href": "#get" },
+    "cta": { "label": "Get Meso", "href": "/cart" },
     "heading": "How’s your nervous system doing now?",
     "subheading": "Your body has a built-in calm switch—the vagus nerve—that helps you settle after everyday stress. A simple ritual with Meso can support a more balanced, relaxed state over time.",
     "benefits": [
@@ -269,7 +269,7 @@
   },
   "caroussel": {
     "title": "Meso Stories",
-    "cta": { "label": "Get Meso", "href": "#get" },
+    "cta": { "label": "Get Meso", "href": "/cart" },
     "paragraphs": [
       "Meso cares about its community and the wider wellness space. Here’s what some of our customers are saying:",
       "Join Meso Movement"
@@ -349,16 +349,16 @@
       "body": "Not intended to diagnose, treat, cure, or prevent any disease. If pregnant, nursing, on medication, or unsure, consult a qualified professional first."
     },
     "topLinks": [
-      { "label": "Help", "href": "#help" },
+      { "label": "Help", "href": "/help" },
       { "label": "Buzz", "href": "/stories" },
-      { "label": "Affiliate", "href": "#affiliate" }
+      { "label": "Affiliate", "href": "/affiliate" }
     ],
     "bottomLinks": [
-      { "label": "Privacy Policy", "href": "#" },
-      { "label": "Returns Policy", "href": "#" },
-      { "label": "Terms of Sale", "href": "#" },
-      { "label": "Terms of Use", "href": "#" },
-      { "label": "Shipping", "href": "#" }
+      { "label": "Privacy Policy", "href": "/privacy-policy" },
+      { "label": "Returns Policy", "href": "/returns-policy" },
+      { "label": "Terms of Sale", "href": "/terms-of-sale" },
+      { "label": "Terms of Use", "href": "/terms-of-use" },
+      { "label": "Shipping", "href": "/shipping" }
     ],
     "copyrightName": "Sensate"
   },
@@ -373,3 +373,4 @@
 
 
     
+

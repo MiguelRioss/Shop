@@ -1,33 +1,32 @@
 // src/components/Hero.jsx
-import React from "react";
-import { Link } from "react-router-dom";
+import Button from "./UtilsComponent/Button";
+import { goToProducts } from "./ProductsCarrousell/utils/ScrollToCarroussel";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Hero({
   bgImage,
-  overlay,          // { show: boolean, color: string }
+  overlay, // { show: boolean, color: string }
   heading,
   subheading,
-  cta,               // { show, label, href }
+  cta, // { show, label, href }
   productImage,
-
-  // 👇 layout slots (all strings of Tailwind classes)
-  sectionClass,          // e.g. "relative bg-cover bg-center overflow-hidden"
-  containerClass,        // e.g. "relative mx-auto max-w-7xl px-6 py-20 lg:py-40"
-  gridClass,             // e.g. "grid items-center gap-10 lg:grid-cols-2 lg:pr-56"
-  textColClass,          // e.g. "space-y-6 text-center lg:text-left"
-  headingClass,          // e.g. "text-4xl sm:text-5xl font-bold leading-tight text-gray-900"
-  subheadingClass,       // e.g. "max-w-xl text-lg text-gray-700 mx-auto lg:mx-0"
-  ctaClass,              // e.g. "inline-flex items-center rounded-full px-6 py-3 text-white font-medium text-lg hover:opacity-90 transition-opacity"
-  mobileImgWrapClass,    // e.g. "mt-8 lg:hidden overflow-visible"
-  mobileImgClass,        // e.g. "ml-auto w-[78vw] sm:w-[65vw] md:w-[58vw] max-w-none object-contain mr-[-10vw] sm:mr-[-12vw] md:mr-[-14vw]"
-  desktopImgWrapClass,   // e.g. "pointer-events-none absolute bottom-6 right-0 hidden lg:block z-10"
-  desktopImgClass        // e.g. "h-[92vh] max-h-[1060px] object-contain mr-[-24px]"
+  sectionClass,
+  containerClass,
+  gridClass,
+  textColClass,
+  headingClass,
+  subheadingClass,
+  ctaClass,
+  mobileImgWrapClass,
+  mobileImgClass,
+  desktopImgWrapClass,
+  desktopImgClass,
 }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
-    <section
-      className={sectionClass}
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
+    <section className={sectionClass} style={{ backgroundImage: `url(${bgImage})` }}>
       {overlay?.show && (
         <div className="absolute inset-0" style={{ background: overlay.color }} />
       )}
@@ -37,19 +36,19 @@ export default function Hero({
           <div className={textColClass}>
             <h1 className={headingClass}>{heading}</h1>
 
-            {subheading && (
-              <p className={subheadingClass}>{subheading}</p>
-            )}
+            {subheading && <p className={subheadingClass}>{subheading}</p>}
 
             {cta?.show && (
               <div>
-                <Link
-                  to={cta.href}
+                <Button
                   className={ctaClass}
                   style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
+                  onClick={() => {
+                    goToProducts(navigate, location);
+                  }}
                 >
                   {cta.label}
-                </Link>
+                </Button>
               </div>
             )}
 
@@ -59,8 +58,7 @@ export default function Hero({
               </div>
             )}
           </div>
-
-          <div /> {/* spacer col */}
+          <div />
         </div>
       </div>
 
@@ -72,12 +70,3 @@ export default function Hero({
     </section>
   );
 }
-
-
-
-
-
-
-
-
-

@@ -10,8 +10,17 @@ import TestimonialsCarousselHero from "../components/TestimonialsCarousselHero";
 import PressCarousel from "../components/PressCarousel";
 import FAQ from "../components/FAQ";
 import ProductCarousel from "../components/ProductsCarrousell/ProductsCarousel";
-
+import ProductsGrid from "../components/ProductsCarrousell/ProductsGrid";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  scrollToTarget,
+  headerOffset,
+} from "../components/ProductsCarrousell/utils/ScrollToCarroussel.js";
+import { useEffect, useState } from "react";
+import { AnnouncementHero } from "../components/AnnoncementHero.jsx";
+import ProductViewSwitcher from "../components/ProductViewSwitcher.jsx";
 function HomePage({
+  announcement,
   hero,
   productShowcase,
   promoBanner,
@@ -22,13 +31,40 @@ function HomePage({
   pressCarousel,
   faq,
 }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const key = location.state?.scrollTo;
+    if (!key) return;
+
+    const selector = `[data-scroll="${key}"]`;
+    // run after paint so layout/height is correct
+    requestAnimationFrame(() => {
+      scrollToTarget(selector, headerOffset());
+    });
+
+    // clear state so subsequent clicks always work
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location, navigate]);
   return (
-    <div className="NavBar">
+    <div>
+      <AnnouncementHero announcement={announcement} />
       <Hero {...hero} />
-      <div className="max-w-7xl p-2 mx-auto">
-        {/* ProductCarousel WILL fill this container width */}
-        <ProductCarousel products={productShowcase.products} />
-      </div>
+      {/* ProductCarousel WILL fill this container width */}
+      <section
+        data-scroll="products"
+        className="scroll-mt-32 md:scroll-mt-40 lg:scroll-mt-48"
+      >
+        <ProductViewSwitcher
+          products={productShowcase.products}
+          Grid={ProductsGrid}
+          Carousel={ProductCarousel}
+          initial="scroll"
+          onViewChange={(mode) => console.log("view:", mode)}
+        />
+      </section>
       <PromoHeading
         heading={promoBanner.heading}
         intro={promoBanner.intro}

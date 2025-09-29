@@ -17,7 +17,7 @@
 ---
 ## TODO
 - [X] ~~*Create Stories WebPage*~~ [2025-09-08]
-- [ ] Maybe put on a database or something like that to be checking stock
+
 - Alvaro
   - [X] ~~*Check Information on the bottles to be changed*~~ [2025-09-15]
   - [X] ~~*Stripe Configuration Very carefully*~~ [2025-09-15]
@@ -40,19 +40,37 @@
   - [X] ~~*I need to garante everydata on the data base must follow the same restrict object*~~ [2025-09-26]
 - [X] ~~*https://chatgpt.com/g/g-p-68a6e20ab0c88191958f694dcc5dc007/c/68d1e2ed-4214-8321-9958-e5ce1542ce14 see this*~~ [2025-09-26] 
 
-  - [ ] Get Meso on Stories should go to the page shoping
-    - [ ] This needs to be changed, very buggy
+  - ~~*Get Meso on Stories should go to the page shoping*~~ [2025-09-27]
+    - [X] ~~*This needs to be changed, very buggy*~~ [2025-09-27]
 ## Fix Upload
   - [X] ~~*Where to upload the photos(database google?)*~~ [2025-09-22]
+   
+- [X] ~~*Make the page of products like cbd https://tabucbd.com/*~~ [2025-09-26]
+
+- [X] ~~*Make the CheckOut only ask once for the information like name , adrees , and country , I want to be on my web page because of the message to contact us*~~ [2025-09-27]
+
+- [ ] Enviriament Variable of Shopify should be private
+  
+- [ ] Maybe put on a database or something like that to be checking stock
+
+  * [ ] Need to make a display grid or scrol to left view
   - [ ] Aproval method in the reactUI of database 
     - [ ] Being able to see them on the react page fo data-base
-    - [ ] Aprove button or reject 
-- [X] ~~*Make the page of products like cbd https://tabucbd.com/*~~ [2025-09-26]
-  * [ ] Need to make a display grid or scrol to left view
-- 
+    - [ ] Aprove button or reject
 - [ ] Make better success and cancel page on the checkout
 - [ ] Atualizar o Stripe
-- [ ] Make the CheckOut only ask once for the information like name , adrees , and country , I want to be on my web page because of the message to contact us
-- [ ] How to Contact Us? Callendly
-- [ ] Enviriament Variable of Shopify should be private
-- [ ] Trust Pilot
+- [ ] Trust Pilot -> 4.3 ou autumatic
+- [ ] Try out 10 ml tester. You pust only pay the postage.
+      Contact Us.
+- [ ] Over a 1000 000 drops of meso shared.Join the facebook comunity 
+  
+- [X] ~~*Facebook icon / Instagram ->*~~ [2025-09-29] 
+- https://www.facebook.com/groups/1297206078804311/?ref=share&mibextid=wwXIfr&rdid=chIosIYShHXfOp7g&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fg%2F19xVkCF85s%2F%3Fmibextid%3DwwXIfr#
+- INSTA_tAG Meso_DOSE
+
+- [ ] Balão flutuante de shooping cart 
+- [X] ~~*FOOTER A DIZER 2025 @ COPYRIGHT*~~ [2025-09-29]
+
+
+- [X] ~~*Footer Fix!*~~ [2025-09-29] 
+- [X] ~~*Product Fix*~~ [2025-09-29] 

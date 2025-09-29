@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import CartPage from "./Pages/CartPage.jsx";
@@ -10,6 +10,7 @@ import StoriesP from "./Pages/StoriesPage.jsx";
 import CheckoutCancel from "./Pages/CheckOutCancel.jsx";
 import CheckoutSuccess from "./Pages/CheckOutSucess.jsx";
 import PlaceholderPage from "./Pages/PlaceholderPage.jsx";
+import IndvidualPageProduct from "./Pages/IndvidualPageProduct.jsx";
 
 import config from "./websiteConfig.json";
 
@@ -19,19 +20,23 @@ export default function App() {
       <Router>
         <Navbar {...config.navbar} />
         <Routes>
-          <Route path="/" 
-          element={
-          <HomePage 
-          hero={config.hero}
-          productShowcase={config.productShowcase} 
-          promoBanner={config.promoBanner} 
-          HowItWorks={config.howItWorks}
-          heroWithVideo={config.heroWithVideo}
-          threeFloatHero={config.threeFloatHero}
-          caroussel={config.caroussel}
-          pressCarousel={config.pressCarousel}
-          faq={config.faq}
-          />} />
+          <Route
+            path="/"
+            element={
+              <HomePage
+                announcement={config.announcement}
+                hero={config.hero}
+                productShowcase={config.productShowcase}
+                promoBanner={config.promoBanner}
+                HowItWorks={config.howItWorks}
+                heroWithVideo={config.heroWithVideo}
+                threeFloatHero={config.threeFloatHero}
+                caroussel={config.caroussel}
+                pressCarousel={config.pressCarousel}
+                faq={config.faq}
+              />
+            }
+          />
           <Route path="/research" element={<PlaceholderPage title="Research" message="Our research hub is coming soon." />} />
           <Route path="/blog" element={<PlaceholderPage title="Blog" message="Our latest articles are on the way." />} />
           <Route path="/help" element={<PlaceholderPage title="Help" message="Support resources are on the way." />} />
@@ -42,10 +47,11 @@ export default function App() {
           <Route path="/terms-of-use" element={<PlaceholderPage title="Terms of Use" message="Terms of use coming soon." />} />
           <Route path="/shipping" element={<PlaceholderPage title="Shipping" message="Shipping information coming soon." />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/products/:id" element={<IndvidualPageProduct products={config.productShowcase.products} />} />
           <Route path="/checkout" element={<HeroCheckout />} />
           <Route path="/stories" element={<StoriesP />} />
-            <Route path="/checkout/success" element={<CheckoutSuccess />} />
-            <Route path="/checkout/cancel" element={<CheckoutCancel />} />
+          <Route path="/checkout/success" element={<CheckoutSuccess />} />
+          <Route path="/checkout/cancel" element={<CheckoutCancel />} />
         </Routes>
         <Footer {...config.footer} />
         <CartToast />
@@ -53,6 +59,10 @@ export default function App() {
     </CartProvider>
   );
 }
+
+
+
+
 
 
 

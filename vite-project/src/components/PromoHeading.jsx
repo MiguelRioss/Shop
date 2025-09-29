@@ -2,7 +2,7 @@
 
 export default function PromoHeading({ heading, intro, imageSrc, imageAlt, wrapperClass, imageClass }) {
   return (
-    <section className={`mx-auto max-w-7xl   mb-10 sm:mb-16 ${wrapperClass || ""}`}>
+    <section className={`mx-auto max-w-7xl mt-10  mb-10 sm:mb-16 ${wrapperClass || ""}`}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 sm:gap-10">
         {/* Image block: on top on mobile, right on desktop/tablet */}
         <div className="order-1 sm:order-2 mt-2 m-5 sm:mt-0 sm:flex-shrink-0">

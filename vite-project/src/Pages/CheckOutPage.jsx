@@ -2,6 +2,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext.jsx";
+import Button from "../components/UtilsComponent/Button.jsx";
 
 // For local PHP built-in server: php -S localhost:8000 -t public
 // In production, replace with your real domain path to the PHP file
@@ -295,6 +296,8 @@ export default function   CheckoutPage() {
                     <p className="text-sm text-gray-500 mb-2">
                       If you don’t see your location listed, send us a quick
                       message and we’ll try to sort it out.
+
+                      Contact US
                     </p>
 
                     <select
@@ -323,23 +326,18 @@ export default function   CheckoutPage() {
 
               {/* Actions */}
               <div className="flex items-center gap-3">
-                <button
+                <Button
                   type="submit"
                   disabled={submitting || !items?.length}
-                  className={`px-5 py-3 rounded-lg text-white font-semibold ${
+                  className={`px-5 py-3 rounded-lg text-base font-semibold disabled:bg-gray-300 disabled:opacity-70 disabled:cursor-not-allowed ${submitting || !items?.length ? "opacity-70 cursor-not-allowed" : ""}`}
+                  style={
                     submitting || !items?.length
-                      ? "bg-gray-300 cursor-not-allowed"
-                      : ""
-                  }`}
-                  style={{
-                    background:
-                      submitting || !items?.length
-                        ? undefined
-                        : "linear-gradient(to right, var(--brand-from), var(--brand-to))",
-                  }}
+                      ? undefined
+                      : { background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }
+                  }
                 >
                   {submitting ? "Creating..." : "Create Order"}
-                </button>
+                </Button>
                 <Link
                   to="/cart"
                   className="text-sm text-gray-600 hover:underline"
@@ -414,3 +412,4 @@ export default function   CheckoutPage() {
     </section>
   );
 }
+

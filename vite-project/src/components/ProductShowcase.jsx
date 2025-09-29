@@ -1,5 +1,6 @@
 import React from "react";
 import { useCart } from "../components/CartContext.jsx";
+import Button from "./UtilsComponent/Button.jsx";
 
 export default function ProductShowcase({
   products, // array of products
@@ -122,17 +123,14 @@ export default function ProductShowcase({
             </div>
 
             <div className="mt-3">
-              <button
+              <Button
                 onClick={() => current && addItem(current, 1)}
-                className="w-full sm:w-auto rounded-full px-8 py-3 text-base font-semibold text-white shadow hover:opacity-90"
-                style={{
-                  background:
-                    "linear-gradient(to right, var(--brand-from), var(--brand-to))",
-                }}
+                className="w-full sm:w-auto px-8 py-3 text-base font-semibold disabled:cursor-not-allowed"
+                style={current ? { background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" } : undefined}
                 disabled={!current}
               >
                 Add to Cart
-              </button>
+              </Button>
             </div>
 
             {/* Structured sections */}
@@ -229,3 +227,5 @@ function Details({ title, children, defaultOpen = false }) {
     </details>
   );
 }
+
+

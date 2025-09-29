@@ -1,5 +1,4 @@
 // src/components/HeroWithVideo.jsx
-import React from "react";
 import { Link } from "react-router-dom";
 import YouTubeWithThumbnail from "./YouTubeWithThumbnail.jsx";
 
@@ -73,5 +72,7 @@ export default function HeroWithVideo({
     </section>
   );
 }
+
+
 
 

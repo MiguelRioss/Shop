@@ -31,7 +31,7 @@
 }
 .pc-arrow:hover {
   box-shadow: 0 10px 30px rgba(195, 204, 255, 0.14);
-  transform: translateY(-50%) scale(1.02);
+  transform: scale(1.02);
 }
 
 /* Active / hovered pagination dot uses brand-to */

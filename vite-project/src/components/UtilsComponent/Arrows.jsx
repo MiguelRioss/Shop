@@ -1,50 +1,48 @@
 // src/components/Arrow.jsx
 import React from "react";
+import Button from "./Button.jsx";
 
 /**
- * Arrow - presentational arrow button with built-in size / styling.
+ * Arrow - presentational arrow button built on shared <Button>.
  *
  * Props:
- *  - dir: "prev" | "next"         (glyph + aria)
+ *  - dir: "prev" | "next"
  *  - onClick: function
- *  - variant: "desktop" | "mobile"  (controls built-in size / colors)
- *  - posClass: string              (ONLY positioning classes from the caller, e.g. "absolute left-2 top-1/2 -translate-y-1/2")
- *  - className: string             (extra classes that will be appended)
- *
- * Note: keep positioning out of built-in styles — pass it via posClass so caller controls placement.
+ *  - variant: "desktop" | "mobile"
+ *  - posClass: string (positioning only)
+ *  - className: string (extra classes)
  */
 export default function Arrow({
   dir = "prev",
   onClick = () => {},
   variant = "desktop",
-  posClass = "",     // only positioning (left/right/top/translate)
-  className = "",    // optional extra classes
+  posClass = "",
+  className = "",
 }) {
   const isPrev = dir === "prev";
-  const glyph = isPrev ? "‹" : "›";
+  const glyph = isPrev ? "�" : "�";
   const aria = isPrev ? "Previous" : "Next";
 
-  // Built-in visual classes (size, border, color, hover). Caller must supply positioning via posClass.
-  const builtin =
+  // visual baseline (use pc-arrow for global CSS hooks)
+  const visual =
     variant === "desktop"
-      ? // desktop: hidden on xs, visible sm+ (keeps previous desktop appearance)
-        "hidden sm:inline-flex h-10 w-10 text-[var(--brand)] items-center justify-center rounded-full border border-[var(--brand)] shadow-md hover:bg-[var(--brand)] hover:text-white"
-      : // mobile: visible on xs only (sm:hidden), smaller size, solid brand background
-        "inline-flex sm:hidden h-8 w-8 items-center justify-center rounded-full bg-[var(--brand)] text-white shadow-md";
+      ? "hidden sm:inline-flex h-10 w-10 p-0 items-center justify-center rounded-full pc-arrow border text-[var(--brand)] hover:bg-[var(--brand)] hover:text-white shadow-md"
+      : "inline-flex sm:hidden h-8 w-8 p-0 items-center justify-center rounded-full pc-arrow bg-[var(--brand)] text-white shadow-md";
 
-  // final class: positioning (posClass) + builtin visual + any extra
-  const finalClass = `${posClass} ${builtin} ${className}`.trim();
+  const finalClass = `${posClass} ${visual} ${className}`.trim();
 
   return (
-    <button
+    <Button
       type="button"
-      aria-label={aria}
+      justify="center"
       onClick={onClick}
       className={finalClass}
+      aria-label={aria}
+      style={{}}
     >
       <span aria-hidden style={{ lineHeight: 1, fontSize: variant === "desktop" ? 20 : 16 }}>
         {glyph}
       </span>
-    </button>
+    </Button>
   );
 }

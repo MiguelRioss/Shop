@@ -106,19 +106,7 @@ export default function PressCarousel({
           ))}
         </div>
 
-        {/* Dots */}
-        <div className="mt-8 flex justify-center gap-2">
-          {items.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setI(idx)}
-              aria-label={`Go to ${idx + 1}`}
-              className={`h-2.5 rounded-full transition-all ${
-                i === idx ? "w-6 bg-[var(--brand)]" : "w-2.5 bg-black/20"
-              }`}
-            />
-          ))}
-        </div>
+    
       </div>
     </section>
   );

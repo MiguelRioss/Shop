@@ -1,5 +1,6 @@
 import { useCart } from "../components/CartContext.jsx";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/UtilsComponent/Button.jsx";
 
 export default function Cart() {
   const { items, setQty, removeItem, subtotal } = useCart();
@@ -111,16 +112,17 @@ export default function Cart() {
               <span className="text-gray-600">Subtotal</span>
               <span className="font-semibold">{fmt(subtotal)}</span>
             </div>
-            <button
-              className="w-full bg-var hover:bg-orange-600 text-white font-semibold py-3 sm:py-3.5 rounded-lg mt-4"
+            <Button
+              className="w-full mt-4 py-3 sm:py-3.5 text-base font-semibold"
               style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
               onClick={() => navigate("/checkout")}
             >
               Checkout
-            </button>
+            </Button>
           </aside>
         </div>
       </div>
     </section>
   );
 }
+

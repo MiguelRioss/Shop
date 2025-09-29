@@ -75,7 +75,8 @@ export default function ProductCard({
   return (
     <article
       className="
-    w-[clamp(15rem,20vw,18rem)]
+    product-card-root
+    w-[clamp(14rem,20vw,17rem)]
     min-h-[clamp(34rem,58vh,40rem)]
     bg-white rounded-2xl shadow-lg overflow-hidden mx-auto
     border border-[var(--brand-from)]
@@ -117,8 +118,8 @@ export default function ProductCard({
           </Button>
           <Link
             to={`/products/${product.id}`}
-            className="w-full h-12 inline-flex items-center justify-center rounded-full border-2 text-black font-semibold transition-transform active:scale-95"
-            onClick={() => setOpen(false)}
+            className="w-full h-12 inline-flex items-center justify-center rounded-full border-2 border-[var(--brand-from)] text-[var(--brand-from)] bg-white font-semibold transition-colors transition-transform hover:bg-[var(--brand)] hover:text-white active:scale-95"
+            onClick={() => window.scroll({ top: 0, behavior: 'smooth' })}
           >
             Learn More
           </Link>

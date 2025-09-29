@@ -35,7 +35,8 @@ export default function ProductsGrid({ products = [] }) {
               </Button>
               <Link
                 to={`/products/${p.id}`}
-                className="w-full h-10 inline-flex items-center justify-center rounded-full border-2 text-black font-semibold text-xs sm:text-sm min-w-0 px-3 sm:px-4 whitespace-nowrap"
+                className="w-full h-10 inline-flex items-center justify-center rounded-full border-2 border-[var(--brand-from)] text-[var(--brand-from)] bg-white font-semibold text-xs sm:text-sm min-w-0 px-3 sm:px-4 whitespace-nowrap transition-colors hover:bg-[var(--brand)] hover:text-white"
+                onClick={() => window.scroll({ top: 0, behavior: 'smooth' })}
               >
                 Learn More
               </Link>

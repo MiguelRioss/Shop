@@ -20,14 +20,16 @@ export default function Arrow({
   className = "",
 }) {
   const isPrev = dir === "prev";
-  const glyph = isPrev ? "�" : "�";
+  // Use safe ASCII glyphs to avoid encoding issues
+  const glyph = isPrev ? "<" : ">";
   const aria = isPrev ? "Previous" : "Next";
 
   // visual baseline (use pc-arrow for global CSS hooks)
+  // Use !-modifiers so Tailwind utilities override Button base display/padding
   const visual =
     variant === "desktop"
-      ? "hidden sm:inline-flex h-10 w-10 p-0 items-center justify-center rounded-full pc-arrow border text-[var(--brand)] hover:bg-[var(--brand)] hover:text-white shadow-md"
-      : "inline-flex sm:hidden h-8 w-8 p-0 items-center justify-center rounded-full pc-arrow bg-[var(--brand)] text-white shadow-md";
+      ? "!hidden sm:!inline-flex !h-10 !w-10 !p-0 items-center justify-center rounded-full pc-arrow border !text-[var(--brand)] hover:bg-[var(--brand)] hover:!text-white shadow-md"
+      : "!inline-flex sm:!hidden !h-8 !w-8 !p-0 items-center justify-center rounded-full pc-arrow !bg-[var(--brand)] !text-white shadow-md";
 
   const finalClass = `${posClass} ${visual} ${className}`.trim();
 
@@ -46,3 +48,4 @@ export default function Arrow({
     </Button>
   );
 }
+

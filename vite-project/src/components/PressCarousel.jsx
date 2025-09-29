@@ -33,6 +33,7 @@ export default function PressCarousel({
     if (!count) return [];
     return Array.from({ length: itemsPerView }, (_, k) => {
       const idx = (i + k) % count;
+      // Keep a stable key per underlying item index to avoid unnecessary remounts
       return { ...items[idx], _key: idx };
     });
   }, [i, count, items, itemsPerView]);
@@ -45,6 +46,25 @@ export default function PressCarousel({
   }, [autoPlay, intervalMs, paused, count]);
 
   if (!count) return null;
+
+  // Preload all logo images once to avoid repeated network fetches when slides rotate
+  useEffect(() => {
+    const urls = items.map((it) => it.logo).filter(Boolean);
+    const imgs = urls.map((src) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.referrerPolicy = "no-referrer";
+      img.src = src;
+      return img;
+    });
+    return () => {
+      // help GC in some browsers
+      imgs.forEach((img) => {
+        img.onload = null;
+        img.onerror = null;
+      });
+    };
+  }, [items]);
 
   return (
     <section className="bg-white">
@@ -100,6 +120,16 @@ export default function PressCarousel({
                 className="mb-4 h-12 object-contain"
                 loading="lazy"
                 decoding="async"
+                width={160}
+                height={48}
+                onError={(e) => {
+                  // Fallback to a small inline SVG placeholder to avoid broken image icon
+                  const svg = encodeURIComponent(
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="160" height="48" viewBox="0 0 160 48">\n  <rect width="160" height="48" fill="%23E5E7EB"/>\n  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%239CA3AF" font-family="Arial,Helvetica,sans-serif" font-size="12">Press</text>\n</svg>'
+                  );
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = `data:image/svg+xml;charset=utf-8,${svg}`;
+                }}
               />
               <p className="italic text-gray-700">“{item.quote}”</p>
             </article>

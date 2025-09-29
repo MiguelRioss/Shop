@@ -20,6 +20,8 @@ export default function Navbar({
   gradientTo,
   logoClass,
   logoOffsetClass,
+  useLogoOverlay,
+  logoOverlayClass,
 }) {
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
@@ -42,17 +44,32 @@ export default function Navbar({
                 draggable="false"
                 decoding="async"
               />
-              {/* Smaller clickable overlay centered over the logo */}
-              <Link
-                to={homeHref}
-                onClick={() => window.scroll({ top: 0, behavior: "smooth" })}
-                aria-label="Home"
-                title="Home"
-                className="absolute top-2 left-1/2 -translate-x-1/2 h-10 w-24 md:h-12 md:w-36 cursor-pointer z-10"
-                style={{ outline: 'none' }}
-              >
-                <span className="sr-only">Home</span>
-              </Link>
+              {(useLogoOverlay ?? true) ? (
+                <Link
+                  to={homeHref}
+                  onClick={() => window.scroll({ top: 0, behavior: "smooth" })}
+                  aria-label="Home"
+                  title="Home"
+                  className={
+                    logoOverlayClass ||
+                    "absolute top-1 left-1/2 -translate-x-1/2 h-10 w-36 sm:h-12 sm:w-44 md:h-14 md:w-56 cursor-pointer z-10"
+                  }
+                  style={{ outline: 'none' }}
+                >
+                  <span className="sr-only">Home</span>
+                </Link>
+              ) : (
+                <Link
+                  to={homeHref}
+                  onClick={() => window.scroll({ top: 0, behavior: "smooth" })}
+                  aria-label="Home"
+                  title="Home"
+                  className="inline-block cursor-pointer z-10"
+                  style={{ outline: 'none' }}
+                >
+                  <span className="sr-only">Home</span>
+                </Link>
+              )}
             </div>
             {/* Center: Links (desktop) */}
             <ul className="hidden md:flex items-center gap-8 text-sm">
@@ -61,7 +78,7 @@ export default function Navbar({
                   <li key={l.href}>
                     <Link
                       to={l.href}
-                      onClick={window.scroll({
+                      onClick={() => window.scroll({
                         top: 0,
                         behavior: "smooth",
                       })}
@@ -78,7 +95,7 @@ export default function Navbar({
             <div className="hidden md:flex items-center gap-3">
               <Link
                 to={cartHref}
-                onClick={window.scroll({
+                onClick={() => window.scroll({
                   top: 0,
                   behavior: "smooth",
                 })}

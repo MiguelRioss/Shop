@@ -37,11 +37,11 @@ export default function ProductViewSwitcher({
 
   return (
     <div>
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 mb-6 mt-2 flex justify-center">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 mb-6 mt-2 flex justify-center relative z-40 isolate">
         <div
           role="radiogroup"
           aria-labelledby={`${groupId}-label`}
-          className="inline-flex rounded-full p-[2px] shadow-sm"
+          className="inline-flex rounded-full p-[2px] shadow-sm select-none pointer-events-auto"
           style={{ background: "var(--brand-gradient)" }}
           onKeyDown={onKeyDown}
         >
@@ -52,22 +52,28 @@ export default function ProductViewSwitcher({
 
             {options.map((opt) => {
               const active = viewMode === opt.value;
+              const inputId = `${groupId}-${opt.value}`;
               return (
-                <button
+                <label
                   key={opt.value}
-                  role="radio"
-                  aria-checked={active}
-                  className="px-3 py-1.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-black/10"
-                  onClick={() => update(opt.value)}
-                  type="button"
+                  htmlFor={inputId}
+                  className="px-3 py-1.5 text-sm cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-black/10"
                   style={
                     active
-                      ? { background: "var(--brand-gradient)", color: "#fff" }
-                      : { color: "var(--brand-from)" }
+                      ? { background: "var(--brand-gradient)", color: "#fff", touchAction: "manipulation" }
+                      : { color: "var(--brand-from)", touchAction: "manipulation" }
                   }
                 >
+                  <input
+                    id={inputId}
+                    type="radio"
+                    name={groupId}
+                    className="sr-only"
+                    checked={active}
+                    onChange={() => update(opt.value)}
+                  />
                   {opt.label}
-                </button>
+                </label>
               );
             })}
           </div>

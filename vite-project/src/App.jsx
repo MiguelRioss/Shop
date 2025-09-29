@@ -5,6 +5,8 @@ import CartPage from "./Pages/CartPage.jsx";
 import Footer from "./components/Footer.jsx";
 import { CartProvider } from "./components/CartContext.jsx";
 import CartToast from "./components/CartToast.jsx";
+import MobileCartFab from "./components/MobileCartFab.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import HeroCheckout from "./Pages/CheckOutPage.jsx";
 import StoriesP from "./Pages/StoriesPage.jsx";
 import CheckoutCancel from "./Pages/CheckOutCancel.jsx";
@@ -18,6 +20,7 @@ export default function App() {
   return (
     <CartProvider>
       <Router>
+        <ScrollToTop />
         <Navbar {...config.navbar} />
         <Routes>
           <Route
@@ -49,18 +52,17 @@ export default function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/products/:id" element={<IndvidualPageProduct products={config.productShowcase.products} />} />
           <Route path="/checkout" element={<HeroCheckout />} />
-          <Route path="/stories" element={<StoriesP />} />
+          <Route path="/mesobuzz" element={<StoriesP />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/checkout/cancel" element={<CheckoutCancel />} />
         </Routes>
         <Footer {...config.footer} />
         <CartToast />
+        <MobileCartFab />
       </Router>
     </CartProvider>
   );
 }
-
-
 
 
 

@@ -169,7 +169,7 @@ export default function ProductCarousel({
     <div  className="max-w-7xl p-2 mx-auto">
       <div ref={outerRef} className={`pc-outer w-full ${className || ""}`}>
         <div
-          className="product-carousel relative overflow-hidden p-0"
+          className="product-carousel relative z-0 overflow-hidden p-0"
           aria-roledescription="carousel"
           style={{
             "--gap": gap,

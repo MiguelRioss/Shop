@@ -79,3 +79,14 @@
   .pc-arrow:hover { box-shadow: 0 12px 36px rgba(195,204,255,0.18); }
 }
 
+/* Global: prevent horizontal scrollbars from accidental overflows */
+html, body, #root {
+  max-width: 100%;
+  overflow-x: clip; /* hide minor 1px overflows on mobile */
+}
+
+/* Ensure long inline content doesn't force overflow in flex/grid children */
+*, *::before, *::after {
+  min-width: 0;
+}
+

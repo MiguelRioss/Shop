@@ -23,7 +23,7 @@ export default function Footer({
   const { heading: discHeading, body: discBody } = disclaimer;
 
   return (
-    <footer className="bg-[#1f1f1f] text-white/90">
+    <footer id="site-footer" role="contentinfo" className="bg-[#1f1f1f] text-white/90" style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 16px)" }}>
       <div className="mx-auto max-w-7xl px-6 py-14">
         <div className="grid gap-10 md:grid-cols-12 md:items-start">
           {/* Left: Logo + community blurb + socials */}
@@ -52,12 +52,30 @@ export default function Footer({
 
             <div className="mt-10">
               <h3 className="text-2xl font-semibold text-white">
-                <Link
-                  to="/stories"
-                  className="rounded underline-offset-4 hover:underline focus:outline-none focus-visible:ring focus-visible:ring-white/60"
-                >
-                  {commHeading}
-                </Link>
+                {(() => {
+                  const fb = (socialLinks || []).find(
+                    (s) => String(s?.label || "").toLowerCase() === "facebook"
+                  );
+                  const href = fb?.href || "/mesobuzz";
+                  const isExternal = /^https?:\/\//i.test(href);
+                  return isExternal ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded underline-offset-4 hover:underline focus:outline-none focus-visible:ring focus-visible:ring-white/60"
+                    >
+                      {commHeading}
+                    </a>
+                  ) : (
+                    <Link
+                      to={href}
+                      className="rounded underline-offset-4 hover:underline focus:outline-none focus-visible:ring focus-visible:ring-white/60"
+                    >
+                      {commHeading}
+                    </Link>
+                  );
+                })()}
               </h3>
 
               {commBody ? <p className="mt-3 max-w-2xl text-white/80">{commBody}</p> : null}
@@ -128,4 +146,3 @@ export default function Footer({
     </footer>
   );
 }
-

@@ -1,6 +1,7 @@
 // src/components/CarouselsHero.jsx
 import React from "react";
-import { Link } from "react-router-dom"; // <-- FIXED
+import { Link, useLocation, useNavigate } from "react-router-dom"; // <-- FIXED
+import { goToProducts } from "./ProductsCarrousell/utils/ScrollToCarroussel";
 import Arrow from "./UtilsComponent/Arrows.jsx";
 
 export default function TestimonialsCarousselHero({
@@ -12,6 +13,8 @@ export default function TestimonialsCarousselHero({
   autoPlay = true,
   intervalMs = 6000,
 }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [i, setI] = React.useState(0);
   const count = items.length;
   const wrap = (n) => (count ? (n + count) % count : 0);
@@ -66,26 +69,28 @@ export default function TestimonialsCarousselHero({
             {title}
           </h2>
 
-          {cta?.label && cta?.href && (
-            <Link
-              to={cta.href}
+          {cta?.label && (
+            <button
+              type="button"
+              onClick={() => goToProducts(navigate, location)}
               className="mt-4 inline-flex items-center rounded-full border border-[var(--brand)] px-6 py-2 text-[var(--brand)] font-semibold transition hover:bg-[var(--brand)] hover:text-white"
             >
               {cta.label}
-            </Link>
+            </button>
           )}
           {paragraphs.map((p, idx) =>
             idx === 1 ? (
-              <Link
-                key={`para-${idx}`} // <-- key on the outer element
-                to="/stories" // <-- your requested link
-                className="group block"
-                aria-label="Read our stories"
+              <a
+                key={`para-${idx}`}
+                href="https://www.facebook.com/groups/1297206078804311/?ref=share&mibextid=wwXIfr&rdid=chIosIYShHXfOp7g&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fg%2F19xVkCF85s%2F%3Fmibextid%3DwwXIfr#"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-flex items-center rounded-full px-6 py-2 mt-5 text-white font-semibold hover:opacity-90 transition-opacity"
+                style={{ background: "var(--brand-gradient)" }}
+                aria-label="Join Meso Movement on Facebook"
               >
-                <p className="mx-auto mt-5 max-w-3xl text-gray-700 underline-offset-4 group-hover:underline">
-                  {p}
-                </p>
-              </Link>
+                {p}
+              </a>
             ) : (
               <p
                 key={`para-${idx}`}

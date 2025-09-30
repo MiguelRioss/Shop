@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Button from "./UtilsComponent/Button.jsx";
 
 export default function ProductShowcase({
@@ -118,7 +118,7 @@ export default function ProductShowcase({
                 <circle cx="10" cy="20" r="1.5" fill="currentColor" />
                 <circle cx="17" cy="20" r="1.5" fill="currentColor" />
               </svg>
-              €{current?.price}
+              â‚¬{current?.price}
             </div>
 
             <div className="mt-3">
@@ -146,27 +146,27 @@ export default function ProductShowcase({
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-gray-500">—</p>
+                  <p className="text-gray-500">â€”</p>
                 )}
               </Details>
 
               <Details title="Chakra Connection">
-                <p className="text-gray-700">{current?.chakra || "—"}</p>
+                <p className="text-gray-700">{current?.chakra || "â€”"}</p>
               </Details>
 
               <Details title="Usage Guidelines">
                 <ul className="list-disc pl-5 space-y-1 text-gray-700">
-                  {usageDefault.map((x, i) => (
+                  { (current?.usage?.length ? current.usage : usageDefault).map((x, i) => (
                     <li key={i}>{x}</li>
-                  ))}
+                  )) }
                 </ul>
               </Details>
 
               <Details title="Warnings">
                 <ul className="list-disc pl-5 space-y-1 text-gray-700">
-                  {warningsDefault.map((x, i) => (
+                  { (current?.warnings?.length ? current.warnings : warningsDefault).map((x, i) => (
                     <li key={i}>{x}</li>
-                  ))}
+                  )) }
                 </ul>
               </Details>
             </div>
@@ -178,7 +178,7 @@ export default function ProductShowcase({
                 style={{ color: "var(--brand)" }}
               >
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
-                  ★
+                  â˜…
                 </span>
                 Over 5k 5-Stars Reviews
               </div>
@@ -187,7 +187,7 @@ export default function ProductShowcase({
                 style={{ color: "var(--brand)" }}
               >
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
-                  ↺
+                  â†º
                 </span>
                 Try it Free for 90 Days
               </div>
@@ -196,7 +196,7 @@ export default function ProductShowcase({
                 style={{ color: "var(--brand)" }}
               >
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
-                  ✓
+                  âœ“
                 </span>
                 Pay Installments
               </div>
@@ -219,12 +219,14 @@ function Details({ title, children, defaultOpen = false }) {
       <summary className="flex cursor-pointer list-none items-center justify-between">
         <span className="font-semibold text-gray-900">{title}</span>
         <span className="ml-4 transition-transform group-open:rotate-180">
-          ⌄
+          âŒ„
         </span>
       </summary>
       <div className="mt-3 text-sm leading-relaxed">{children}</div>
     </details>
   );
 }
+
+
 
 

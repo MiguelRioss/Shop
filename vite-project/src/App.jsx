@@ -16,6 +16,7 @@ import ContactPage from "./Pages/ContactPage.jsx";
 import IndvidualPageProduct from "./Pages/IndvidualPageProduct.jsx";
 import LegalPage from"./Pages/LegalPage.jsx"
 import config from "./websiteConfig.json";
+import FounderLetterPage from "./Pages/FounderLetterPage.jsx";
 
 export default function App() {
   return (
@@ -54,6 +55,7 @@ export default function App() {
           <Route path="/checkout/cancel" element={<CheckoutCancel />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/mesoconnect" element={<ContactPage />} />
+          <Route path="/mesostorie" element={<FounderLetterPage letter= {config.founderLetter} />} />
         </Routes>
         <Footer {...config.footer} />
         <CartToast />

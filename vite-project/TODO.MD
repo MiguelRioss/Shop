@@ -60,14 +60,23 @@
 - [X] ~~*Footer Fix!*~~ [2025-09-29] 
 - [X] ~~*Product Fix*~~ [2025-09-29] 
 
-- [ ] Atualizar o Stripe
-- [ ] Trust Pilot -> 4.3 ou autumatic
-- [ ] Try out 10 ml tester. You pust only pay the postage.
-      Contact Us.
-- [ ] Over a 1000 000 drops of meso shared.Join the facebook comunity 
+
 - [X] ~~*Mudar o footer*~~ [2025-09-30]
   - [X] ~~*Adicionar hover message*~~ [2025-09-30]
 - [X] ~~*Uma unica pagina privacy policy*~~ [2025-09-30] 
+
+
+
+- [X] ~~*Trust Pilot -> 4.3 ou autumatic*~~ [2025-09-30]
+- [X] ~~*Try out 10 ml tester. You pust only pay the postage.*~~ [2025-09-30]
+      Contact Us.
+- [X] ~~*Over a 1000 000 drops of meso shared.Join the facebook comunity*~~ [2025-09-30] 
+
+
+
+- [ ] Atualizar o Stripe
+
+
 
 - [ ] Enviriament Variable of Shopify should be private
   

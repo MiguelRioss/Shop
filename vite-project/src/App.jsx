@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+﻿import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import CartPage from "./Pages/CartPage.jsx";
@@ -12,6 +12,7 @@ import StoriesP from "./Pages/StoriesPage.jsx";
 import CheckoutCancel from "./Pages/CheckOutCancel.jsx";
 import CheckoutSuccess from "./Pages/CheckOutSucess.jsx";
 import PlaceholderPage from "./Pages/PlaceholderPage.jsx";
+import ContactPage from "./Pages/ContactPage.jsx";
 import IndvidualPageProduct from "./Pages/IndvidualPageProduct.jsx";
 import LegalPage from"./Pages/LegalPage.jsx"
 import config from "./websiteConfig.json";
@@ -51,6 +52,8 @@ export default function App() {
           <Route path="/mesobuzz" element={<StoriesP />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/checkout/cancel" element={<CheckoutCancel />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/mesoconnect" element={<ContactPage />} />
         </Routes>
         <Footer {...config.footer} />
         <CartToast />
@@ -59,6 +62,12 @@ export default function App() {
     </CartProvider>
   );
 }
+
+
+
+
+
+
 
 
 

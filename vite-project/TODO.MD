@@ -81,3 +81,6 @@
     - [ ] Being able to see them on the react page fo data-base
     - [ ] Aprove button or reject
 - [ ] Make better success and cancel page on the checkout
+
+
+"Country missing at checkout? We'll help"

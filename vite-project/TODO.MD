@@ -30,11 +30,8 @@
   - [X] ~~*Join the meso movemnt should go to the stories page*~~ [2025-09-22]
   - [X] ~~*Fotter should have more margin on text*~~ [2025-09-22]
   - [X] ~~*Text about inqueiry on the listing of the products*~~ [2025-09-22]
-  - Put the button As well on utilsComponent As shared COmponent to reuse everywhere
-  - [ ] Dont Fell Very trusty on site with some tailwinds in the config
-    - [ ] See if that is a problem and if it is change it to page it self 
-    - [ ] Template will only apply on the text and images
-  - [ ] 
+  - [X] ~~*Put the button As well on utilsComponent As shared COmponent to reuse everywhere*~~ [2025-09-30]
+
 - [X] ~~*Create test on base de dados, where all the data inserted must follow a contract*~~ [2025-09-26] 
   - [X] ~~*The data are being added in two diferent forms*~~ [2025-09-26]
   - [X] ~~*I need to garante everydata on the data base must follow the same restrict object*~~ [2025-09-26]
@@ -49,28 +46,38 @@
 
 - [X] ~~*Make the CheckOut only ask once for the information like name , adrees , and country , I want to be on my web page because of the message to contact us*~~ [2025-09-27]
 
-- [ ] Enviriament Variable of Shopify should be private
-  
-- [ ] Maybe put on a database or something like that to be checking stock
 
-  * [ ] Need to make a display grid or scrol to left view
-  - [ ] Aproval method in the reactUI of database 
-    - [ ] Being able to see them on the react page fo data-base
-    - [ ] Aprove button or reject
-- [ ] Make better success and cancel page on the checkout
-- [ ] Atualizar o Stripe
-- [ ] Trust Pilot -> 4.3 ou autumatic
-- [ ] Try out 10 ml tester. You pust only pay the postage.
-      Contact Us.
-- [ ] Over a 1000 000 drops of meso shared.Join the facebook comunity 
-  
+  * [X] ~~*Need to make a display grid or scrol to left view*~~ [2025-09-30]
+
 - [X] ~~*Facebook icon / Instagram ->*~~ [2025-09-29] 
 - https://www.facebook.com/groups/1297206078804311/?ref=share&mibextid=wwXIfr&rdid=chIosIYShHXfOp7g&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fg%2F19xVkCF85s%2F%3Fmibextid%3DwwXIfr#
 - INSTA_tAG Meso_DOSE
 
-- [ ] Balão flutuante de shooping cart 
+- [X] ~~*Balão flutuante de shooping cart*~~ [2025-09-30] 
 - [X] ~~*FOOTER A DIZER 2025 @ COPYRIGHT*~~ [2025-09-29]
 
 
 - [X] ~~*Footer Fix!*~~ [2025-09-29] 
 - [X] ~~*Product Fix*~~ [2025-09-29] 
+
+- [ ] Atualizar o Stripe
+- [ ] Trust Pilot -> 4.3 ou autumatic
+- [ ] Try out 10 ml tester. You pust only pay the postage.
+      Contact Us.
+- [ ] Over a 1000 000 drops of meso shared.Join the facebook comunity 
+- [X] ~~*Mudar o footer*~~ [2025-09-30]
+  - [X] ~~*Adicionar hover message*~~ [2025-09-30]
+- [X] ~~*Uma unica pagina privacy policy*~~ [2025-09-30] 
+
+- [ ] Enviriament Variable of Shopify should be private
+  
+- [ ] Maybe put on a database or something like that to be checking stock
+
+
+
+## non priorty 
+  - [ ] MesoBuzzPage
+  - [ ] Aproval method in the reactUI of database 
+    - [ ] Being able to see them on the react page fo data-base
+    - [ ] Aprove button or reject
+- [ ] Make better success and cancel page on the checkout

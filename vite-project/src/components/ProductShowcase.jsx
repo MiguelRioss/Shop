@@ -1,5 +1,4 @@
 import React from "react";
-import { useCart } from "../components/CartContext.jsx";
 import Button from "./UtilsComponent/Button.jsx";
 
 export default function ProductShowcase({

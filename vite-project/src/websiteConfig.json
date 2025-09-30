@@ -1,4 +1,4 @@
-{
+﻿{
   "navbar": {
     "logoSrc": "/logo.png",
     "homeHref": "/",
@@ -11,9 +11,8 @@
       {
         "href": "/Mesoblog",
         "label": "MesoBlog"
-      }
-
-      ,{
+      },
+      {
         "href": "/contact",
         "label": "MesoConnect"
       }
@@ -133,7 +132,7 @@
           "Contains alcohol"
         ],
         "description": "The gentlest personality—supportive, soft entry into meso-dosing.",
-        "image": "/TANIA.webp",
+        "image": "  ebp",
         "thumb": "/TANIA.webp",
         "overview": "TANIA is the gentlest personality in the collection — a Botanical Concentrate Formula for those seeking a soft, approachable entry point into meso-dosing.",
         "benefits": [
@@ -445,8 +444,12 @@
     "brandText": "Meso",
     "community": {
       "heading": "Join the Meso Movement.",
-      "body": "We’re building a space for people who believe in balance, presence, and steady growth. Share your journey, from unboxing moments to personal reflections, to deeper personal insights and breakthroughs, and connect with others walking the same path.",
-      "socialsBlurb": "Tag us, send your story, and be part of a community shaping the future of mindful practices."
+      "body": "We’re building a community for balance, presence, and steady growth — and we’d love you to be part of it. Here’s how you can join in:",
+      "socialsBlurb": [
+        "MesoBuzz (on our website): Share your unboxing moments, photos, and videos of your Meso experience.",
+        "Mesodose Community (on Facebook): Connect with others on the path, exchange reflections, and support each other’s journeys.",
+        "Instagram: Tag us in your posts and stories to help spread the word and inspire more people to discover mesodosing."
+      ]
     },
     "disclaimer": {
       "heading": "General wellness product. Not medical advice.",
@@ -469,39 +472,426 @@
     "bottomLinks": [
       {
         "label": "Privacy Policy",
-        "href": "/privacy-policy"
+        "href": "/legal#privacy-policy"
       },
       {
         "label": "Returns Policy",
-        "href": "/returns-policy"
+        "href": "/legal#returns-policy"
       },
       {
         "label": "Terms of Sale",
-        "href": "/terms-of-sale"
+        "href": "/legal#terms-of-sale"
       },
       {
         "label": "Terms of Use",
-        "href": "/terms-of-use"
+        "href": "/legal#terms-of-use"
       },
       {
         "label": "Shipping",
-        "href": "/shipping"
+        "href": "/legal#shipping-policy"
       }
     ],
     "copyrightName": "Mesodose",
     "socialLinks": [
       {
+        "label": "Globe",
+        "href": "./mesobuzz",
+        "message": "Visit"
+      },
+      {
         "label": "Facebook",
-        "href": "https://www.facebook.com/groups/1297206078804311/"
+        "href": "https://www.facebook.com/groups/1297206078804311/",
+        "message": "Visit"
       },
       {
         "label": "Instagram",
-        "href": "https://www.instagram.com/meso_dose/"
+        "href": "https://www.instagram.com/meso_dose/",
+        "message": "Visit"
       }
     ]
   },
   "promoHeading": {
     "src": "/drops.webp",
     "alt": "Promo visual"
+  },
+  "policies": {
+    "sections": [
+      {
+        "id": "privacy-policy",
+        "title": "Mesodose.com — Privacy Policy",
+        "lastUpdated": "[Insert Date]",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Mesodose (“we,” “us,” “our”) is committed to safeguarding your privacy. This Privacy Policy explains how we collect, use, store, and protect your personal information when you visit or purchase from Mesodose.com (the “Site”)."
+          },
+          {
+            "type": "h3",
+            "text": "Information We Collect"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Identity & Contact Data: name, email, billing/delivery address, phone number.",
+              "Transaction Data: order details, payment information, refunds, purchase history.",
+              "Technical Data: IP address, browser type, device information, cookies, usage data.",
+              "Communications Data: emails, messages, or forms you send to us.",
+              "Marketing Data: preferences and consents if you subscribe to our updates."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "How We Use Your Data"
+          },
+          {
+            "type": "ol",
+            "items": [
+              "Process and deliver orders.",
+              "Communicate with you regarding orders, updates, and support.",
+              "Improve and personalize our Site and services.",
+              "Send marketing communications (only with your consent).",
+              "Comply with legal and regulatory obligations."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Sharing Your Data"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Payment providers.",
+              "Shipping carriers (CTT and partners).",
+              "Analytics and website hosting providers.",
+              "Legal/regulatory authorities when required."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "International Transfers"
+          },
+          {
+            "type": "p",
+            "text": "If your data is transferred outside the EU, we ensure appropriate safeguards (such as EU standard contractual clauses)."
+          },
+          {
+            "type": "h3",
+            "text": "Data Retention"
+          },
+          {
+            "type": "p",
+            "text": "We keep your data only as long as necessary for the purposes stated or as required by law."
+          },
+          {
+            "type": "h3",
+            "text": "Your Rights (EU GDPR)"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Access, correct, or erase your data.",
+              "Restrict or object to its processing.",
+              "Withdraw consent for marketing.",
+              "Request data portability.",
+              "File a complaint with your local Data Protection Authority."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Security"
+          },
+          {
+            "type": "p",
+            "text": "We use technical and organizational measures to secure your information. However, no method of transmission over the Internet is entirely risk-free."
+          },
+          {
+            "type": "h3",
+            "text": "Contact Us"
+          },
+          {
+            "type": "p",
+            "text": "If you have any questions or requests regarding your data, please email info@mesodose.com."
+          }
+        ]
+      },
+      {
+        "id": "returns-policy",
+        "title": "Mesodose.com — Returns Policy",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We want you to be satisfied with your purchase."
+          },
+          {
+            "type": "h3",
+            "text": "Eligibility for Returns"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "You may return products within 30 days of receipt.",
+              "Items must be unused, unopened, and in original packaging.",
+              "Returns are not accepted for items that have been opened, used, or are otherwise unsuitable for resale."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Defective or Incorrect Items"
+          },
+          {
+            "type": "p",
+            "text": "If you receive a defective, damaged, or incorrect product, please contact info@mesodose.com within 7 days of delivery for assistance."
+          },
+          {
+            "type": "h3",
+            "text": "Process"
+          },
+          {
+            "type": "ol",
+            "items": [
+              "Email us at info@mesodose.com with your order number and reason for return.",
+              "We will provide return instructions.",
+              "You are responsible for return shipping costs unless the return is due to our error."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Refunds"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Refunds are processed within 7 business days of receiving and inspecting the returned goods.",
+              "Refunds are issued to the original payment method."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "terms-of-sale",
+        "title": "Mesodose.com — Terms of Sale",
+        "blocks": [
+          {
+            "type": "h3",
+            "text": "Prices & Currency"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "All prices are listed in EURO (€) and include VAT where applicable."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Orders & Payment"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Orders are confirmed once payment has been successfully processed.",
+              "We accept payments via [insert accepted payment methods, e.g., credit/debit card, PayPal, etc.]."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Shipping & Delivery"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Orders are shipped from Lisbon, Portugal, via CTT (Portuguese Postal Service).",
+              "A tracking number is provided.",
+              "Delivery times vary by destination (see Shipping Policy)."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Risk & Title"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Risk passes to you upon delivery to the carrier.",
+              "Ownership passes once full payment is received."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Returns & Refunds"
+          },
+          {
+            "type": "p",
+            "text": "Governed by our Returns Policy."
+          },
+          {
+            "type": "h3",
+            "text": "Liability"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Products are provided “as is.”",
+              "To the fullest extent permitted by law, we disclaim all implied warranties.",
+              "Our liability is limited to the amount you paid for the product."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Taxes & Duties"
+          },
+          {
+            "type": "p",
+            "text": "Customers outside the EU are responsible for any customs duties, taxes, or import fees."
+          },
+          {
+            "type": "h3",
+            "text": "Governing Law"
+          },
+          {
+            "type": "p",
+            "text": "These Terms are governed by the laws of Portugal and the European Union."
+          }
+        ]
+      },
+      {
+        "id": "terms-of-use",
+        "title": "Mesodose.com — Terms of Use",
+        "blocks": [
+          {
+            "type": "h3",
+            "text": "Acceptance"
+          },
+          {
+            "type": "p",
+            "text": "By accessing or using Mesodose.com, you agree to these Terms of Use, our Privacy Policy, and our Terms of Sale."
+          },
+          {
+            "type": "h3",
+            "text": "Use of Site"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "You must be at least 18 years old (or of legal age in your jurisdiction).",
+              "You agree not to misuse the Site, including hacking, scraping, or distributing harmful material."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Intellectual Property"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "All content, logos, text, graphics, and designs are the property of Mesodose.",
+              "You may not copy, reproduce, or distribute any content without our prior written consent."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "User Submissions"
+          },
+          {
+            "type": "p",
+            "text": "If you post reviews or feedback, you grant us a license to use, display, and distribute that content."
+          },
+          {
+            "type": "h3",
+            "text": "Disclaimer"
+          },
+          {
+            "type": "p",
+            "text": "The Site is provided “as is.” We make no guarantees of uninterrupted service or error-free content."
+          },
+          {
+            "type": "h3",
+            "text": "Limitation of Liability"
+          },
+          {
+            "type": "p",
+            "text": "To the maximum extent permitted by law, Mesodose is not liable for any indirect, incidental, or consequential damages."
+          },
+          {
+            "type": "h3",
+            "text": "Governing Law"
+          },
+          {
+            "type": "p",
+            "text": "These Terms are governed by the laws of Portugal and the European Union."
+          }
+        ]
+      },
+      {
+        "id": "shipping-policy",
+        "title": "Mesodose.com — Shipping Policy",
+        "blocks": [
+          {
+            "type": "h3",
+            "text": "Origin"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Orders are shipped from Lisbon, Portugal."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Carriers"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "We ship via CTT (Portuguese Postal Service).",
+              "Tracking numbers are provided with every order."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Destinations"
+          },
+          {
+            "type": "p",
+            "text": "We ship internationally, with certain restrictions. If we cannot ship to your country, you will be notified at checkout."
+          },
+          {
+            "type": "h3",
+            "text": "Delivery Times"
+          },
+          {
+            "type": "ul",
+            "items": [
+              "Portugal: typically 2–5 business days.",
+              "EU: typically 5–10 business days.",
+              "International: typically 10–20 business days, depending on customs."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Customs, Duties & Taxes"
+          },
+          {
+            "type": "p",
+            "text": "Orders shipped outside the EU may be subject to import duties, taxes, or fees, which are the responsibility of the customer."
+          },
+          {
+            "type": "h3",
+            "text": "Lost or Damaged Packages"
+          },
+          {
+            "type": "p",
+            "text": "If your order does not arrive or arrives damaged, please contact info@mesodose.com within 14 days of the expected delivery date."
+          },
+          {
+            "type": "h3",
+            "text": "Address Errors"
+          },
+          {
+            "type": "p",
+            "text": "Please ensure your shipping information is correct. We are not responsible for delays or losses caused by incorrect addresses."
+          }
+        ]
+      }
+    ]
   }
 }

@@ -8,8 +8,8 @@ export default function ProductsGrid({ products = [] }) {
   if (!products || products.length === 0) return null;
 
   return (
-    <div className="max-w-7xl p-2 mx-auto">
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+    <div className="max-w-4xl p-6 mx-auto">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-16 sm:gap-4">
         {products.map((p) => (
           <article
             key={p.id}
@@ -21,7 +21,7 @@ export default function ProductsGrid({ products = [] }) {
                 src={p.image}
                 alt={p.title}
                 loading="lazy"
-                className="max-h-full max-w-full object-contain"
+                className="max-h-full max-w-object-contain"
               />
             </div>
 

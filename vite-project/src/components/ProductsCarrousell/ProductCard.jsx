@@ -2,124 +2,78 @@ import React from "react";
 import { useCart } from "../../components/CartContext.jsx";
 import { Link } from "react-router-dom";
 import Button from "../UtilsComponent/Button.jsx";
-/**
- * ProductCard (layout unchanged — only formats price display)
- */
+
 export default function ProductCard({
   id,
   image,
-  price, // old prop (string or number)
-  priceInEuros, // optional (preferred if present)
+  price,
+  priceInEuros,
   title,
   description,
 }) {
   const { addItem } = useCart();
+  const product = { id, image, price, priceInEuros, title, description };
 
-  const product = {
-    id,
-    image,
-    // keep original values — cart will normalize when adding
-    price,
-    priceInEuros,
-    title,
-    description,
-  };
+  const handleBuy = () => (typeof addItem === "function" ? addItem(product, 1) : null);
 
-  const handleBuy = () => {
-    if (typeof addItem === "function") {
-      addItem(product, 1);
-    } else {
-      console.warn("addItem not available from useCart()");
-    }
-  };
-
-  // -------------------------
-  // Price parsing & formatting
-  // -------------------------
-  // parse string-ish prices into a number (19.9)
+  // --- price helpers ---
   const parsePrice = (p) => {
     if (typeof p === "number" && Number.isFinite(p)) return p;
     if (p == null) return 0;
-    // remove spaces & non-numeric except comma/dot/minus, then normalize comma->dot
-    const s = String(p)
-      .replace(/\s/g, "")
-      .replace(/€/g, "")
-      .replace(/\u00A0/g, "");
+    const s = String(p).replace(/\s/g, "").replace(/€/g, "").replace(/\u00A0/g, "");
     const cleaned = s.replace(/[^\d,.-]/g, "").replace(/,/g, ".");
     const n = parseFloat(cleaned);
     return Number.isFinite(n) ? n : 0;
   };
+  const formatMoney = (n) =>
+    new Intl.NumberFormat("pt-PT", { style: "currency", currency: "EUR", minimumFractionDigits: 2 })
+      .format(Number(n) || 0);
 
-  // format to localized euro string (pt-PT -> "19,90 €")
-  const formatMoney = (valueNumber) => {
-    try {
-      return new Intl.NumberFormat("pt-PT", {
-        style: "currency",
-        currency: "EUR",
-        minimumFractionDigits: 2,
-      }).format(valueNumber);
-    } catch {
-      // fallback simple formatting
-      return `€${(Number(valueNumber) || 0).toFixed(2)}`;
-    }
-  };
+  const formattedPrice = formatMoney(parsePrice(priceInEuros ?? price));
 
-  // decide source and produce formatted price
-  const rawSource = priceInEuros ?? price;
-  const numericPrice = parsePrice(rawSource);
-  const formattedPrice = formatMoney(numericPrice);
-
-  // -------------------------
-  // render (layout unchanged)
-  // -------------------------
   return (
     <article
       className="
-    product-card-root
-    w-[clamp(14rem,20vw,17rem)]
-    min-h-[clamp(34rem,58vh,40rem)]
-    bg-white rounded-2xl shadow-lg overflow-hidden mx-auto
-    border border-[var(--brand-from)]
-    flex flex-col
-  "
+        product-card-root box-border flex-none
+        w-[260px] md:w-[280px] h-[520px]    /* <- FIXED SIZE */
+        bg-white rounded-2xl shadow-lg overflow-hidden
+        border border-[var(--brand-from)] flex flex-col mx-auto
+      "
     >
-      {/* Image band */}
-      <div className="relative bg-white flex items-center justify-center p-10 h-[clamp(12rem,20vh,14rem)] shrink-0">
-        <img
-          src={image}
-          alt={title}
-          loading="lazy"
-          className="w-full h-full object-contain"
-        />
+      {/* Image band (fixed) */}
+      <div className="relative bg-white flex items-center justify-center h-[150px] md:h-[160px] shrink-0">
+        <img src={image} alt={title} loading="lazy" className="w-full h-full object-contain" />
       </div>
 
       {/* Content */}
-      <div className="p-5 text-center flex flex-1 flex-col">
-        {/* PRICE + TITLE: fixed min height so descriptions line up */}
-        <div className="space-y-2 min-h-[5.75rem] md:min-h-[6.25rem]">
-          <div className="text-lg font-semibold">{formattedPrice}</div>
-          <h3 className="text-base font-medium text-gray-900 line-clamp-2">
+      <div className="px-4 pt-4 pb-4 text-center flex-1 flex flex-col">
+        {/* Price + Title (fixed) */}
+        <div className="space-y-1 h-[74px]">
+          <div className="text-base md:text-lg font-semibold tracking-tight whitespace-nowrap">
+            {formattedPrice}
+          </div>
+          <h3 className="text-sm md:text-base font-medium text-gray-900 line-clamp-2">
             {title}
           </h3>
         </div>
 
-        {/* DESCRIPTION: consistent lines/height */}
-        <p className="text-sm text-gray-500 mt-2 mb-4 line-clamp-3 min-h-[3.5rem]">
+        {/* Description (fixed) */}
+        <p className="text-xs md:text-sm text-gray-500 mt-2 mb-3 line-clamp-3 h-[60px]">
           {description}
         </p>
 
-        {/* ACTIONS pinned to the bottom */}
-        <div className="mt-auto space-y-3">
+        {/* Actions pinned to bottom (fixed heights) */}
+        <div className="mt-auto space-y-2">
           <Button
             onClick={handleBuy}
-            className="w-full h-12 justify-center text-base font-semibold active:scale-95"
+            className="w-full h-10 md:h-11 justify-center text-sm md:text-base font-semibold active:scale-95"
           >
             Buy Now
           </Button>
           <Link
             to={`/products/${product.id}`}
-            className="w-full h-12 inline-flex items-center justify-center rounded-full border-2 border-[var(--brand-from)] text-[var(--brand-from)] bg-white font-semibold transition-colors transition-transform hover:bg-[var(--brand)] hover:text-white active:scale-95"
-            onClick={() => window.scroll({ top: 0, behavior: 'smooth' })}
+            className="w-full h-10 md:h-11 inline-flex items-center justify-center rounded-full border-2 border-[var(--brand-from)] text-[var(--brand-from)] bg-white font-semibold transition-colors transition-transform hover:bg-[var(--brand)] hover:text-white active:scale-95"
+            onClick={() => window.scroll({ top: 0, behavior: "smooth" })}
           >
             Learn More
           </Link>
@@ -128,4 +82,3 @@ export default function ProductCard({
     </article>
   );
 }
-

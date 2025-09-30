@@ -13,7 +13,7 @@ import CheckoutCancel from "./Pages/CheckOutCancel.jsx";
 import CheckoutSuccess from "./Pages/CheckOutSucess.jsx";
 import PlaceholderPage from "./Pages/PlaceholderPage.jsx";
 import IndvidualPageProduct from "./Pages/IndvidualPageProduct.jsx";
-
+import LegalPage from"./Pages/LegalPage.jsx"
 import config from "./websiteConfig.json";
 
 export default function App() {
@@ -44,11 +44,7 @@ export default function App() {
           <Route path="/blog" element={<PlaceholderPage title="Blog" message="Our latest articles are on the way." />} />
           <Route path="/help" element={<PlaceholderPage title="Help" message="Support resources are on the way." />} />
           <Route path="/affiliate" element={<PlaceholderPage title="Affiliate" message="Affiliate program details are coming soon." />} />
-          <Route path="/privacy-policy" element={<PlaceholderPage title="Privacy Policy" message="Privacy policy coming soon." />} />
-          <Route path="/returns-policy" element={<PlaceholderPage title="Returns Policy" message="Returns policy coming soon." />} />
-          <Route path="/terms-of-sale" element={<PlaceholderPage title="Terms of Sale" message="Terms of sale coming soon." />} />
-          <Route path="/terms-of-use" element={<PlaceholderPage title="Terms of Use" message="Terms of use coming soon." />} />
-          <Route path="/shipping" element={<PlaceholderPage title="Shipping" message="Shipping information coming soon." />} />
+          <Route path="/legal" element={<LegalPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/products/:id" element={<IndvidualPageProduct products={config.productShowcase.products} />} />
           <Route path="/checkout" element={<HeroCheckout />} />

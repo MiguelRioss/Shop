@@ -166,7 +166,7 @@ export default function ProductCarousel({
   /* -------------------------------------------------------- */
 
   return (
-    <div  className="max-w-7xl p-2 mx-auto">
+    <div  className="max-w-7xl p-4  mx-auto">
       <div ref={outerRef} className={`pc-outer w-full ${className || ""}`}>
         <div
           className="product-carousel relative z-0 overflow-hidden p-0"
@@ -178,12 +178,10 @@ export default function ProductCarousel({
         >
           <style>{`
             .product-carousel { padding: 0; }
-            .pc-viewport { width: 100%; overflow: hidden; }
-            /* track uses gap (css variable provided by prop) */
             .pc-track { display:flex; gap: ${gap}; align-items: flex-start; will-change: transform; }
             /* slides are a fixed proportion of the container via calc(100% / var(--visible)) */
             .pc-slide { flex: 0 0 calc(100% / var(--visible)); display:flex; justify-content:center; padding: 0; box-sizing: border-box; }
-            .card-wrap { padding: 0.25rem; box-sizing: border-box; width: 100%; display:flex; justify-content:center; }
+            .card-wrap { padding: 0.25rem; box-sizing: border-box;  display:flex; justify-content:center; }
             /* Product card should fill most of the slide */
             .pc-slide .product-card-root { width: calc(100% - 0.5rem); max-width: none; box-sizing: border-box; }
           `}</style>

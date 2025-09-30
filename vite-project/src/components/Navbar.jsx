@@ -1,8 +1,10 @@
-import React from "react";
+﻿import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { goToProducts } from "./ProductsCarrousell/utils/ScrollToCarroussel";
 import Button from "./UtilsComponent/Button";
+
+
 
 export default function Navbar({
   logoSrc,
@@ -35,42 +37,39 @@ export default function Navbar({
       {/* Main nav */}
       <div className={`w-full ${borderCls}`} style={{ background: navBg }}>
         <div className={`${containerClass} py-6`}>
-          <nav className="flex h-20 items-center justify-between">
-            {/* Left: Logo */}            <div className={`${logoOffsetClass} relative inline-block`}>
+          <nav className="flex h-15 items-center justify-between">
+            {/* Left: Logo */}
+            {/* Left: Logo */}
+            <div className={`${logoOffsetClass} relative inline-block z-[200]`}>
+              {/* Visible logo (won’t steal clicks) */}
               <img
                 src={logoSrc}
                 alt={logoAlt}
-                className={logoClass}
+                className={`${logoClass} pointer-events-none select-none`}
                 draggable="false"
                 decoding="async"
               />
-              {(useLogoOverlay ?? true) ? (
-                <Link
-                  to={homeHref}
-                  onClick={() => window.scroll({ top: 0, behavior: "smooth" })}
-                  aria-label="Home"
-                  title="Home"
-                  className={
-                    logoOverlayClass ||
-                    "absolute top-1 left-1/2 -translate-x-1/2 h-10 w-36 sm:h-12 sm:w-44 md:h-14 md:w-56 cursor-pointer z-10"
-                  }
-                  style={{ outline: 'none' }}
-                >
-                  <span className="sr-only">Home</span>
-                </Link>
-              ) : (
-                <Link
-                  to={homeHref}
-                  onClick={() => window.scroll({ top: 0, behavior: "smooth" })}
-                  aria-label="Home"
-                  title="Home"
-                  className="inline-block cursor-pointer z-10"
-                  style={{ outline: 'none' }}
-                >
-                  <span className="sr-only">Home</span>
-                </Link>
-              )}
+
+              {/* Small clickable hotspot centered on the logo */}
+              <Link
+                to={homeHref ?? "./"}
+                onClick={() => window.scroll({ top: 0, behavior: "smooth" })}
+                aria-label="Home"
+                title="Home"
+                className={`
+    absolute
+    left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+    w-32 h-12                /* base size */
+    sm:w-40 sm:h-14          /* slightly bigger on small+ */
+    md:w-48 md:h-16          /* bigger on desktop */
+    z-[9999]
+    rounded-md
+    pointer-events-auto
+    
+  `}
+              />
             </div>
+
             {/* Center: Links (desktop) */}
             <ul className="hidden md:flex items-center gap-8 text-sm">
               {links.map((l) => {
@@ -78,10 +77,12 @@ export default function Navbar({
                   <li key={l.href}>
                     <Link
                       to={l.href}
-                      onClick={() => window.scroll({
-                        top: 0,
-                        behavior: "smooth",
-                      })}
+                      onClick={() =>
+                        window.scroll({
+                          top: 0,
+                          behavior: "smooth",
+                        })
+                      }
                       className="text-black/80 hover:text-black transition-colors"
                     >
                       {l.label}
@@ -90,15 +91,16 @@ export default function Navbar({
                 );
               })}
             </ul>
-
             {/* Right: Cart + CTA (desktop) */}
             <div className="hidden md:flex items-center gap-3">
               <Link
                 to={cartHref}
-                onClick={() => window.scroll({
-                  top: 0,
-                  behavior: "smooth",
-                })}
+                onClick={() =>
+                  window.scroll({
+                    top: 0,
+                    behavior: "smooth",
+                  })
+                }
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full text-white hover:opacity-90 transition-opacity"
                 style={{ background: grad }}
                 aria-label="Cart"
@@ -130,7 +132,6 @@ export default function Navbar({
                 {cta.label}
               </Button>
             </div>
-
             {/* Mobile: menu toggle */}
             <button
               className="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-black/80 hover:bg-black/5"
@@ -230,5 +231,3 @@ export default function Navbar({
     </header>
   );
 }
-
-

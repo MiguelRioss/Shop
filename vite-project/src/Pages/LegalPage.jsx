@@ -1,0 +1,81 @@
+﻿// src/pages/PoliciesPage.jsx
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { headerOffset, scrollToTarget } from "../components/ProductsCarrousell/utils/ScrollToCarroussel.js";
+// If your big config file contains `policies`, import that instead:
+import site from "../websiteConfig.json"; // adjust path
+// const data = site.policies; // if policies live inside site.json
+const data = site.policies; // <- assumes your last fixed JSON
+
+const linkify = (text) => {
+  const parts = String(text).split(/(https?:\/\/\S+|[\w.+-]+@[\w.-]+\.[\w.-]+)/g);
+  return parts.map((p, i) => {
+    if (/^https?:\/\/\S+$/.test(p)) return <a key={i} href={p} target="_blank" rel="noreferrer" className="underline">{p}</a>;
+    if (/^[\w.+-]+@[\w.-]+\.[\w.-]+$/.test(p)) return <a key={i} href={`mailto:${p}`} className="underline">{p}</a>;
+    return <React.Fragment key={i}>{p}</React.Fragment>;
+  });
+};
+
+export default function LegalPage() {
+  const location = useLocation(); const { hash } = location; const navigate = useNavigate();
+
+  React.useEffect(() => {
+  const stateTarget = location.state && location.state.scrollTo;
+  const hashTarget = hash ? hash.slice(1) : null;
+  const target = stateTarget || hashTarget;
+
+  if (target) {
+    requestAnimationFrame(() => {
+      scrollToTarget(`#${target}`, headerOffset());
+    });
+    // Clear state if it was used
+    if (stateTarget) {
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  } else {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+}, [hash, location, navigate]);
+
+  return (
+    <main className="mx-auto max-w-4xl px-6 py-16 space-y-20">
+      {data.sections.map((sec) => (
+        <section
+          key={sec.id}
+          id={sec.id}
+          aria-labelledby={`${sec.id}-title`}
+          className="scroll-mt-24"
+          /* If your sticky navbar height differs, tune this: */
+          style={{ scrollMarginTop: "105px" }}
+        >
+          <h2 id={`${sec.id}-title`} className="text-2xl font-semibold tracking-tight text-black">
+            {sec.title}
+          </h2>
+          {sec.lastUpdated && (
+            <p className="text-sm text-black/60 mt-1">Last updated: {sec.lastUpdated}</p>
+          )}
+
+          <div className="mt-4 space-y-3">
+            {sec.blocks.map((b, idx) => {
+              if (b.type === "h3") return <h3 key={idx} className="text-xl font-semibold mt-6">{b.text}</h3>;
+              if (b.type === "p")  return <p key={idx} className="text-black/80 leading-relaxed">{linkify(b.text)}</p>;
+              if (b.type === "ul") return (
+                <ul key={idx} className="list-disc pl-6 space-y-1 text-black/80">
+                  {b.items.map((it, i) => <li key={i}>{linkify(it)}</li>)}
+                </ul>
+              );
+              if (b.type === "ol") return (
+                <ol key={idx} className="list-decimal pl-6 space-y-1 text-black/80">
+                  {b.items.map((it, i) => <li key={i}>{linkify(it)}</li>)}
+                </ol>
+              );
+              return null;
+            })}
+          </div>
+        </section>
+      ))}
+    </main>
+  );
+}
+
+

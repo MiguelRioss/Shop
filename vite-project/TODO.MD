@@ -76,8 +76,6 @@
 
 - [ ] Atualizar o Stripe
 
-
-
 - [ ] Enviriament Variable of Shopify should be private
   
 - [ ] Maybe put on a database or something like that to be checking stock

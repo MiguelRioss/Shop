@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 
 function SubjectSelect({ label = "Subject", value, onChange, options = [] }) {
   const [open, setOpen] = React.useState(false);
-  const [active, setActive] = React.useState(() => Math.max(0, options.findIndex((o) => o === value)));
+  const [active, setActive] = React.useState(() =>
+    Math.max(
+      0,
+      options.findIndex((o) => o === value)
+    )
+  );
   const wrapRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -17,16 +22,25 @@ function SubjectSelect({ label = "Subject", value, onChange, options = [] }) {
   }, []);
 
   React.useEffect(() => {
-    setActive(Math.max(0, options.findIndex((o) => o === value)));
+    setActive(
+      Math.max(
+        0,
+        options.findIndex((o) => o === value)
+      )
+    );
   }, [value, options]);
 
   const choose = (val) => {
-    if (typeof onChange === "function") onChange({ target: { name: "subject", value: val } });
+    if (typeof onChange === "function")
+      onChange({ target: { name: "subject", value: val } });
     setOpen(false);
   };
 
   const onKeyDown = (e) => {
-    if (!open && (e.key === "ArrowDown" || e.key === "Enter" || e.key === " " )) {
+    if (
+      !open &&
+      (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ")
+    ) {
       setOpen(true);
       e.preventDefault();
       return;
@@ -61,7 +75,9 @@ function SubjectSelect({ label = "Subject", value, onChange, options = [] }) {
           onKeyDown={onKeyDown}
         >
           <span>{value}</span>
-          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-500">▾</span>
+          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-500">
+            ▾
+          </span>
         </button>
         {open && (
           <ul
@@ -75,7 +91,9 @@ function SubjectSelect({ label = "Subject", value, onChange, options = [] }) {
                 aria-selected={value === opt}
                 className={[
                   "px-3 py-2 cursor-pointer",
-                  i === active ? "bg-[var(--brand)]/10 text-gray-900" : "text-gray-800 hover:bg-black/5",
+                  i === active
+                    ? "bg-[var(--brand)]/10 text-gray-900"
+                    : "text-gray-800 hover:bg-black/5",
                 ].join(" ")}
                 onMouseEnter={() => setActive(i)}
                 onClick={() => choose(opt)}
@@ -96,6 +114,7 @@ export default function ContactPage() {
     "Order support",
     "Country missing at checkout? We'll help",
     "Feedback",
+    "Get a 10ml Sample",
   ];
 
   const [form, setForm] = React.useState({
@@ -145,13 +164,26 @@ export default function ContactPage() {
   return (
     <main className="bg-[var(--secondBackground)] min-h-[70vh]">
       <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
-        <h1 className="font-serif text-3xl md:text-4xl text-gray-900">MesoConnect</h1>
-        <p className="mt-2 text-gray-700">We'd love to hear from you. Send us a message and we will get back within 1–2 business days.</p>
+        <h1 className="font-serif text-3xl md:text-4xl text-gray-900">
+          MesoConnect
+        </h1>
+        <p className="mt-2 text-gray-700">
+          We'd love to hear from you. Send us a message and we will get back
+          within 1–2 business days.
+        </p>
 
-        <form onSubmit={onSubmit} className="mt-8 space-y-5 bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+        <form
+          onSubmit={onSubmit}
+          className="mt-8 space-y-5 bg-white rounded-2xl p-6 shadow-sm border border-gray-200"
+        >
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-800">Name</label>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-800"
+              >
+                Name
+              </label>
               <input
                 id="name"
                 name="name"
@@ -164,7 +196,12 @@ export default function ContactPage() {
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-800">Email</label>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-800"
+              >
+                Email
+              </label>
               <input
                 id="email"
                 name="email"
@@ -180,7 +217,12 @@ export default function ContactPage() {
 
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <label htmlFor="country" className="block text-sm font-medium text-gray-800">Country (optional)</label>
+              <label
+                htmlFor="country"
+                className="block text-sm font-medium text-gray-800"
+              >
+                Country (optional)
+              </label>
               <input
                 id="country"
                 name="country"
@@ -192,7 +234,12 @@ export default function ContactPage() {
               />
             </div>
             <div>
-              <label htmlFor="orderId" className="block text-sm font-medium text-gray-800">Order ID (optional)</label>
+              <label
+                htmlFor="orderId"
+                className="block text-sm font-medium text-gray-800"
+              >
+                Order ID (optional)
+              </label>
               <input
                 id="orderId"
                 name="orderId"
@@ -205,10 +252,20 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <SubjectSelect label="Subject" value={form.subject} onChange={onChange} options={subjects} />
+          <SubjectSelect
+            label="Subject"
+            value={form.subject}
+            onChange={onChange}
+            options={subjects}
+          />
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-800">Message</label>
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-gray-800"
+            >
+              Message
+            </label>
             <textarea
               id="message"
               name="message"
@@ -222,22 +279,33 @@ export default function ContactPage() {
 
           <div className="flex items-center justify-between gap-3">
             <p className="text-xs text-gray-600">
-              By submitting, you agree to our <Link to="/legal#privacy-policy" className="underline">Privacy Policy</Link>.
+              By submitting, you agree to our{" "}
+              <Link to="/legal#privacy-policy" className="underline">
+                Privacy Policy
+              </Link>
+              .
             </p>
-            <Button type="submit" className="px-7 py-3 text-sm font-semibold" disabled={status === "sending"}>
+            <Button
+              type="submit"
+              className="px-7 py-3 text-sm font-semibold"
+              disabled={status === "sending"}
+            >
               {status === "sending" ? "Sending…" : "Send Message"}
             </Button>
           </div>
 
           {status === "sent" && (
-            <p className="text-sm text-green-700">Thanks! Your email client may open. We'll reply soon.</p>
+            <p className="text-sm text-green-700">
+              Thanks! Your email client may open. We'll reply soon.
+            </p>
           )}
           {status === "error" && (
-            <p className="text-sm text-red-600">Please fill name, email, and message.</p>
+            <p className="text-sm text-red-600">
+              Please fill name, email, and message.
+            </p>
           )}
         </form>
       </div>
     </main>
   );
 }
-

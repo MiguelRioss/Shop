@@ -1,38 +1,34 @@
-import React from "react";
+﻿import React from "react";
 import ProductCard from "./ProductCard.jsx";
+import Arrow from "../UtilsComponent/Arrows.jsx";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, A11y, Keyboard } from "swiper/modules";
+import { Pagination, A11y, Keyboard } from "swiper/modules";
 
 export default function ProductCarouselSwiper({
   products = [],
   space = 12, // px between slides
   className = "",
 }) {
+  const swiperRef = React.useRef(null);
   if (!products?.length) return null;
 
   return (
-    <div className={`max-w-7xl mx-auto px-4 py-6 ${className}`}>
+    <div className={`max-w-7xl mx-auto px-4 py-6 relative ${className}`}>
       <style>{`
         /* Make slides center their content and let the card fill */
         .swiper { overflow: hidden; }
         .swiper-slide { display: flex; justify-content: center; box-sizing: border-box; }
         .swiper-slide .product-card-root { width: 100% !important; max-width: none !important; box-sizing: border-box; }
-        /* Optional: lock height so nothing jiggles */
-        /* .swiper-slide .product-card-root { height: 520px; } */
-
-        /* Simple nav styling you can tweak */
-        .swiper-button-prev, .swiper-button-next {
-          width: 40px; height: 40px; border-radius: 9999px;
-          background: white; box-shadow: 0 6px 18px rgba(83,98,255,.18);
-          border: 1px solid rgba(83,98,255,.18);
-        }
-        .swiper-button-prev::after, .swiper-button-next::after {
-          font-size: 16px; color: #6b6bff;
-        }
       `}</style>
 
+      {/* Custom Arrows (desktop + mobile) */}
+      <Arrow dir="prev" variant="desktop" posClass="absolute left-6 top-1/2 -translate-y-1/2 z-30" onClick={() => swiperRef.current?.slidePrev()} />
+      <Arrow dir="next" variant="desktop" posClass="absolute right-2 top-1/2 -translate-y-1/2 z-30" onClick={() => swiperRef.current?.slideNext()} />
+      <Arrow dir="prev" variant="mobile" posClass="absolute left-3 top-1/2 -translate-y-1/2 z-30" onClick={() => swiperRef.current?.slidePrev()} />
+      <Arrow dir="next" variant="mobile" posClass="absolute right-3 top-1/2 -translate-y-1/2 z-30" onClick={() => swiperRef.current?.slideNext()} />
+
       <Swiper
-        modules={[Navigation, Pagination, A11y, Keyboard]}
+        modules={[Pagination, A11y, Keyboard]}
         spaceBetween={space}
         slidesPerView={1}
         breakpoints={{
@@ -41,12 +37,12 @@ export default function ProductCarouselSwiper({
         }}
         loop
         speed={420}
-        navigation
         pagination={{ clickable: true }}
         keyboard={{ enabled: true }}
         watchOverflow
         observer
         observeParents
+        onSwiper={(sw) => (swiperRef.current = sw)}
       >
         {products.map((p) => (
           <SwiperSlide key={p.id}>
@@ -63,3 +59,4 @@ export default function ProductCarouselSwiper({
     </div>
   );
 }
+

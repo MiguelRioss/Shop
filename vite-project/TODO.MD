@@ -83,4 +83,3 @@
 - [ ] Make better success and cancel page on the checkout
 
 
-"Country missing at checkout? We'll help"

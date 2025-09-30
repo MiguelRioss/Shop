@@ -1,4 +1,4 @@
-// Pages/HomePage.jsx
+﻿// Pages/HomePage.jsx
 import Hero from "../components/Hero";
 import ProductShowcase from "../components/ProductShowcase";
 import PromoBanner from "../components/PromoBanner";
@@ -9,7 +9,7 @@ import ThreeFloatHeadersHero from "../components/ThreeFloatHeadersHero";
 import TestimonialsCarousselHero from "../components/TestimonialsCarousselHero";
 import PressCarousel from "../components/PressCarousel";
 import FAQ from "../components/FAQ";
-import ProductCarousel from "../components/ProductsCarrousell/ProductsCarousel";
+import ProductCarouselSwiper from "../components/ProductsCarrousell/ProductCarouselSwiper.jsx";
 import ProductsGrid from "../components/ProductsCarrousell/ProductsGrid";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -60,7 +60,7 @@ function HomePage({
         <ProductViewSwitcher
           products={productShowcase.products}
           Grid={ProductsGrid}
-          Carousel={ProductCarousel}
+          Carousel={ProductCarouselSwiper}
           initial="scroll"
           onViewChange={(mode) => console.log("view:", mode)}
         />
@@ -84,3 +84,4 @@ function HomePage({
 }
 
 export default HomePage;
+

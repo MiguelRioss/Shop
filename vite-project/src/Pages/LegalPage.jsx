@@ -1,9 +1,7 @@
 ﻿// src/pages/PoliciesPage.jsx
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { headerOffset, scrollToTarget } from "../components/ProductsCarrousell/utils/ScrollToCarroussel.js";
-// If your big config file contains `policies`, import that instead:
-import site from "../websiteConfig.json"; // adjust path
+  import site from "../websiteConfig.json"; // adjust path
 // const data = site.policies; // if policies live inside site.json
 const data = site.policies; // <- assumes your last fixed JSON
 

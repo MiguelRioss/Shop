@@ -173,12 +173,12 @@ export default function Footer({
               ) : null}
               {socialLinks.length > 0 && (
                 <div className="mt-4 flex items-center gap-4">
-                  {socialLinks.map(({ label, href }, i) => {
+                  {socialLinks.map(({ message,label, href }, i) => {
                     const key = String(label || "")
                       .toLowerCase()
                       .trim();
                     const Icon = iconMap[key];
-                    const msg = `Visit ${label}`;
+                    const msg = ` ${message}`;
 
                     const showTip = () => {
                       if (tipTimerRef.current)

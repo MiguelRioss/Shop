@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 /**
  * ProductViewSwitcher
@@ -16,7 +16,7 @@ export default function ProductViewSwitcher({
   const groupId = React.useId();
 
   const options = [
-    { value: "scroll", label: "Scroll" },
+    { value: "scroll", label: "Slideshow" },
     { value: "grid", label: "Grid" },
   ];
 
@@ -102,3 +102,4 @@ function Fallback({ message }) {
     </div>
   );
 }
+

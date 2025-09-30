@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import { Link, useParams } from "react-router-dom";
-import ProductCarousel from "../components/ProductsCarrousell/ProductsCarousel";
+import ProductCarouselSwiper from "../components/ProductsCarrousell/ProductCarouselSwiper.jsx";
 
 export default function IndvidualPageProduct({ products = [] }) {
   const { id } = useParams();
@@ -129,7 +129,7 @@ export default function IndvidualPageProduct({ products = [] }) {
               Explore more tinctures
             </h2>
             <div className="mt-8 sm:mt-10">
-              <ProductCarousel products={otherProducts} />
+              <ProductCarouselSwiper products={otherProducts} single />
             </div>
           </div>
         </section>
@@ -137,3 +137,4 @@ export default function IndvidualPageProduct({ products = [] }) {
     </main>
   );
 }
+

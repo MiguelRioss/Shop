@@ -1,4 +1,4 @@
-  import { Link } from "react-router-dom";
+﻿  import { Link } from "react-router-dom";
   import Button from "../UtilsComponent/Button.jsx";
   import { useCart } from "../../components/CartContext.jsx";
 
@@ -8,20 +8,20 @@
     if (!products || products.length === 0) return null;
 
     return (
-      <div className="max-w-4xl p-6 mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-16 sm:gap-4">
+      <div className="max-w-7xl px-36 mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-10 sm:gap-6">
           {products.map((p) => (
             <article
               key={p.id}
               className="relative aspect-square rounded-2xl border border-gray-200 bg-white shadow overflow-hidden p-3 grid"
               style={{ gridTemplateRows: '1fr auto auto' }}
             >
-              <div className="min-h-0 flex items-center justify-center p-1 overflow-hidden">
+              <div className="min-h-0 flex items-center justify-center p-4 sm:p-2 overflow-hidden">
                 <img
                   src={p.image}
                   alt={p.title}
                   loading="lazy"
-                  className="max-h-full max-w-object-contain"
+                  className="max-h-full max-w-full object-contain"
                 />
               </div>
 
@@ -47,3 +47,7 @@
       </div>
     );
   }
+
+
+
+

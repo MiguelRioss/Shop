@@ -8,15 +8,15 @@
     if (!products || products.length === 0) return null;
 
     return (
-      <div className="max-w-7xl px-36 mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-10 sm:gap-6">
+      <div className="max-w-5xl px-10 sm:px-4 mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-20 sm:gap-6">
           {products.map((p) => (
             <article
               key={p.id}
               className="relative aspect-square rounded-2xl border border-gray-200 bg-white shadow overflow-hidden p-3 grid"
               style={{ gridTemplateRows: '1fr auto auto' }}
             >
-              <div className="min-h-0 flex items-center justify-center p-4 sm:p-2 overflow-hidden">
+              <div className="min-h-0 flex items-center justify-center  sm:p-2 overflow-hidden">
                 <img
                   src={p.image}
                   alt={p.title}
@@ -27,6 +27,12 @@
 
               <h3 className="mt-1 text-center text-sm sm:text-base font-medium text-gray-900 line-clamp-2">
                 {p.title}
+              </h3>
+               <h3 className="mt-1 text-center text-xs sm:text-base text-gray-900 line-clamp-2">
+                {p.description}
+              </h3>
+              <h3 className="mt-1 text-center text-md font-medium sm:text-base text-gray-900 line-clamp-2">
+                Price: {p.priceInEuros} €
               </h3>
 
               <div className="mt-2 grid grid-cols-2 gap-2">
@@ -47,6 +53,7 @@
       </div>
     );
   }
+
 
 
 

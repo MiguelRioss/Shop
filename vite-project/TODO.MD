@@ -74,12 +74,6 @@
 
 
 
-- [ ] Atualizar o Stripe
-
-- [ ] Enviriament Variable of Shopify should be private
-  
-- [ ] Maybe put on a database or something like that to be checking stock
-
 
 
 ## non priorty 
@@ -87,6 +81,14 @@
   - [ ] Aproval method in the reactUI of database 
     - [ ] Being able to see them on the react page fo data-base
     - [ ] Aprove button or reject
+
+- [ ] Focous on Navbar Logo
 - [ ] Make better success and cancel page on the checkout
+- [ ] 
 
 
+- [ ] Atualizar o Stripe
+
+- [ ] Enviriament Variable of Shopify should be private
+  
+- [ ] Maybe put on a database or something like that to be checking stock

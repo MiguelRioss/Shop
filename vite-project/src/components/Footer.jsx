@@ -29,8 +29,6 @@ export default function Footer({
   const [activeTip, setActiveTip] = React.useState(null); // index of icon showing tip
   const tipTimerRef = React.useRef(null);
 
-  console.log(logoSrc);
-
   React.useEffect(() => {
     return () => {
       if (tipTimerRef.current) clearTimeout(tipTimerRef.current);
@@ -49,32 +47,19 @@ export default function Footer({
           {/* Left: Logo + community blurb + socials */}
           <div className="md:col-span-8">
             {/* Floating logo + wordmark */}
-            {/* Floating logo + wordmark (robust) */}
-            <div
-              className="relative inline-flex items-center"
-              /* you can tune these breakpoints; var(--logo) is used for width + padding */
-              style={{ "--logo": "320px" }}
-            >
+            <div className="relative inline-block [--logo:372px] sm:[--logo:306px] md:[--logo:304px] lg:[--logo:448px]">
               <img
-                src={logoSrc} // e.g. "/logo_white.webp"
-                alt={brandText || "Mesodose"}
-                loading="eager" // show immediately in footer
+                src={logoSrc}
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none select-none absolute left-0 top-1/2 -translate-y-1/2 lg:-translate-x-33 sm:-translate-x-33 md:-translate-x-33 -translate-x-27 -ml-2 md:-ml-3"
+                loading="lazy"
                 decoding="async"
-                className="
-      pointer-events-none select-none
-      absolute left-0 top-1/2 -translate-y-1/2
-      w-[var(--logo)] h-auto           /* <-- explicit size so it actually renders */
-      -translate-x-[8px] md:-translate-x-[12px] lg:-translate-x-[16px]
-    "
-                onError={(e) => {
-                  // helpful fallback if path ever breaks
-                  e.currentTarget.src = "/logo.png";
-                }}
               />
 
               <Link
                 to={brandHref}
-                className="relative z-20 inline-flex items-center pl-[calc(var(--logo)+16px)] h-[72px]"
+                className="relative inline-flex items-center pl-[calc(var(--logo)+14px)]"
                 aria-label={brandText || "Home"}
               >
                 {brandText ? (
@@ -188,12 +173,12 @@ export default function Footer({
               ) : null}
               {socialLinks.length > 0 && (
                 <div className="mt-4 flex items-center gap-4">
-                  {socialLinks.map(({ label, href }, i) => {
+                  {socialLinks.map(({ message,label, href }, i) => {
                     const key = String(label || "")
                       .toLowerCase()
                       .trim();
                     const Icon = iconMap[key];
-                    const msg = `Visit ${label}`;
+                    const msg = ` ${message}`;
 
                     const showTip = () => {
                       if (tipTimerRef.current)
@@ -296,3 +281,5 @@ export default function Footer({
     </footer>
   );
 }
+
+

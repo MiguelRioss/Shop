@@ -27,10 +27,10 @@ export default function ProductCarouselSwiper({
       `}</style>
 
       {/* Custom Arrows (desktop + mobile) */}
-      <Arrow dir="prev" variant="desktop" posClass="absolute top-1/2 -translate-y-1/2 left-2 lg:left-0 lg:-translate-x-full lg:-ml-3 z-30" onClick={() => swiperRef.current?.slidePrev()} />
-      <Arrow dir="next" variant="desktop" posClass="absolute top-1/2 -translate-y-1/2 right-2 lg:right-0 lg:translate-x-full lg:ml-3 z-30" onClick={() => swiperRef.current?.slideNext()} />
-      <Arrow dir="prev" variant="mobile" posClass="absolute top-1/2 -translate-y-1/2 left-2 z-30" onClick={() => swiperRef.current?.slidePrev()} />
-      <Arrow dir="next" variant="mobile" posClass="absolute top-1/2 -translate-y-1/2 right-2 z-30" onClick={() => swiperRef.current?.slideNext()} />
+      <Arrow dir="prev" variant="desktop" posClass="absolute top-1/2 -translate-y-1/2 left-2 lg:left-0 lg:-translate-x-full lg:-ml-3 z-20" onClick={() => swiperRef.current?.slidePrev()} />
+      <Arrow dir="next" variant="desktop" posClass="absolute top-1/2 -translate-y-1/2 right-2 lg:right-0 lg:translate-x-full lg:ml-3 z-20" onClick={() => swiperRef.current?.slideNext()} />
+      <Arrow dir="prev" variant="mobile" posClass="absolute top-1/2 -translate-y-1/2 left-2 z-20" onClick={() => swiperRef.current?.slidePrev()} />
+      <Arrow dir="next" variant="mobile" posClass="absolute top-1/2 -translate-y-1/2 right-2 z-20" onClick={() => swiperRef.current?.slideNext()} />
 
       <Swiper
         modules={[Pagination, A11y, Keyboard]}
@@ -64,6 +64,7 @@ export default function ProductCarouselSwiper({
     </div>
   );
 }
+
 
 
 

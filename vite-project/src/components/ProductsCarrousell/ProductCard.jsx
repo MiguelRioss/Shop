@@ -14,20 +14,27 @@ export default function ProductCard({
   const { addItem } = useCart();
   const product = { id, image, price, priceInEuros, title, description };
 
-  const handleBuy = () => (typeof addItem === "function" ? addItem(product, 1) : null);
+  const handleBuy = () =>
+    typeof addItem === "function" ? addItem(product, 1) : null;
 
   // --- price helpers ---
   const parsePrice = (p) => {
     if (typeof p === "number" && Number.isFinite(p)) return p;
     if (p == null) return 0;
-    const s = String(p).replace(/\s/g, "").replace(/€/g, "").replace(/\u00A0/g, "");
+    const s = String(p)
+      .replace(/\s/g, "")
+      .replace(/€/g, "")
+      .replace(/\u00A0/g, "");
     const cleaned = s.replace(/[^\d,.-]/g, "").replace(/,/g, ".");
     const n = parseFloat(cleaned);
     return Number.isFinite(n) ? n : 0;
   };
   const formatMoney = (n) =>
-    new Intl.NumberFormat("pt-PT", { style: "currency", currency: "EUR", minimumFractionDigits: 2 })
-      .format(Number(n) || 0);
+    new Intl.NumberFormat("pt-PT", {
+      style: "currency",
+      currency: "EUR",
+      minimumFractionDigits: 2,
+    }).format(Number(n) || 0);
 
   const formattedPrice = formatMoney(parsePrice(priceInEuros ?? price));
 
@@ -40,13 +47,23 @@ export default function ProductCard({
         border border-[var(--brand-from)] flex flex-col mx-auto
       "
     >
-      {/* Image band (fixed) */}
-      <div className="relative bg-white flex items-center justify-center h-[150px] md:h-[160px] shrink-0">
-        <img src={image} alt={title} loading="lazy" className="w-full h-full object-contain" />
+      <div
+        className="
+    relative flex items-center justify-center h-60
+    shrink-0 overflow-hidden rounded-t-2xl
+    [--tint:#eef2ff]                         /* fallback */
+    bg-[radial-gradient(80%_80%_at_50%_25%,var(--tint)_0%,transparent_70%)]
+  "
+      >
+        <img
+          src={image}
+          alt={title}
+          loading="lazy"
+          className="relative z-10 w-full h-full p-2 object-contain"
+        />
       </div>
-
       {/* Content */}
-      <div className="px-4 pt-4 pb-4 text-center flex-1 flex flex-col">
+      <div className="px-4 pt-4 pb-6 text-center flex-1 flex flex-col">
         {/* Price + Title (fixed) */}
         <div className="space-y-1 h-[74px]">
           <div className="text-base md:text-lg font-semibold tracking-tight whitespace-nowrap">

@@ -1,6 +1,21 @@
 @import "tailwindcss";
 
+
 :root {
+   /* base tokens */
+  --meso-text: #F7F7F5;
+  --meso-ink: #111;
+  --meso-card-bg: #0f0f10;
+  --meso-radius: 14px;
+
+  /* chakra tokens */
+  --chakra-root:      #C82A20; /* Tania – deep red */
+  --chakra-sacral:    #EA6A1A; /* orange */
+  --chakra-solar:     #F6C200; /* Lucia – yellow/gold */
+  --chakra-heart:     #3FA45B; /* green */
+  --chakra-throat:    #1F5D8E; /* Clara – blue */
+  --chakra-third-eye: #3A3E9D; /* indigo */
+  --chakra-crown:     #8C3BAE; /* violet */
   /* Brand core (Bluebell Mist) */
   --brand-from: #8A9CF0;  /* misty bluebell */
   --brand-to:   #C3CCFF;  /* soft pastel blue */
@@ -12,6 +27,76 @@
   --ballons-background: #fdfdfd;        /* very light cream */
   --secondBackground: #fdfdfd;          /* very light cream */
 }
+
+.product-card{
+  position: relative;
+  background: var(--meso-card-bg);
+  border-radius: var(--meso-radius);
+  padding: 16px;
+  color: var(--meso-text);
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.product-card .media{
+  position: relative;
+  aspect-ratio: 4/5;      /* keeps images consistent */
+  display: grid;
+  place-items: center;
+}
+
+.product-card img{
+  max-width: 72%;
+  height: auto;
+  z-index: 2;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.35));
+}
+
+/* the glow behind the bottle */
+.product-card .halo{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 18px;
+  filter: blur(36px);
+  opacity: .85;
+  pointer-events: none;
+  background: var(--halo-gradient, transparent);
+}
+
+/* hover micro-interaction */
+.product-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+}
+
+/* Chakra → gradient mapping */
+.product-card[data-chakra="root"]       { --halo: var(--chakra-root); }
+.product-card[data-chakra="sacral"]     { --halo: var(--chakra-sacral); }
+.product-card[data-chakra="solar"]      { --halo: var(--chakra-solar); }
+.product-card[data-chakra="heart"]      { --halo: var(--chakra-heart); }
+.product-card[data-chakra="throat"]     { --halo: var(--chakra-throat); }
+.product-card[data-chakra="third-eye"]  { --halo: var(--chakra-third-eye); }
+.product-card[data-chakra="crown"]      { --halo: var(--chakra-crown); }
+
+/* single-source gradient token (warm center, darker edge) */
+.product-card{
+  --halo-gradient: radial-gradient(60% 60% at 50% 55%,
+                     color-mix(in oklab, var(--halo) 88%, white 12%) 0%,
+                     color-mix(in oklab, var(--halo) 65%, black 35%) 55%,
+                     transparent 100%);
+}
+
+/* Button contrast tweaks (WCAG AA on dark) */
+.product-card .cta{
+  display:inline-block; margin-top:10px; padding:10px 14px; border-radius:9px;
+  background: color-mix(in oklab, var(--halo) 70%, black 30%);
+  color: #fff; text-decoration:none; font-weight:600;
+}
+.product-card .cta:hover{
+  background: color-mix(in oklab, var(--halo) 80%, black 20%);
+}
+
 
 :root {
   --brand-to: #C3CCFF; /* soft pastel blue */

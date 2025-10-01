@@ -37,7 +37,7 @@ export default function ProductViewSwitcher({
 
   return (
     <div>
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 mb-6 mt-2 flex justify-center relative z-40 isolate">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 mb-6 mt-2 flex justify-center relative  isolate pointer-events-auto">
         <div
           role="radiogroup"
           aria-labelledby={`${groupId}-label`}
@@ -102,4 +102,6 @@ function Fallback({ message }) {
     </div>
   );
 }
+
+
 

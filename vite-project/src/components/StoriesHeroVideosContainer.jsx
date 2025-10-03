@@ -1,7 +1,7 @@
 import React from "react";
 import StoriesHeroVideos from "../components/StoriesHeroVideos";
 import StoriesUploadModal from "../components/StoriesUploadModal";
-import { uploadMedia } from "../lib/uploadMedia";
+import { uploadMedia } from "../services/uploadMedia";
 
 export default function StoriesHeroVideosContainer(props) {
   const [open, setOpen] = React.useState(false);

@@ -1,6 +1,5 @@
 ﻿// Pages/HomePage.jsx
 import Hero from "../components/Hero";
-import ProductShowcase from "../components/ProductShowcase";
 import PromoBanner from "../components/PromoBanner";
 import PromoHeading from "./PromoHeading.jsx";
 import BubblesHeroSection from "../components/BubblesHeroSection";
@@ -22,7 +21,7 @@ import ProductViewSwitcher from "../components/ProductViewSwitcher.jsx";
 function HomePage({
   announcement,
   hero,
-  productShowcase,
+  products,
   promoBanner,
   HowItWorks,
   heroWithVideo,
@@ -58,7 +57,7 @@ function HomePage({
         className="scroll-mt-32 md:scroll-mt-40 lg:scroll-mt-48"
       >
         <ProductViewSwitcher
-          products={productShowcase.products}
+          products={products}
           Grid={ProductsGrid}
           Carousel={ProductCarouselSwiper}
           initial="scroll"

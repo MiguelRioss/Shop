@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { goToProducts } from "./ProductsCarrousell/utils/ScrollToCarroussel";
 import Button from "./UtilsComponent/Button";
+import CartButton from "./UtilsComponent/CartButton.jsx";
 
 export default function Navbar({
   logoSrc,
@@ -70,7 +71,7 @@ export default function Navbar({
             </div>
 
             {/* CENTER: LINKS (desktop) */}
-            <ul className="hidden md:flex justify-center items-center gap-8 text-sm">
+            <ul className="hidden md:flex justify-end items-center mr-6 gap-9 text-sm">
               {links.map((l) => (
                 <li key={l.href}>
                   <Link
@@ -87,32 +88,12 @@ export default function Navbar({
             </ul>
 
             {/* RIGHT: CART + CTA (desktop) */}
-            <div className="hidden md:flex items-center justify-end gap-3">
-              <Link
-                to={cartHref}
-                onClick={() => window.scroll({ top: 0, behavior: "smooth" })}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full text-white hover:opacity-90 transition-opacity"
+            <div className="hidden md:flex items-center  mr-6 justify-end gap-3">
+              <CartButton
+                className="h-9 w-9"
                 style={{ background: grad }}
-                aria-label="Cart"
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M6 6h14l-1.5 8.5a2 2 0 0 1-2 1.5H9a2 2 0 0 1-2-1.5L5 3H2"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <circle cx="10" cy="20" r="1.5" fill="currentColor" />
-                  <circle cx="17" cy="20" r="1.5" fill="currentColor" />
-                </svg>
-              </Link>
+                size={18}
+              />
               <Button
                 style={{ background: grad }}
                 onClick={() => {
@@ -159,34 +140,11 @@ export default function Navbar({
               </ul>
 
               <div className="flex items-center gap-3 pt-2">
-                <Link
-                  to={cartHref}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white"
+                <CartButton
+                  className="h-9 w-9"
                   style={{ background: grad }}
-                  aria-label="Cart"
-                  onClick={() => {
-                    window.scroll({ top: 0, behavior: "smooth" });
-                    setOpen(false);
-                  }}
-                >
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M6 6h14l-1.5 8.5a2 2 0 0 1-2 1.5H9a2 2 0 0 1-2-1.5L5 3H2"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <circle cx="10" cy="20" r="1.5" fill="currentColor" />
-                    <circle cx="17" cy="20" r="1.5" fill="currentColor" />
-                  </svg>
-                </Link>
+                  size={18}
+                />
                 <Button
                   className="flex-1"
                   style={{ background: grad }}

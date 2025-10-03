@@ -57,6 +57,8 @@ export default function ProductCarouselSwiper({
               price={p.priceInEuros ?? p.price}
               title={p.title}
               description={p.description}
+              fewTag={p.fewTag}
+              soldOut={p.soldOut}
             />
           </SwiperSlide>
         ))}

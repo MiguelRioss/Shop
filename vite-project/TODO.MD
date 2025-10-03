@@ -82,13 +82,23 @@
     - [ ] Being able to see them on the react page fo data-base
     - [ ] Aprove button or reject
 
-- [ ] Focous on Navbar Logo
+- [X] ~~*Focous on Navbar Logo*~~ [2025-10-03]
 - [ ] Make better success and cancel page on the checkout
-- [ ] 
+- [ ] Maybe put on a database or something like that to be checking stock
+
+- [ ] Fetch nos stocks , e ver quais sao sold ou
+  - [ ] 20 Last Few Remaining 
 
 
 - [ ] Atualizar o Stripe
 
 - [ ] Enviriament Variable of Shopify should be private
   
-- [ ] Maybe put on a database or something like that to be checking stock
+
+
+- [ ] Subject : Join the Wating List ,
+   * [ ] Brevo ? to send email ? 
+- [ ] MesoBuzz Meso Storie  
+
+## todo 
+- [X] ~~*Waiting List*~~ [2025-10-03]

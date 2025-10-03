@@ -1,4 +1,5 @@
-﻿import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+﻿import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import CartPage from "./Pages/CartPage.jsx";
@@ -14,11 +15,32 @@ import CheckoutSuccess from "./Pages/CheckOutSucess.jsx";
 import PlaceholderPage from "./Pages/PlaceholderPage.jsx";
 import ContactPage from "./Pages/ContactPage.jsx";
 import IndvidualPageProduct from "./Pages/IndvidualPageProduct.jsx";
-import LegalPage from"./Pages/LegalPage.jsx"
+import LegalPage from "./Pages/LegalPage.jsx";
 import config from "./websiteConfig.json";
 import FounderLetterPage from "./Pages/FounderLetterPage.jsx";
 
+import fetchStock from "./services/fetchStock.js";
+
 export default function App() {
+  const [products, setProducts] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const data = await fetchStock();
+        console.log("Fetched stock data:", data);
+        // make array from {id: {...}, id: {...}}
+        const arr = Array.isArray(data) ? data : Object.values(data);
+        setProducts(arr);
+      } catch (err) {
+        console.error("Error fetching stock", err);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <CartProvider>
       <Router>
@@ -29,9 +51,10 @@ export default function App() {
             path="/"
             element={
               <HomePage
+                loading={loading}
+                products={products}
                 announcement={config.announcement}
                 hero={config.hero}
-                productShowcase={config.productShowcase}
                 promoBanner={config.promoBanner}
                 HowItWorks={config.howItWorks}
                 heroWithVideo={config.heroWithVideo}
@@ -48,14 +71,14 @@ export default function App() {
           <Route path="/affiliate" element={<PlaceholderPage title="Affiliate" message="Affiliate program details are coming soon." />} />
           <Route path="/legal" element={<LegalPage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/products/:id" element={<IndvidualPageProduct products={config.productShowcase.products} />} />
+          <Route path="/products/:id" element={<IndvidualPageProduct products={products} />} />
           <Route path="/checkout" element={<HeroCheckout />} />
           <Route path="/mesobuzz" element={<StoriesP />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/checkout/cancel" element={<CheckoutCancel />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/mesoconnect" element={<ContactPage />} />
-          <Route path="/mesostorie" element={<FounderLetterPage letter= {config.founderLetter} />} />
+          <Route path="/mesostorie" element={<FounderLetterPage letter={config.founderLetter} />} />
         </Routes>
         <Footer {...config.footer} />
         <CartToast />
@@ -64,20 +87,3 @@ export default function App() {
     </CartProvider>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

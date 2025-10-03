@@ -115,6 +115,7 @@ export default function ContactPage() {
     "Country missing at checkout? We'll help",
     "Feedback",
     "Get a 10ml Sample",
+    "Join the waiting List"
   ];
 
   const [form, setForm] = React.useState({

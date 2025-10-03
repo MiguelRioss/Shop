@@ -19,7 +19,7 @@ export default function CartToast() {
       setVisible(false);
       // delay clearing the payload until after fade-out
       setTimeout(() => setLastAdded(null), 200);
-    }, 2600);
+    }, 5600);
 
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -32,7 +32,7 @@ export default function CartToast() {
 
   return (
     <div
-      className={`fixed bottom-4 right-4 z-[60] transform transition-all duration-200 ${
+      className={`fixed bottom-4 right-4 z-[90] transform transition-all duration-200 ${
         visible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0 pointer-events-none"
       }`}
       role="status"

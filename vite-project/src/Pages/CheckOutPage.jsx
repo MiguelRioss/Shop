@@ -281,14 +281,19 @@ export default function CheckoutPage() {
                       Country *
                     </label>
 
-                    {/* subtle helper text */}
-                    <p className="text-sm text-gray-500 mb-2">
-                      If you don't see your location listed, send us a quick
-                      message and we'll try to sort it out.
-                    </p>
-                    <p>
-                      <Link to="../contact"> Contact Us</Link>
-                    </p>
+                    <div className="flex items-baseline mb-2 text-sm">
+                      <p className="text-gray-500 m-0">
+                        If you don't see your location listed, send us a quick
+                        message and we'll try to sort it out.
+                      </p>
+                      <Link
+                        to="../contact"
+                        className="ml-2 text-md font-bold leading-none underline"
+                      >
+                        Contact Us Here
+                      </Link>
+                    </div>
+
                     <select
                       name="country"
                       value={form.country}

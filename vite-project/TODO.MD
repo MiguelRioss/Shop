@@ -83,11 +83,10 @@
     - [ ] Aprove button or reject
 
 - [X] ~~*Focous on Navbar Logo*~~ [2025-10-03]
-- [ ] Make better success and cancel page on the checkout
-- [ ] Maybe put on a database or something like that to be checking stock
+- [X] ~~*Maybe put on a database or something like that to be checking stock*~~ [2025-10-03]
 
-- [ ] Fetch nos stocks , e ver quais sao sold ou
-  - [ ] 20 Last Few Remaining 
+- [X] ~~*Fetch nos stocks , e ver quais sao sold ou*~~ [2025-10-03]
+  - [X] ~~*20 Last Few Remaining*~~ [2025-10-03] 
 
 
 - [ ] Atualizar o Stripe
@@ -95,6 +94,7 @@
 - [ ] Enviriament Variable of Shopify should be private
   
 
+- [ ] Make better success and cancel page on the checkout
 
 - [ ] Subject : Join the Wating List ,
    * [ ] Brevo ? to send email ? 

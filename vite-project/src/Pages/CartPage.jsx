@@ -4,7 +4,7 @@ import Button from "../components/UtilsComponent/Button.jsx";
 
 export default function Cart() {
   const { items, setQty, removeItem, subtotal } = useCart();
-  const fmt = (n) => `€${(n ?? 0).toFixed(2)}`;
+  const fmt = (n) => `\u20AC${(n ?? 0).toFixed(2)}`;
   const navigate = useNavigate();
   console.log(items);
   return (
@@ -15,7 +15,7 @@ export default function Cart() {
           Shopping Cart
         </h1>
         <p className="text-gray-600 mb-6 sm:mb-8">
-          Estimated shipping time: 10–15 business days.
+          Estimated shipping time: 10-15 business days.
         </p>
 
         <div className="grid gap-6 lg:gap-8 lg:grid-cols-3">
@@ -25,7 +25,7 @@ export default function Cart() {
               href="/"
               className="text-sm text-gray-500 mb-4 sm:mb-6 inline-block"
             >
-              ← Continue Shopping
+              &#8592; Continue Shopping
             </a>
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">
               Your Cart
@@ -49,8 +49,8 @@ export default function Cart() {
                       className="border-b last:border-none pb-4 sm:pb-6"
                     >
                       {/* MOBILE: stack, DESKTOP: row */}
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-                        <div className="flex gap-3 sm:gap-4">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+                        <div className="flex gap-3 sm:gap-4 sm:flex-1">
                           {/* image */}
                           {imgSrc ? (
                             <div
@@ -96,7 +96,7 @@ export default function Cart() {
                         </div>
 
                         {/* controls */}
-                        <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+                        <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 sm:flex-shrink-0 sm:min-w-[200px] sm:pl-4 sm:self-start">
                           {/* Quantity (bigger tap area on mobile) */}
                           <label className="sr-only" htmlFor={`qty-${item.id}`}>
                             Quantity
@@ -107,7 +107,7 @@ export default function Cart() {
                             onChange={(e) =>
                               setQty(item.id, parseInt(e.target.value, 10))
                             }
-                            className="border rounded-lg px-3 py-2 sm:py-1 text-sm"
+                            className="border rounded-lg px-3 py-2 sm:py-1 text-sm sm:w-20 sm:text-center"
                           >
                             {Array.from({ length: 10 }, (_, i) => i + 1).map(
                               (n) => (
@@ -125,7 +125,7 @@ export default function Cart() {
                             aria-label={`Remove ${title}`}
                             title="Remove item"
                           >
-                            🗑
+                            &times;
                           </button>
 
                           {/* Line total */}

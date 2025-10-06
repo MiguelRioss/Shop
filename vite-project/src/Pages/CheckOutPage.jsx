@@ -6,7 +6,8 @@ import Button from "../components/UtilsComponent/Button.jsx";
 
 // For local PHP built-in server: php -S localhost:8000 -t public
 // In production, replace with your real domain path to the PHP file
-const STRIPE_ENDPOINT = "https://mesodose.com/api/create-checkout-session.php";
+const STRIPE_ENDPOINT =
+  "https://mesodose-api.onrender.com/api/checkout-sessions";
 
 const countries = [
   { code: "", name: "Choose..." },
@@ -23,7 +24,7 @@ const countries = [
   { code: "UY", name: "Uruguay" },
 ];
 
-export default function   CheckoutPage() {
+export default function CheckoutPage() {
   const navigate = useNavigate();
   const { items, subtotal, clear } = useCart();
 
@@ -48,7 +49,7 @@ export default function   CheckoutPage() {
   const [errors, setErrors] = React.useState({});
   const [submitting, setSubmitting] = React.useState(false);
 
-  const fmt = (n) => `€${(n ?? 0).toFixed(2)}`;
+  const fmt = (n) => `\u20AC${(n ?? 0).toFixed(2)}`;
   const total = subtotal; // add shipping/taxes here later
 
   const onChange = (e) => {
@@ -75,30 +76,18 @@ export default function   CheckoutPage() {
 
     setSubmitting(true);
     try {
-      console.log(items)
+      console.log(items);
       // in CheckoutPage.jsx (inside handleSubmit)
       const res = await fetch(STRIPE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          currency: "eur",
-          items: items.map((p) => ({
-            name: p.title,
-            unit_amount: Math.round(Number(p.price) * 100),
-            quantity: Number(p.qty),
-          })),
+          items: items.map((p) => ({ id: p.id, qty: p.qty })),
           customer: {
             name: form.fullName,
             email: form.email,
             phone: form.phone,
             notes: form.notes,
-          },
-          shipping: {
-            address1: form.address1,
-            address2: form.address2,
-            city: form.city,
-            postcode: form.postcode,
-            country: form.country,
           },
           clientReferenceId: `cart_${Date.now()}`,
         }),
@@ -294,12 +283,12 @@ export default function   CheckoutPage() {
 
                     {/* subtle helper text */}
                     <p className="text-sm text-gray-500 mb-2">
-                      If you don’t see your location listed, send us a quick
-                      message and we’ll try to sort it out.
-
-                      Contact US
+                      If you don't see your location listed, send us a quick
+                      message and we'll try to sort it out.
                     </p>
-
+                    <p>
+                      <Link to="../contact"> Contact Us</Link>
+                    </p>
                     <select
                       name="country"
                       value={form.country}
@@ -329,11 +318,18 @@ export default function   CheckoutPage() {
                 <Button
                   type="submit"
                   disabled={submitting || !items?.length}
-                  className={`px-5 py-3 rounded-lg text-base font-semibold disabled:bg-gray-300 disabled:opacity-70 disabled:cursor-not-allowed ${submitting || !items?.length ? "opacity-70 cursor-not-allowed" : ""}`}
+                  className={`px-5 py-3 rounded-lg text-base font-semibold disabled:bg-gray-300 disabled:opacity-70 disabled:cursor-not-allowed ${
+                    submitting || !items?.length
+                      ? "opacity-70 cursor-not-allowed"
+                      : ""
+                  }`}
                   style={
                     submitting || !items?.length
                       ? undefined
-                      : { background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }
+                      : {
+                          background:
+                            "linear-gradient(to right, var(--brand-from), var(--brand-to))",
+                        }
                   }
                 >
                   {submitting ? "Creating..." : "Create Order"}
@@ -342,7 +338,7 @@ export default function   CheckoutPage() {
                   to="/cart"
                   className="text-sm text-gray-600 hover:underline"
                 >
-                  ← Back to cart
+                  Back to cart
                 </Link>
               </div>
             </form>
@@ -380,7 +376,7 @@ export default function   CheckoutPage() {
                           {p.title}
                         </p>
                         <p className="text-xs text-gray-500">
-                          Qty {p.qty} · Unit {fmt(p.price)}
+                          Qty {p.qty} x Unit {fmt(p.price)}
                         </p>
                       </div>
                       <div className="text-sm font-semibold">
@@ -397,7 +393,7 @@ export default function   CheckoutPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Shipping</span>
-                    <span className="font-medium">—</span>
+                    <span className="font-medium">--</span>
                   </div>
                   <div className="flex justify-between text-base font-semibold pt-2">
                     <span>Total</span>
@@ -412,4 +408,3 @@ export default function   CheckoutPage() {
     </section>
   );
 }
-

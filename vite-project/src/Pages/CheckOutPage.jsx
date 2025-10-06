@@ -7,7 +7,7 @@ import Button from "../components/UtilsComponent/Button.jsx";
 // For local PHP built-in server: php -S localhost:8000 -t public
 // In production, replace with your real domain path to the PHP file
 const STRIPE_ENDPOINT =
-  "https://mesodose-api.onrender.com/api/checkout-sessions";
+  "https://api-backend-mesodose-2.onrender.com/api/checkout-sessions";
 
 const countries = [
   { code: "", name: "Choose..." },

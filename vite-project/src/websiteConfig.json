@@ -367,16 +367,16 @@
                 "href": "/"
             },
             {
+                "label": "MesoBuzz",
+                "href": "/mesobuzz"
+            },
+            {
                 "href": "/mesostory",
                 "label": "MesoStory"
             },
             {
                 "label": "MesoBlog",
                 "href": "/mesoblog"
-            },
-            {
-                "label": "MesoBuzz",
-                "href": "/mesobuzz"
             },
             {
                 "label": "MesoContact",
@@ -817,7 +817,7 @@
         "hero": {
             "src": "/founder.jpg",
             "alt": "Alvaro de Ferranti",
-            "caption": "Co-Founder and Visuanary of Ibogenics.",
+            "caption": "Co-Founder and Visionary of Ibogenics.",
             "align": "right",
             "width": 280,
             "height": 340

@@ -4,8 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../components/CartContext.jsx";
 import Button from "../components/UtilsComponent/Button.jsx";
 
-// For local PHP built-in server: php -S localhost:8000 -t public
-// In production, replace with your real domain path to the PHP file
 const STRIPE_ENDPOINT =
   "https://api-backend-mesodose-2.onrender.com/api/checkout-sessions";
 
@@ -26,9 +24,8 @@ const countries = [
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { items, subtotal, clear } = useCart();
+  const { items, subtotal } = useCart();
 
-  // If cart empty, nudge back to /cart (optional)
   React.useEffect(() => {
     if (!items?.length) {
       // navigate("/cart");
@@ -36,80 +33,138 @@ export default function CheckoutPage() {
   }, [items]);
 
   const [form, setForm] = React.useState({
+    // customer
     fullName: "",
     email: "",
     phone: "",
     notes: "",
+    // shipping
     address1: "",
     address2: "",
     city: "",
     postcode: "",
     country: "",
+    // billing
+    billingSame: true,
+    billingAddress1: "",
+    billingAddress2: "",
+    billingCity: "",
+    billingPostcode: "",
+    billingCountry: "",
   });
+
   const [errors, setErrors] = React.useState({});
   const [submitting, setSubmitting] = React.useState(false);
 
   const fmt = (n) => `\u20AC${(n ?? 0).toFixed(2)}`;
-  const total = subtotal; // add shipping/taxes here later
+  const total = subtotal;
 
   const onChange = (e) => {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setForm((f) => ({ ...f, [name]: type === "checkbox" ? checked : value }));
+  };
+
+  const requireField = (cond, key, msg, bag) => {
+    if (cond && !String(form[key] || "").trim()) bag[key] = msg;
   };
 
   const validate = () => {
     const e = {};
-    if (!form.fullName.trim()) e.fullName = "Required";
+    // customer
+    requireField(true, "fullName", "Required", e);
     if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = "Enter a valid email";
-    if (!form.phone.trim()) e.phone = "Required";
-    if (!form.address1.trim()) e.address1 = "Required";
-    if (!form.city.trim()) e.city = "Required";
-    if (!form.postcode.trim()) e.postcode = "Required";
+    requireField(true, "phone", "Required", e);
+    // shipping
+    requireField(true, "address1", "Required", e);
+    requireField(true, "city", "Required", e);
+    requireField(true, "postcode", "Required", e);
     if (!form.country) e.country = "Required";
+    // billing (only when different)
+    if (!form.billingSame) {
+      requireField(true, "billingAddress1", "Required", e);
+      requireField(true, "billingCity", "Required", e);
+      requireField(true, "billingPostcode", "Required", e);
+      if (!form.billingCountry) e.billingCountry = "Required";
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate() || !items?.length) return;
+    if (!items?.length || !validate()) return;
 
     setSubmitting(true);
     try {
-      console.log(items);
-      // in CheckoutPage.jsx (inside handleSubmit)
+      // ---------------------------
+      // 1. Prepare shipping + billing
+      // ---------------------------
+      const shippingAddress = {
+        line1: form.address1,
+        line2: form.address2,
+        city: form.city,
+        postal_code: form.postcode,
+        country: form.country,
+      };
+
+      const billingAddress = form.billingSame
+        ? shippingAddress
+        : {
+            line1: form.billingAddress1,
+            line2: form.billingAddress2,
+            city: form.billingCity,
+            postal_code: form.billingPostcode,
+            country: form.billingCountry,
+          };
+
+      // ---------------------------
+      // 2. Build payload for backend
+      // ---------------------------
+      const payload = {
+        items: items.map((p) => ({ id: p.id, qty: p.qty })),
+        customer: {
+          name: form.fullName,
+          email: form.email,
+          phone: form.phone,
+          notes: form.notes,
+        },
+        address: shippingAddress, // shipping
+        billingAddress, // explicit billing
+        billingSameAsShipping: form.billingSame, // flag
+        clientReferenceId: `cart_${Date.now()}`,
+      };
+
+      // ---------------------------
+      // 3. Log before sending (for testing)
+      // ---------------------------
+      console.log("🧾 Checkout payload preview:", payload);
+
+      // ---------------------------
+      // 4. Send to backend
+      // ---------------------------
       const res = await fetch(STRIPE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map((p) => ({ id: p.id, qty: p.qty })),
-          customer: {
-            name: form.fullName,
-            email: form.email,
-            phone: form.phone,
-            notes: form.notes,
-          },
-          address: {
-            line1: form.address1,
-            line2: form.address2,
-            city: form.city,
-            postal_code: form.postcode,
-            country: form.country, // ISO code like "PT"
-          },
-          clientReferenceId: `cart_${Date.now()}`,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
 
+      // ---------------------------
+      // 5. Handle response + redirect
+      // ---------------------------
       if (data?.url) {
-        window.location.href = data.url; // redirect to Stripe Checkout
+        console.log("✅ Payload confirmed. Redirecting to Stripe in 500 ms...");
+        // Small delay to ensure console flush
+        setTimeout(() => {
+          window.location.href = data.url;
+        }, 2500);
         return;
       }
 
       alert(data?.error || "Payment error. Please try again.");
     } catch (err) {
-      console.error(err);
+      console.error("❌ Checkout submit error:", err);
       alert("Unexpected error. Please try again.");
     } finally {
       setSubmitting(false);
@@ -324,6 +379,138 @@ export default function CheckoutPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Billing same as shipping toggle */}
+              <div className="border rounded-lg p-4">
+                <label className="inline-flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="billingSame"
+                    checked={form.billingSame}
+                    onChange={onChange}
+                    className="h-4 w-4"
+                  />
+                  <span className="text-sm text-gray-800">
+                    Billing address is the same as shipping
+                  </span>
+                </label>
+              </div>
+
+              {/* Billing address (shown only if different) */}
+              {!form.billingSame && (
+                <div>
+                  <h2 className="text-lg font-semibold mb-4">
+                    Billing address
+                  </h2>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="sm:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Address line 1 *
+                      </label>
+                      <input
+                        name="billingAddress1"
+                        value={form.billingAddress1}
+                        onChange={onChange}
+                        className={`mt-1 w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-black/10 ${
+                          errors.billingAddress1
+                            ? "border-red-400"
+                            : "border-gray-300"
+                        }`}
+                        placeholder="Rua Exemplo 12"
+                      />
+                      {errors.billingAddress1 && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {errors.billingAddress1}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Address line 2 (optional)
+                      </label>
+                      <input
+                        name="billingAddress2"
+                        value={form.billingAddress2}
+                        onChange={onChange}
+                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-black/10"
+                        placeholder="Apt / Floor / Unit"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        City *
+                      </label>
+                      <input
+                        name="billingCity"
+                        value={form.billingCity}
+                        onChange={onChange}
+                        className={`mt-1 w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-black/10 ${
+                          errors.billingCity
+                            ? "border-red-400"
+                            : "border-gray-300"
+                        }`}
+                        placeholder="Lisboa"
+                      />
+                      {errors.billingCity && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {errors.billingCity}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Postcode *
+                      </label>
+                      <input
+                        name="billingPostcode"
+                        value={form.billingPostcode}
+                        onChange={onChange}
+                        className={`mt-1 w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-black/10 ${
+                          errors.billingPostcode
+                            ? "border-red-400"
+                            : "border-gray-300"
+                        }`}
+                        placeholder="1000-000"
+                      />
+                      {errors.billingPostcode && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {errors.billingPostcode}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Country *
+                      </label>
+                      <select
+                        name="billingCountry"
+                        value={form.billingCountry}
+                        onChange={onChange}
+                        className={`mt-1 w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-black/10 ${
+                          errors.billingCountry
+                            ? "border-red-400"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        {countries.map((c) => (
+                          <option key={c.code} value={c.code}>
+                            {c.name}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.billingCountry && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {errors.billingCountry}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Actions */}
               <div className="flex items-center gap-3">

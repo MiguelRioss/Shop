@@ -12,15 +12,46 @@ export function scrollToTarget(selectorOrEl, offset = headerOffset()) {
 }
 
 
+// ScrollToCarroussel.mjs
 export const goToProducts = (navigate, location, closeMenu) => {
-  const destKey = '[data-scroll="products"]'; // or '#products' if you prefer IDs
+  const destKey = '[data-scroll="products"]';
   if (location.pathname === "/") {
     scrollToTarget(destKey, headerOffset());
   } else {
-    // hop to Home and pass intent in state
     navigate("/", { state: { scrollTo: "products" } });
   }
-  if (typeof closeMenu === "function") {
-    closeMenu(false);
+  if (typeof closeMenu === "function") closeMenu(false);
+};
+
+export const goToMesoStories = (navigate, location, closeMenu, anchor) => {
+  const path = "/mesostory";
+  if (location.pathname === path) {
+    if (anchor) {
+      const key = anchor.startsWith("#") ? anchor : `#${anchor}`;
+      scrollToTarget(key, headerOffset());
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  } else {
+    const state = anchor ? { scrollTo: anchor.replace(/^#/, "") } : undefined;
+    navigate(path, state ? { state } : undefined);
   }
+  if (typeof closeMenu === "function") closeMenu(false);
+};
+
+// utils/ScrollToCarroussel.js
+export const goToContactForm = (navigate, location, closeMenu, anchor) => {
+  const path = "/mesocontact";
+  if (location.pathname === path) {
+    if (anchor) {
+      const key = anchor.startsWith("#") ? anchor : `#${anchor}`;
+      scrollToTarget(key, headerOffset());
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  } else {
+    const state = anchor ? { scrollTo: anchor.replace(/^#/, "") } : undefined;
+    navigate(path, { state }); // safe even if state is undefined
+  }
+  if (typeof closeMenu === "function") closeMenu(false);
 };

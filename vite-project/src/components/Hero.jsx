@@ -1,14 +1,13 @@
 // src/components/Hero.jsx
 import Button from "./UtilsComponent/Button";
-import { goToProducts } from "./ProductsCarrousell/utils/ScrollToCarroussel";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import runCta from "./ProductsCarrousell/utils/ctaRunner.mjs";
 export default function Hero({
   bgImage,
   overlay, // { show: boolean, color: string }
   heading,
   subheading,
-  cta, // { show, label, href }
+  cta, // [{ show, label, href }, { show, label, href }...]
   productImage,
   sectionClass,
   containerClass,
@@ -16,7 +15,6 @@ export default function Hero({
   textColClass,
   headingClass,
   subheadingClass,
-  ctaClass,
   mobileImgWrapClass,
   mobileImgClass,
   desktopImgWrapClass,
@@ -26,9 +24,15 @@ export default function Hero({
   const navigate = useNavigate();
 
   return (
-    <section className={sectionClass} style={{ backgroundImage: `url(${bgImage})` }}>
+    <section
+      className={sectionClass}
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       {overlay?.show && (
-        <div className="absolute inset-0" style={{ background: overlay.color }} />
+        <div
+          className="absolute inset-0"
+          style={{ background: overlay.color }}
+        />
       )}
 
       <div className={containerClass}>
@@ -38,23 +42,28 @@ export default function Hero({
 
             {subheading && <p className={subheadingClass}>{subheading}</p>}
 
-            {cta?.show && (
-              <div>
-                <Button
-                  className={ctaClass}
-                  style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
-                  onClick={() => {
-                    goToProducts(navigate, location);
-                  }}
-                >
-                  {cta.label}
-                </Button>
-              </div>
-            )}
+            <div className="space-x-7">
+              {cta
+                .filter((x) => x?.show)
+                .map((item, i) => (
+                  <Button
+                    key={item.label || i}
+                    onClick={(e) =>
+                      runCta(e, item, navigate, location)
+                    }
+                  >
+                    {item.label}
+                  </Button>
+                ))}
+            </div>
 
             {productImage && (
               <div className={mobileImgWrapClass}>
-                <img src={productImage} alt="Product" className={mobileImgClass} />
+                <img
+                  src={productImage}
+                  alt="Product"
+                  className={mobileImgClass}
+                />
               </div>
             )}
           </div>

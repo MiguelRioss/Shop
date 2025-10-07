@@ -166,7 +166,7 @@
       <main className="bg-[var(--secondBackground)] min-h-[70vh]">
         <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
           <h1 className="font-serif text-3xl md:text-4xl text-gray-900">
-            MesoConnect
+            MesoContact
           </h1>
           <p className="mt-2 text-gray-700">
             We'd love to hear from you. Send us a message and we will get back

@@ -5,20 +5,24 @@
         "logoAlt": "Ibogenics",
         "links": [
             {
+                "label": "Home",
+                "href": "/"
+            },
+            {
                 "href": "/mesobuzz",
                 "label": "MesoBuzz"
+            },
+            {
+                "href": "/mesostory",
+                "label": "MesoStory"
             },
             {
                 "href": "/Mesoblog",
                 "label": "MesoBlog"
             },
             {
-                "href": "/contact",
-                "label": "MesoConnect"
-            },
-            {
-                "href": "/mesostorie",
-                "label": "MesoStories"
+                "href": "/mesocontact",
+                "label": "MesoContact"
             }
         ],
         "showCart": true,
@@ -46,11 +50,18 @@
         },
         "heading": "Stress relief has never been easier",
         "subheading": "Meso are gentle, plant-based drops that support a calm, centered state within the hour.",
-        "cta": {
-            "show": true,
-            "label": "Get Meso",
-            "href": "/#products-cart"
-        },
+        "cta": [
+            {
+                "show": true,
+                "label": "Get Meso",
+                "action": "goToProducts"
+            },
+            {
+                "show": true,
+                "label": "Our Story",
+                "action": "goToMesoStories"
+            }
+        ],
         "productImage": "/handsTA.webp",
         "sectionClass": "relative bg-[#f2f7fc] bg-cover bg-center overflow-hidden",
         "containerClass": "relative mx-auto max-w-7xl px-8 py-30 lg:py-44",
@@ -58,7 +69,6 @@
         "textColClass": "space-y-10  text-center lg:text-left",
         "headingClass": "text-4xl font-bold leading-tight text-gray-900 sm:text-5xl",
         "subheadingClass": "max-w-xl text-lg text-gray-700 mx-auto lg:mx-0",
-        "ctaClass": "inline-flex items-center rounded-full px-6 py-6 text-white font-medium text-lg hover:opacity-90 transition-opacity",
         "mobileImgWrapClass": "mt-10 lg:hidden overflow-visible",
         "mobileImgClass": "ml-auto w-[78vw] sm:w-[65vw] md:w-[58vw] max-w-none object-contain mr-[-10vw] sm:mr-[-12vw] md:mr-[-14vw]",
         "desktopImgWrapClass": "pointer-events-none absolute bottom-6 right-0 hidden lg:block z-10",
@@ -353,6 +363,14 @@
         },
         "topLinks": [
             {
+                "label": "Home",
+                "href": "/"
+            },
+            {
+                "href": "/mesostory",
+                "label": "MesoStory"
+            },
+            {
                 "label": "MesoBlog",
                 "href": "/mesoblog"
             },
@@ -361,12 +379,8 @@
                 "href": "/mesobuzz"
             },
             {
-                "label": "MesoConnect",
-                "href": "/mesoconnect"
-            },
-            {
-                "href": "/mesostorie",
-                "label": "MesoStories"
+                "label": "MesoContact",
+                "href": "/mesocontact"
             }
         ],
         "bottomLinks": [
@@ -805,8 +819,12 @@
             "alt": "Alvaro de Ferranti",
             "caption": "Co-Founder and Visuanary of Ibogenics.",
             "align": "right",
-            "width": 280, 
-            "height": 340 
+            "width": 280,
+            "height": 340
         }
+    },
+    "productsTags": {
+        "few": "Last Few Remaining",
+        "soldOut": "Sold Out"
     }
 }

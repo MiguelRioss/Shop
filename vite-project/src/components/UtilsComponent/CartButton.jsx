@@ -29,7 +29,7 @@ export default function CartButton({
     <Link
       to={href}
       aria-label={aria}
-      className={`relative inline-flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg active:scale-95 transition-transform ${className}`}
+      className={`relative inline-flex h-12 w-12 items-center justify-center hover:opacity-40 rounded-full text-white shadow-lg active:scale-95 transition-transform ${className}`}
       style={style}
     >
       {/* Cart icon */}

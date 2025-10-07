@@ -76,9 +76,9 @@ export default function App() {
           <Route path="/mesobuzz" element={<StoriesP />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/checkout/cancel" element={<CheckoutCancel />} />
-          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/mesocontact" element={<ContactPage />} />
           <Route path="/mesoconnect" element={<ContactPage />} />
-          <Route path="/mesostorie" element={<FounderLetterPage letter={config.founderLetter} />} />
+          <Route path="/mesostory" element={<FounderLetterPage letter={config.founderLetter} />} />
         </Routes>
         <Footer {...config.footer} />
         <CartToast />

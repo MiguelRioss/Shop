@@ -19,21 +19,28 @@ export default function IndvidualPageProduct({ products = [] }) {
 
   const otherProducts = React.useMemo(() => {
     if (!Array.isArray(products)) return [];
-    return products.filter((item) => (product ? item?.id !== product.id : true));
+    return products.filter((item) =>
+      product ? item?.id !== product.id : true
+    );
   }, [products, product]);
 
   if (!product) {
     return (
       <main className="bg-[var(--secondBackground)] min-h-[60vh]">
         <div className="mx-auto max-w-4xl px-4 py-20 text-center">
-          <h1 className="text-3xl font-semibold text-gray-900">Product not found</h1>
+          <h1 className="text-3xl font-semibold text-gray-900">
+            Product not found
+          </h1>
           <p className="mt-4 text-gray-600">
             We couldn&apos;t find that item. Please return to the product list.
           </p>
           <Link
             to="/"
             className="mt-6 inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white"
-            style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
+            style={{
+              background:
+                "linear-gradient(to right, var(--brand-from), var(--brand-to))",
+            }}
           >
             Back to home
           </Link>
@@ -57,10 +64,13 @@ export default function IndvidualPageProduct({ products = [] }) {
 
           <div className="space-y-4">
             <div>
-              <h1 className="font-serif text-3xl text-gray-900 sm:text-4xl">{product.title}</h1>
-              <p className="mt-2 text-base text-gray-600 sm:text-lg">{product.description}</p>
+              <h1 className="font-serif text-3xl text-gray-900 sm:text-4xl">
+                {product.title}
+              </h1>
+              <p className="mt-2 text-base text-gray-600 sm:text-lg">
+                {product.description}
+              </p>
             </div>
-
             <div
               className="flex items-center gap-3 text-xl font-semibold sm:text-2xl"
               style={{ color: "var(--brand)" }}
@@ -85,78 +95,74 @@ export default function IndvidualPageProduct({ products = [] }) {
               </svg>
               €{product.priceInEuros ?? product.price}
             </div>
+            {product.sections?.map((s, i) => (
+              <Details key={i} title={s.title} defaultOpen={s.defaultOpen}>
+                {s.description && (
+                  <p className="text-gray-600">{s.description}</p>
+                )}
+                {s.bullets?.length ? (
+                  <ul className="mt-2 list-disc space-y-2 pl-5 text-gray-600">
+                    {s.bullets.map((b, j) => (
+                      <li key={j}>{b}</li>
+                    ))}
+                  </ul>
+                ) : null}
 
-            {product.overview && (
-              <Details title="Overview" defaultOpen>
-                <p className="text-gray-600">{product.overview}</p>
+                {s.descriptionNote?.length ? (
+                  <ul className="mt-2 list-disc space-y-2 pl-5 text-gray-600">
+                    <p className="text-gray-600">{s.descriptionNote}</p>
+                  </ul>
+                ) : null}
               </Details>
-            )}
-
-            {product.benefits?.length ? (
-              <Details title="Why you'll love it">
-                <ul className="mt-2 list-disc space-y-2 pl-5 text-gray-600">
-                  {product.benefits.map((benefit, index) => (
-                    <li key={index}>{benefit}</li>
-                  ))}
-                </ul>
-              </Details>
-            ) : null}
-
-            {product.chakra && (
-              <Details title="Chakra connection">
-                <p className="mt-1 text-gray-600">{product.chakra}</p>
-              </Details>
-            )}
-
-
-            {product?.usage?.length ? (
-              <Details title="Usage Guidelines">
-                <ul className="mt-1 list-disc space-y-2 pl-5 text-gray-600">
-                  {product.usage.map((x, i) => (
-                    <li key={i}>{x}</li>
-                  ))}
-                </ul>
-              </Details>
-            ) : null}
-
-            {product?.warnings?.length ? (
-              <Details title="Warnings">
-                <ul className="mt-1 list-disc space-y-2 pl-5 text-gray-600">
-                  {product.warnings.map((x, i) => (
-                    <li key={i}>{x}</li>
-                  ))}
-                </ul>
-              </Details>
-            ) : null}
-
+            ))}
             {/* Highlights */}
             <div className="mt-4">
               <div className="rounded-2xl bg-[var(--background-column-3Balons)] p-4 sm:p-5 text-[var(--brand)]">
                 <ul className="space-y-3 text-sm">
                   <li className="flex items-center gap-3">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">★</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
+                      ★
+                    </span>
                     <span>Trustpilot 4.3 score</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">✉️</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
+                      ✉️
+                    </span>
                     <span>
-                      Try a 10 ml tester — you only pay the postage.{' '}
-                      <Link to="/contact" className="underline">Contact us</Link>.
+                      Try a 10 ml tester — you only pay the postage.{" "}
+                      <Link to="/mesocontact" className="underline">
+                        Contact us
+                      </Link>
+                      .
                     </span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">👥</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
+                      👥
+                    </span>
                     <span>
-                      Over 1,000,000 drops shared.{' '}
-                      <a href="https://www.facebook.com/groups/1297206078804311/" target="_blank" rel="noreferrer" className="underline">Join the Facebook community</a>
+                      Over 1,000,000 drops shared.{" "}
+                      <a
+                        href="https://www.facebook.com/groups/1297206078804311/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline"
+                      >
+                        Join the Facebook community
+                      </a>
                     </span>
                   </li>
                 </ul>
               </div>
-            </div>            <Link
+            </div>{" "}
+            <Link
               to="/cart"
               className="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold text-white sm:px-6"
-              style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
+              style={{
+                background:
+                  "linear-gradient(to right, var(--brand-from), var(--brand-to))",
+              }}
             >
               Go to Cart
             </Link>
@@ -180,22 +186,25 @@ export default function IndvidualPageProduct({ products = [] }) {
   );
 }
 
-
-
 function Details({ title, children, defaultOpen = false }) {
   return (
-    <details className="group p-3 rounded-xl border border-gray-200 bg-white/80" open={defaultOpen}>
+    <details
+      className="group p-3 rounded-xl border border-gray-200 bg-white/80"
+      open={defaultOpen}
+    >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-2">
         <span className="font-semibold text-gray-900">{title}</span>
-        <span className="ml-2 transition-transform duration-200 group-open:rotate-180">▾</span>
+        <span className="ml-2 transition-transform duration-200 group-open:rotate-180">
+          ▾
+        </span>
       </summary>
       <div className="mt-1 overflow-hidden">
         <div className="max-h-0 group-open:max-h-[1000px] transition-[max-height] duration-300 ease-out">
-          <div className="text-sm leading-relaxed text-gray-700">{children}</div>
+          <div className="text-sm leading-relaxed text-gray-700">
+            {children}
+          </div>
         </div>
       </div>
     </details>
   );
 }
-
-

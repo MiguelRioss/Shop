@@ -1,7 +1,7 @@
-import React from "react";
 import { useCart } from "../../components/CartContext.jsx";
 import { Link } from "react-router-dom";
-import Button from "../UtilsComponent/Button.jsx";
+import ProductTags from "./ProductTags.jsx";
+import JoinTheWaitingListAction from "./JoinTheWatingListAction.jsx";
 
 export default function ProductCard({
   id,
@@ -16,12 +16,7 @@ export default function ProductCard({
   const { addItem } = useCart();
   const product = { id, image, price, priceInEuros, title, description };
   // Debug log
-  console.log("ProductCard props:", {
-    id,
-    title,
-    fewTag,
-    soldOut,
-  });
+ 
   const handleBuy = () =>
     typeof addItem === "function" ? addItem(product, 1) : null;
 
@@ -70,16 +65,7 @@ export default function ProductCard({
           className="relative z-10 w-full h-full p-2 object-contain"
         />
 
-        {/* --- Stock Status Tag --- */}
-        {soldOut ? (
-          <span className="absolute top-2 left-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded">
-            Sold Out
-          </span>
-        ) : fewTag ? (
-          <span className="absolute top-2 left-2 bg-yellow-400 text-black text-xs font-semibold px-2 py-1 rounded">
-            Last Few Remaining
-          </span>
-        ) : null}
+        <ProductTags soldOut={soldOut} few={fewTag} />
       </div>
 
       {/* Content */}
@@ -101,21 +87,7 @@ export default function ProductCard({
 
         {/* Actions */}
         <div className="mt-auto space-y-2">
-          {soldOut ? (
-            <button
-              disabled
-              className="w-full h-10 md:h-11 justify-center text-sm md:text-base font-semibold rounded-full bg-gray-300 text-gray-600 cursor-not-allowed"
-            >
-              Sold Out
-            </button>
-          ) : (
-            <Button
-              onClick={handleBuy}
-              className="w-full h-10 md:h-11 justify-center text-sm md:text-base font-semibold active:scale-95"
-            >
-              Buy Now
-            </Button>
-          )}
+         <JoinTheWaitingListAction soldOut={soldOut} onBuy={handleBuy}/>
           <Link
             to={`/products/${product.id}`}
             className="w-full h-10 md:h-11 inline-flex items-center justify-center rounded-full border-2 border-[var(--brand-from)] text-[var(--brand-from)] bg-white font-semibold transition-colors transition-transform hover:bg-[var(--brand)] hover:text-white active:scale-95"

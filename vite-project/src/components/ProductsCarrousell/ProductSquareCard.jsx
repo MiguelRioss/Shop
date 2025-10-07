@@ -1,8 +1,10 @@
 // src/components/Products/ProductSquareCard.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "../UtilsComponent/Button.jsx";
 import { useCart } from "../../components/CartContext.jsx";
+import JoinTheWaitingListAction from "./JoinTheWatingListAction.jsx";
+
+import ProductTags from "./ProductTags.jsx";
 
 export default function ProductSquareCard({
   id,
@@ -45,15 +47,7 @@ export default function ProductSquareCard({
         />
 
         {/* Stock Tags */}
-        {soldOut ? (
-          <span className="absolute top-2 left-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded">
-            Sold Out
-          </span>
-        ) : fewTag ? (
-          <span className="absolute top-2 left-2 bg-yellow-400 text-black text-xs font-semibold px-2 py-1 rounded">
-            Few Remaining
-          </span>
-        ) : null}
+        <ProductTags soldOut={soldOut} few={fewTag} />
       </div>
 
       {/* Title */}
@@ -73,21 +67,7 @@ export default function ProductSquareCard({
 
       {/* Actions */}
       <div className="mt-2 grid grid-cols-2 gap-2">
-        {soldOut ? (
-          <button
-            disabled
-            className="w-full h-10 justify-center text-xs sm:text-sm font-semibold rounded-full bg-gray-300 text-gray-600 cursor-not-allowed"
-          >
-            Sold Out
-          </button>
-        ) : (
-          <Button
-            className="w-full h-10 justify-center text-xs sm:text-sm font-semibold"
-            onClick={() => addItem && addItem(product, 1)}
-          >
-            Buy Now
-          </Button>
-        )}
+        <JoinTheWaitingListAction soldOut={soldOut}/>
 
         <Link
           to={`/products/${id}`}

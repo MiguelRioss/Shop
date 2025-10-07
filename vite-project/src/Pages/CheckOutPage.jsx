@@ -89,6 +89,13 @@ export default function CheckoutPage() {
             phone: form.phone,
             notes: form.notes,
           },
+          address: {
+            line1: form.address1,
+            line2: form.address2,
+            city: form.city,
+            postal_code: form.postcode,
+            country: form.country, // ISO code like "PT"
+          },
           clientReferenceId: `cart_${Date.now()}`,
         }),
       });

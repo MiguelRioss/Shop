@@ -46,27 +46,23 @@ export default function Footer({
         <div className="grid gap-10 md:grid-cols-12 md:items-start">
           {/* Left: Logo + community blurb + socials */}
           <div className="md:col-span-8">
-            {/* Floating logo + wordmark */}
-            <div className="relative inline-block [--logo:372px] sm:[--logo:306px] md:[--logo:304px] lg:[--logo:448px]">
-              <img
-                src={logoSrc}
-                alt=""
-                aria-hidden="true"
-                className="pointer-events-none select-none absolute left-0 top-1/2 -translate-y-1/2 lg:-translate-x-33 sm:-translate-x-33 md:-translate-x-33 -translate-x-27 -ml-2 md:-ml-3"
-                loading="lazy"
-                decoding="async"
-              />
+            {/* Brand: logo + optional wordmark */}
+            <Link
+              to={brandHref}
+              className="inline-flex items-center gap-4 py-2"
+              aria-label={brandText || "Home"}
+            >
+              
+                <img
+                  src={logoSrc}
+                  alt={brandText || "Brand logo"}
+                  className="h-10 ml-18 scale-900 w-auto select-none"
+                  loading="lazy"
+                  decoding="async"
+                />
 
-              <Link
-                to={brandHref}
-                className="relative inline-flex items-center pl-[calc(var(--logo)+14px)]"
-                aria-label={brandText || "Home"}
-              >
-                {brandText ? (
-                  <span className="sr-only">{brandText}</span>
-                ) : null}
-              </Link>
-            </div>
+             
+            </Link>
 
             <div className="mt-10">
               <h3 className="text-2xl font-semibold text-white">
@@ -274,7 +270,7 @@ export default function Footer({
             ))}
           </div>
           <p className="text-xs text-white/70">
-            © Copyright {new Date().getFullYear()} {copyrightName}
+            Copyright {new Date().getFullYear()} {copyrightName}
           </p>
         </div>
       </div>

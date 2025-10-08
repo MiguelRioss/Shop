@@ -1,15 +1,20 @@
 // src/components/HeroWithVideo.jsx
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import YouTubeWithThumbnail from "./YouTubeWithThumbnail.jsx";
+import Button from "./UtilsComponent/Button.jsx";
+import { goToProducts } from "./ProductsCarrousell/utils/ScrollToCarroussel.js";
 
 export default function HeroWithVideo({
-  video,            // { id?: string, url?: string, thumbnail?: string, title?: string }
-  cta,              // { label: string, href: string }
-  heading,          // string
-  subheading,       // string
-  benefits,         // [{ icon: string, alt: string, title: string, note: string }]
-  disclaimer        // string
+  video, // { id?: string, url?: string, thumbnail?: string, title?: string }
+  cta, // { label: string, href: string }
+  heading, // string
+  subheading, // string
+  benefits, // [{ icon: string, alt: string, title: string, note: string }]
+  disclaimer, // string
 }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <section className="bg-[var(--secondBackground)]">
       <div className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
@@ -20,13 +25,14 @@ export default function HeroWithVideo({
               {/* Pass the video props down (component should handle id/url/thumbnail) */}
               <YouTubeWithThumbnail {...video} />
             </div>
-            <Link
-              to={cta?.href}
-              className="block w-full rounded-full px-6 py-4 text-center text-lg font-semibold text-white shadow hover:opacity-90 sm:w-auto"
-              style={{ background: "linear-gradient(to right, var(--brand-from), var(--brand-to))" }}
+            <Button
+            className="w-full"
+              onClick={() => {
+                goToProducts(navigate, location);
+              }}
             >
-              {cta?.label}
-            </Link>
+              {cta.label}
+            </Button>
           </div>
 
           {/* Right: text */}
@@ -50,7 +56,10 @@ export default function HeroWithVideo({
                     decoding="async"
                   />
                   <div>
-                    <p className="font-semibold" style={{ color: "var(--brand)" }}>
+                    <p
+                      className="font-semibold"
+                      style={{ color: "var(--brand)" }}
+                    >
                       {b.title}
                     </p>
                     <p className="text-gray-600 text-sm">{b.note}</p>
@@ -61,9 +70,7 @@ export default function HeroWithVideo({
 
             {disclaimer && (
               <div>
-                <p className="text-gray-600 mt-7 text-sm">
-                  {disclaimer}
-                </p>
+                <p className="text-gray-600 mt-7 text-sm">{disclaimer}</p>
               </div>
             )}
           </div>
@@ -72,7 +79,3 @@ export default function HeroWithVideo({
     </section>
   );
 }
-
-
-
-

@@ -6,7 +6,10 @@ import { Link } from "react-router-dom";
 function SubjectSelect({ label = "Subject", value, onChange, options = [] }) {
   const [open, setOpen] = React.useState(false);
   const [active, setActive] = React.useState(() =>
-    Math.max(0, options.findIndex((o) => o === value))
+    Math.max(
+      0,
+      options.findIndex((o) => o === value)
+    )
   );
   const wrapRef = React.useRef(null);
 
@@ -20,7 +23,12 @@ function SubjectSelect({ label = "Subject", value, onChange, options = [] }) {
   }, []);
 
   React.useEffect(() => {
-    setActive(Math.max(0, options.findIndex((o) => o === value)));
+    setActive(
+      Math.max(
+        0,
+        options.findIndex((o) => o === value)
+      )
+    );
   }, [value, options]);
 
   const choose = (val) => {
@@ -139,7 +147,7 @@ export default function ContactPage() {
     setStatus("sending");
     try {
       // ✅ Send to your live backend route
-      const res = await fetch("/api/contactUs", {
+      const res = await fetch("http://localhost:3000/api/contactUs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -171,7 +179,7 @@ export default function ContactPage() {
         <h1 className="font-serif text-3xl md:text-4xl text-gray-900">
           MesoContact
         </h1>
-        <p className="mt-2 text-gray-700">
+        <p class  Name="mt-2 text-gray-700">
           We'd love to hear from you. Send us a message and we will get back
           within 1–2 business days.
         </p>

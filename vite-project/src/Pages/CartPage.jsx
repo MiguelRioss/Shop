@@ -1,12 +1,12 @@
 import { useCart } from "../components/CartContext.jsx";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/UtilsComponent/Button.jsx";
+import SelectField from "../components/UtilsComponent/SelectField.jsx";
 
 export default function Cart() {
   const { items, setQty, removeItem, subtotal } = useCart();
   const fmt = (n) => `\u20AC${(n ?? 0).toFixed(2)}`;
   const navigate = useNavigate();
-  console.log(items);
   return (
     <section className="bg-[#fcfcf6] min-h-screen py-8 sm:py-10 px-4">
       <div className="max-w-6xl mx-auto">
@@ -50,30 +50,25 @@ export default function Cart() {
                     >
                       {/* MOBILE: stack, DESKTOP: row */}
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
-                        <div className="flex gap-3 sm:gap-4 sm:flex-1">
+                        <div className="flex gap-3 sm:gap-4 sm:flex-1 sm:items-start">
                           {/* image */}
                           {imgSrc ? (
-                            <div
-                              className="w-24 h-28 sm:w-28 sm:h-32 md:w-32 md:h-36 lg:w-36 lg:h-40 
-                  rounded-lg overflow-hidden bg-gray-100 
-                  flex items-center justify-center"
-                            >
-                              <img
-                                src={imgSrc}
-                                alt={title}
-                                className="
-        w-full h-full object-contain
-        transform scale-125 -translate-y-2
-      "
-                                loading="lazy"
-                              />
+                            <div className="shrink-0">
+                              <div className="w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
+                                <img
+                                  src={imgSrc}
+                                  alt={title}
+                                  className="w-full h-full object-contain"
+                                  loading="lazy"
+                                />
+                              </div>
                             </div>
                           ) : (
-                            <div className="w-24 h-28 sm:w-28 sm:h-32 md:w-32 md:h-36 lg:w-36 lg:h-40 rounded-lg bg-gray-100" />
+                            <div className="shrink-0 w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-lg bg-gray-100" />
                           )}
 
                           {/* text */}
-                          <div className="min-w-0">
+                          <div className="flex-1 min-w-0 sm:max-w-2xl">
                             <div className="flex items-center gap-2 flex-wrap">
                               <h3 className="font-medium text-gray-900 truncate">
                                 {title}
@@ -85,7 +80,7 @@ export default function Cart() {
                               )}
                             </div>
                             {desc && (
-                              <p className="text-sm text-gray-500 mt-0.5 line-clamp-3 sm:line-clamp-none">
+                              <p className="text-sm text-gray-600 mt-1 leading-relaxed break-words">
                                 {desc}
                               </p>
                             )}
@@ -96,27 +91,20 @@ export default function Cart() {
                         </div>
 
                         {/* controls */}
-                        <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 sm:flex-shrink-0 sm:min-w-[200px] sm:pl-4 sm:self-start">
+                        <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 sm:flex-shrink-0 sm:w-[220px] sm:pl-4 sm:self-start">
                           {/* Quantity (bigger tap area on mobile) */}
-                          <label className="sr-only" htmlFor={`qty-${item.id}`}>
-                            Quantity
-                          </label>
-                          <select
+                          <SelectField
                             id={`qty-${item.id}`}
+                            name={`qty-${item.id}`}
+                            label="Quantity"
+                            hideLabel
                             value={item.qty}
                             onChange={(e) =>
                               setQty(item.id, parseInt(e.target.value, 10))
                             }
-                            className="border rounded-lg px-3 py-2 sm:py-1 text-sm sm:w-20 sm:text-center"
-                          >
-                            {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                              (n) => (
-                                <option key={n} value={n}>
-                                  {n}
-                                </option>
-                              )
-                            )}
-                          </select>
+                            options={Array.from({ length: 10 }, (_, i) => i + 1)}
+                            className="w-20 text-center"
+                          />
 
                           {/* Remove (touch-friendly) */}
                           <button

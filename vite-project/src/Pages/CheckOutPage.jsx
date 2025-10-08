@@ -8,18 +8,18 @@ const STRIPE_ENDPOINT =
   "https://api-backend-mesodose-2.onrender.com/api/checkout-sessions";
 
 const countries = [
-  { code: "", name: "Choose..." },
-  { code: "AU", name: "Australia" },
-  { code: "BR", name: "Brazil" },
-  { code: "CA", name: "Canada" },
-  { code: "CR", name: "Costa Rica" },
-  { code: "DE", name: "Germany" },
-  { code: "MX", name: "Mexico" },
-  { code: "NL", name: "Netherlands" },
-  { code: "NZ", name: "New Zealand" },
-  { code: "PT", name: "Portugal" },
-  { code: "ZA", name: "South Africa" },
-  { code: "UY", name: "Uruguay" },
+  { code: "", name: "Choose...", dial: "" },
+  { code: "AU", name: "Australia", dial: "+61" },
+  { code: "BR", name: "Brazil", dial: "+55" },
+  { code: "CA", name: "Canada", dial: "+1" },
+  { code: "CR", name: "Costa Rica", dial: "+506" },
+  { code: "DE", name: "Germany", dial: "+49" },
+  { code: "MX", name: "Mexico", dial: "+52" },
+  { code: "NL", name: "Netherlands", dial: "+31" },
+  { code: "NZ", name: "New Zealand", dial: "+64" },
+  { code: "PT", name: "Portugal", dial: "+351" },
+  { code: "ZA", name: "South Africa", dial: "+27" },
+  { code: "UY", name: "Uruguay", dial: "+598" },
 ];
 
 export default function CheckoutPage() {
@@ -36,6 +36,7 @@ export default function CheckoutPage() {
     // customer
     fullName: "",
     email: "",
+    dialCode: "",
     phone: "",
     notes: "",
     // shipping
@@ -61,6 +62,28 @@ export default function CheckoutPage() {
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    // Auto-sync dial code and country when one is changed
+    if (name === "country") {
+      const selected = countries.find((c) => c.code === value);
+      setForm((f) => ({
+        ...f,
+        [name]: value,
+        dialCode: selected?.dial || f.dialCode,
+      }));
+      return;
+    }
+
+    if (name === "dialCode") {
+      const selected = countries.find((c) => c.dial === value);
+      setForm((f) => ({
+        ...f,
+        dialCode: value,
+        country: selected?.code || f.country,
+      }));
+      return;
+    }
+
     setForm((f) => ({ ...f, [name]: type === "checkbox" ? checked : value }));
   };
 
@@ -74,6 +97,8 @@ export default function CheckoutPage() {
     requireField(true, "fullName", "Required", e);
     if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = "Enter a valid email";
     requireField(true, "phone", "Required", e);
+    if (form.phone && !/^[0-9\s()+-]+$/.test(form.phone))
+      e.phone = "Invalid phone format";
     // shipping
     requireField(true, "address1", "Required", e);
     requireField(true, "city", "Required", e);
@@ -125,7 +150,7 @@ export default function CheckoutPage() {
         customer: {
           name: form.fullName,
           email: form.email,
-          phone: form.phone,
+          phone: `${form.dialCode || ""} ${form.phone}`.trim(),
           notes: form.notes,
         },
         address: shippingAddress, // shipping
@@ -134,14 +159,8 @@ export default function CheckoutPage() {
         clientReferenceId: `cart_${Date.now()}`,
       };
 
-      // ---------------------------
-      // 3. Log before sending (for testing)
-      // ---------------------------
       console.log("🧾 Checkout payload preview:", payload);
 
-      // ---------------------------
-      // 4. Send to backend
-      // ---------------------------
       const res = await fetch(STRIPE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -150,12 +169,8 @@ export default function CheckoutPage() {
 
       const data = await res.json();
 
-      // ---------------------------
-      // 5. Handle response + redirect
-      // ---------------------------
       if (data?.url) {
         console.log("✅ Payload confirmed. Redirecting to Stripe in 500 ms...");
-        // Small delay to ensure console flush
         setTimeout(() => {
           window.location.href = data.url;
         }, 2500);
@@ -229,26 +244,46 @@ export default function CheckoutPage() {
                       </p>
                     )}
                   </div>
-                  <div>
+
+                  {/* Phone with dial code dropdown */}
+                  <div className="sm:col-span-2">
                     <label className="block text-sm font-medium text-gray-700">
                       Phone *
                     </label>
-                    <input
-                      name="phone"
-                      value={form.phone}
-                      onChange={onChange}
-                      className={`mt-1 w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-black/10 ${
-                        errors.phone ? "border-red-400" : "border-gray-300"
-                      }`}
-                      placeholder="928269577"
-                    />
+                    <div className="flex gap-2">
+                      <select
+                        name="dialCode"
+                        value={form.dialCode}
+                        onChange={onChange}
+                        className="mt-1 w-28 rounded-lg border border-gray-300 px-2 py-2 outline-none focus:ring-2 focus:ring-black/10"
+                      >
+                        <option value="">Code</option>
+                        {countries
+                          .filter((c) => c.dial)
+                          .map((c) => (
+                            <option key={c.code} value={c.dial}>
+                              {c.dial}
+                            </option>
+                          ))}
+                      </select>
+                      <input
+                        name="phone"
+                        value={form.phone}
+                        onChange={onChange}
+                        className={`mt-1 flex-1 rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-black/10 ${
+                          errors.phone ? "border-red-400" : "border-gray-300"
+                        }`}
+                        placeholder="928269577"
+                      />
+                    </div>
                     {errors.phone && (
                       <p className="text-xs text-red-500 mt-1">
                         {errors.phone}
                       </p>
                     )}
                   </div>
-                  <div>
+
+                  <div className="sm:col-span-2">
                     <label className="block text-sm font-medium text-gray-700">
                       Notes (optional)
                     </label>
@@ -349,7 +384,7 @@ export default function CheckoutPage() {
                         message and we'll try to sort it out.
                       </p>
                       <Link
-                        to="../contact"
+                        to="/mesoContact"
                         className="ml-2 text-md font-bold leading-none underline"
                       >
                         Contact Us Here
@@ -380,7 +415,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Billing same as shipping toggle */}
+              {/* Billing same as shipping */}
               <div className="border rounded-lg p-4">
                 <label className="inline-flex items-center gap-3 cursor-pointer">
                   <input
@@ -396,7 +431,7 @@ export default function CheckoutPage() {
                 </label>
               </div>
 
-              {/* Billing address (shown only if different) */}
+              {/* Billing (conditional) */}
               {!form.billingSame && (
                 <div>
                   <h2 className="text-lg font-semibold mb-4">

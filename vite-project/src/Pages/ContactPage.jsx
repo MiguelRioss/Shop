@@ -147,7 +147,7 @@ export default function ContactPage() {
     setStatus("sending");
     try {
       // ✅ Send to your live backend route
-      const res = await fetch("http://localhost:3000/api/contactUs", {
+      const res = await fetch("https://api-backend-mesodose-2.onrender.com/api/contactUs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

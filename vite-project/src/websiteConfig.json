@@ -345,7 +345,7 @@
         ]
     },
     "footer": {
-        "logoSrc": "/logo_white.webp",
+        "logoSrc": "/logo_white.png",
         "brandHref": "/",
         "brandText": "Meso",
         "community": {

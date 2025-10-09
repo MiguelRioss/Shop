@@ -7,6 +7,8 @@ import Button from "../components/UtilsComponent/Button.jsx";
 const STRIPE_ENDPOINT =
   "https://api-backend-mesodose-2.onrender.com/api/checkout-sessions";
 
+const SHIPPING_COST_CENTS = 1000;
+
 const countries = [
   { code: "", name: "Choose...", dial: "" },
   { code: "AU", name: "Australia", dial: "+61" },
@@ -58,7 +60,9 @@ export default function CheckoutPage() {
   const [submitting, setSubmitting] = React.useState(false);
 
   const fmt = (n) => `\u20AC${(n ?? 0).toFixed(2)}`;
-  const total = subtotal;
+  const subtotalAmount = subtotal ?? 0;
+  const shippingCost = items?.length ? SHIPPING_COST_CENTS / 100 : 0;
+  const total = subtotalAmount + shippingCost;
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -157,6 +161,7 @@ export default function CheckoutPage() {
         billingAddress, // explicit billing
         billingSameAsShipping: form.billingSame, // flag
         clientReferenceId: `cart_${Date.now()}`,
+        shippingCostCents: SHIPPING_COST_CENTS,
       };
 
       console.log("🧾 Checkout payload preview:", payload);
@@ -627,7 +632,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Shipping</span>
-                    <span className="font-medium">--</span>
+                    <span className="font-medium">{fmt(shippingCost)}</span>
                   </div>
                   <div className="flex justify-between text-base font-semibold pt-2">
                     <span>Total</span>

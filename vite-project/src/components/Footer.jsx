@@ -49,19 +49,16 @@ export default function Footer({
             {/* Brand: logo + optional wordmark */}
             <Link
               to={brandHref}
-              className="inline-flex items-center gap-4 py-2"
+              className="block w-full text-center md:text-left"
               aria-label={brandText || "Home"}
             >
-              
-                <img
-                  src={logoSrc}
-                  alt={brandText || "Brand logo"}
-                  className="h-10 ml-18 scale-900 w-auto select-none"
-                  loading="lazy"
-                  decoding="async"
-                />
-
-             
+              <img
+                src={logoSrc || "/assets/ibogenics-footer-logo.png"} // path to your image
+                alt={brandText || "Ibogenics by Mesodose"}
+                className="mx-auto md:ml-0 h-18  w-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
+                loading="lazy"
+                decoding="async"
+              />
             </Link>
 
             <div className="mt-10">
@@ -169,7 +166,7 @@ export default function Footer({
               ) : null}
               {socialLinks.length > 0 && (
                 <div className="mt-4 flex items-center gap-4">
-                  {socialLinks.map(({ message,label, href }, i) => {
+                  {socialLinks.map(({ message, label, href }, i) => {
                     const key = String(label || "")
                       .toLowerCase()
                       .trim();
@@ -277,5 +274,3 @@ export default function Footer({
     </footer>
   );
 }
-
-

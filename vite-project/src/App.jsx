@@ -71,12 +71,12 @@ export default function App() {
           <Route path="/affiliate" element={<PlaceholderPage title="Affiliate" message="Affiliate program details are coming soon." />} />
           <Route path="/legal" element={<LegalPage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/products/:id" element={<IndvidualPageProduct products={products} />} />
+          <Route path="/products/:id" element={<IndvidualPageProduct products={products} page={config.individualProductPage} />} />
           <Route path="/checkout" element={<HeroCheckout />} />
           <Route path="/mesobuzz" element={<StoriesP />} />
-          <Route path="/checkout/success" element={<CheckoutSuccess />} />
+          <Route path="/checkout/success/:orderId" element={<CheckoutSuccess />} />
           <Route path="/checkout/cancel" element={<CheckoutCancel />} />
-          <Route path="/mesocontact" element={<ContactPage />} />
+          <Route path="/mesocontact" element={<ContactPage contactUsInfo={config.contactPage}/>} />
           <Route path="/mesoconnect" element={<ContactPage />} />
           <Route path="/mesostory" element={<FounderLetterPage letter={config.founderLetter} />} />
         </Routes>

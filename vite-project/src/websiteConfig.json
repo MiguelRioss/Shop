@@ -826,5 +826,136 @@
     "productsTags": {
         "few": "Last Few Remaining",
         "soldOut": "Sold Out"
+    },
+    "individualProductPage": {
+        "notFound": {
+            "title": "Product not found",
+            "message": "We couldn’t find that item. Please return to the product list.",
+            "button": {
+                "label": "Back to home",
+                "href": "/",
+                "gradient": "linear-gradient(to right, var(--brand-from), var(--brand-to))"
+            }
+        },
+        "pageLayout": {
+            "bg": "bg-white",
+            "container": "mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 md:px-10 lg:px-16 xl:px-24"
+        },
+        "productImage": {
+            "wrapperClass": "bg-[var(--secondBackground)] rounded-3xl p-4 shadow-sm sm:p-6 lg:p-8",
+            "imgClass": "mx-auto h-full max-h-[360px] w-full object-contain"
+        },
+        "price": {
+            "icon": "cart",
+            "color": "var(--brand)",
+            "currencySymbol": "€"
+        },
+        "sections": {
+            "headingClass": "font-serif text-3xl text-gray-900 sm:text-4xl",
+            "descriptionClass": "mt-2 text-base text-gray-600 sm:text-lg"
+        },
+        "highlights": {
+            "title": "Why people love Meso",
+            "boxClass": "rounded-2xl bg-[var(--background-column-3Balons)] p-4 sm:p-5 text-[var(--brand)]",
+            "items": [
+                {
+                    "icon": "★",
+                    "text": "Trustpilot 4.7 score"
+                },
+                {
+                    "icon": "✉️",
+                    "text": "Try a 10 ml tester — you only pay the postage.",
+                    "link": {
+                        "label": "Contact us",
+                        "href": "/mesocontact"
+                    }
+                },
+                {
+                    "icon": "👥",
+                    "text": "Over 1,000,000 drops shared.",
+                    "link": {
+                        "label": "Join the Facebook community",
+                        "href": "https://www.facebook.com/groups/1297206078804311/",
+                        "target": "_blank"
+                    }
+                }
+            ]
+        },
+        "cartButton": {
+            "label": "Go to Cart",
+            "href": "/cart",
+            "gradient": "linear-gradient(to right, var(--brand-from), var(--brand-to))"
+        },
+        "related": {
+            "heading": "Explore more tinctures",
+            "bg": "bg-[var(--secondBackground)] py-12"
+        }
+    },
+    "contactPage": {
+        "title": "MesoContact",
+        "intro": "We'd love to hear from you. Send us a message and we will get back within 1–2 business days.",
+        "fields": [
+            {
+                "label": "Name",
+                "name": "name",
+                "type": "text",
+                "required": true
+            },
+            {
+                "label": "Email",
+                "name": "email",
+                "type": "email",
+                "required": true
+            },
+            {
+                "label": "Country",
+                "name": "country",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Order ID",
+                "name": "orderId",
+                "type": "text",
+                "required": false
+            },
+            {
+                "label": "Subject",
+                "name": "subject",
+                "type": "select",
+                "options": [
+                    "General enquiry",
+                    "Order support",
+                    "Country missing at checkout? We'll help",
+                    "Feedback",
+                    "Get a 10ml Sample",
+                    "Join the Waiting List"
+                ]
+            },
+            {
+                "label": "Message",
+                "name": "message",
+                "type": "textarea",
+                "required": true
+            },
+            {
+                "label": "Subscribe to our newsletter",
+                "name": "subscribe",
+                "type": "checkbox"
+            }
+        ],
+        "submitButton": {
+            "label": "Send Message",
+            "sendingLabel": "Sending…"
+        },
+        "privacyNote": "By submitting, you agree to our Privacy Policy.",
+        "privacyHref": "/legal#privacy-policy",
+        "successMessage": "Thanks! Your message was sent successfully.",
+        "errorMessage": "Please fill name, email, and message.",
+        "api": {
+            "contactEndpoint": "https://api-backend-mesodose-2.onrender.com/api/contactUs",
+            "subscribeEndpoint": "https://api-backend-mesodose-2.onrender.com/api/subscribe",
+            "fallbackEmail": "info@mesodose.com"
+        }
     }
 }

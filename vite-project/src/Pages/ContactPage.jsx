@@ -103,6 +103,7 @@ export default function ContactPage({ contactUsInfo }) {
 
           {/* Subject dropdown */}
           <SubjectSelect
+            name="subject"
             label={contactUsInfo.fields[4].label}
             value={form.subject}
             options={contactUsInfo.fields[4].options}
@@ -171,4 +172,3 @@ export default function ContactPage({ contactUsInfo }) {
     </main>
   );
 }
-

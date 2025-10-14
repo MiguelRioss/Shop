@@ -1,8 +1,7 @@
 /**
  * createCheckoutSession.js
- * ------------------------
  * Handles preparing shipping + billing data and sending payload
- * to Stripe backend endpoint. Returns JSON response.
+ * to the checkout backend endpoint. Returns JSON response.
  */
 
 export async function createCheckoutSession({
@@ -11,7 +10,7 @@ export async function createCheckoutSession({
   shippingCostCents = 0,
   endpoint = "https://api-backend-mesodose-2.onrender.com/api/checkout-sessions",
 }) {
-  // 1️⃣ Prepare shipping + billing
+  // Build shipping address payload
   const shippingAddress = {
     line1: form.address1,
     line2: form.address2,
@@ -20,6 +19,7 @@ export async function createCheckoutSession({
     country: form.country,
   };
 
+  // Use shipping address for billing when flagged as same
   const billingAddress = form.billingSame
     ? shippingAddress
     : {
@@ -30,7 +30,7 @@ export async function createCheckoutSession({
         country: form.billingCountry,
       };
 
-  // 2️⃣ Build payload for backend
+  // Compose checkout payload for backend
   const payload = {
     items: items.map((p) => ({ id: p.id, qty: p.qty })),
     customer: {
@@ -46,7 +46,7 @@ export async function createCheckoutSession({
     shippingCostCents,
   };
 
-  console.log("🧾 Checkout payload preview:", payload);
+  console.log("Checkout payload preview:", payload);
 
   try {
     const res = await fetch(endpoint, {
@@ -57,13 +57,30 @@ export async function createCheckoutSession({
 
     const data = await res.json();
     if (!res.ok) {
-      console.error("❌ Checkout API error:", data?.error || res.statusText);
+      console.error("Checkout API error:", data?.error || res.statusText);
       return { success: false, error: data?.error || "Checkout failed" };
     }
 
-    return { success: true, data };
+    const url =
+      data?.url ||
+      data?.checkoutUrl ||
+      data?.session?.url ||
+      data?.sessionUrl ||
+      null;
+
+    if (!url) {
+      console.error("Checkout API missing redirect URL:", data);
+      return {
+        success: false,
+        error: "Checkout failed: no redirect URL returned.",
+        data,
+      };
+    }
+
+    return { success: true, url, data };
   } catch (err) {
-    console.error("❌ Checkout session creation failed:", err);
+    console.error("Checkout session creation failed:", err);
     return { success: false, error: err.message };
   }
 }
+

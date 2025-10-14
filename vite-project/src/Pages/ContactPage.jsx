@@ -190,7 +190,6 @@ export default function ContactPage() {
         >
           <div className="grid gap-4 md:grid-cols-2">
 <<<<<<< HEAD
-<<<<<<< HEAD
             <InputField
               {...contactUsInfo.fields[0]}
               value={form.name}
@@ -243,8 +242,6 @@ export default function ContactPage() {
           <div className="border rounded-lg p-4">
             <label className="inline-flex items-center gap-3 cursor-pointer">
 =======
-=======
->>>>>>> parent of 16c46cb (//newOptions)
             <div>
               <label
                 htmlFor="name"
@@ -252,9 +249,6 @@ export default function ContactPage() {
               >
                 Name
               </label>
-<<<<<<< HEAD
->>>>>>> parent of 16c46cb (//newOptions)
-=======
 >>>>>>> parent of 16c46cb (//newOptions)
               <input
                 id="name"

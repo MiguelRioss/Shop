@@ -3,13 +3,22 @@ import Button from "../UtilsComponent/Button";
 import { useNavigate, useLocation } from "react-router-dom";
 import { goToContactForm } from "./utils/ScrollToCarroussel";
 
-export default function JoinTheWaitingListAction({ soldOut, onBuy, closeMenu }) {
+export default function JoinTheWaitingListAction({
+  soldOut,
+  onBuy,
+  closeMenu,
+}) {
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleJoinWaitlist = () => {
-    // change "waitlist" to the ID you want to scroll to on /contact
-    goToContactForm(navigate, location, closeMenu, "waitlist");
+    goToContactForm(
+      navigate,
+      location,
+      closeMenu,
+      "waitlist",
+      "Join the Waiting List"
+    );
   };
 
   if (soldOut) {

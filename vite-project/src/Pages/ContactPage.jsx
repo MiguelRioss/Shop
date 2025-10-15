@@ -3,12 +3,19 @@ import Button from "../components/UtilsComponent/Button.jsx";
 import { Link } from "react-router-dom";
 import SubjectSelect from "../components/SubjectSelect.jsx";
 import InputField from "../components/InputFieldComponent.jsx";
+import { useLocation } from "react-router-dom";
 
 export default function ContactPage({ contactUsInfo }) {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialSubject = queryParams.get("subject");
+
   const [form, setForm] = React.useState({
     name: "",
     email: "",
-    subject: contactUsInfo.fields.find((f) => f.name === "subject").options[0],
+    subject: 
+      initialSubject ||
+      contactUsInfo.fields.find((f) => f.name === "subject").options[0],
     message: "",
     orderId: "",
     country: "",

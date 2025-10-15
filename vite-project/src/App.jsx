@@ -74,7 +74,7 @@ export default function App() {
           <Route path="/products/:id" element={<IndvidualPageProduct products={products} page={config.individualProductPage} />} />
           <Route path="/checkout" element={<HeroCheckout />} />
           <Route path="/mesobuzz" element={<StoriesP />} />
-          <Route path="/checkout/success/:orderId" element={<CheckoutSuccess />} />
+          <Route path="/checkout/success/:sessionID" element={<CheckoutSuccess />} />
           <Route path="/checkout/cancel" element={<CheckoutCancel />} />
           <Route path="/mesocontact" element={<ContactPage contactUsInfo={config.contactPage}/>} />
           <Route path="/mesoconnect" element={<ContactPage />} />

@@ -4,12 +4,16 @@
  * to the checkout backend endpoint. Returns JSON response.
  */
 
+import apiURLresolve from "./apiURLresolve";
+
 export async function createCheckoutSession({
   items = [],
   form = {},
   shippingCostCents = 0,
-  endpoint = "https://api-backend-mesodose-2.onrender.com/api/checkout-sessions",
 }) {
+
+  
+  const endpoint = `${apiURLresolve()}/api/checkout-sessions`
   // Build shipping address payload
   const shippingAddress = {
     line1: form.address1,

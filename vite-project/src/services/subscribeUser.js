@@ -5,13 +5,16 @@
  * Safely sends user data to backend endpoint.
  */
 
+import apiURLresolve from "./apiURLresolve";
+
 export async function subscribeUser({
   email,
   fullName,
   dialCode = "",
   phone = "",
-  endpoint = "http://localhost:3000/api/subscribe",
 }) {
+
+  const endpoint = `${apiURLresolve()}/api/subscribe `
   if (!email) {
     console.warn("⚠️ Missing email for subscription");
     return { success: false, message: "Missing email" };

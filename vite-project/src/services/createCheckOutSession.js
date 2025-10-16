@@ -6,15 +6,10 @@
 
 import apiURLresolve from "./apiURLresolve";
 
-export async function createCheckoutSession({
-  items = [],
-  form = {},
-  shippingCostCents = 0,
-}) {
+// src/services/createCheckoutSession.js
+export async function createCheckoutSession({ items = [], form = {}, shippingCostCents = 0 }) {
+  const endpoint = `${apiURLresolve()}/api/checkout-sessions`;
 
-  
-  const endpoint = `${apiURLresolve()}/api/checkout-sessions`
-  // Build shipping address payload
   const shippingAddress = {
     line1: form.address1,
     line2: form.address2,
@@ -23,7 +18,6 @@ export async function createCheckoutSession({
     country: form.country,
   };
 
-  // Use shipping address for billing when flagged as same
   const billingAddress = form.billingSame
     ? shippingAddress
     : {
@@ -34,7 +28,6 @@ export async function createCheckoutSession({
         country: form.billingCountry,
       };
 
-  // Compose checkout payload for backend
   const payload = {
     items: items.map((p) => ({ id: p.id, qty: p.qty })),
     customer: {
@@ -50,41 +43,29 @@ export async function createCheckoutSession({
     shippingCostCents,
   };
 
-  console.log("Checkout payload preview:", payload);
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
 
+  let data;
   try {
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      console.error("Checkout API error:", data?.error || res.statusText);
-      return { success: false, error: data?.error || "Checkout failed" };
-    }
-
-    const url =
-      data?.url ||
-      data?.checkoutUrl ||
-      data?.session?.url ||
-      data?.sessionUrl ||
-      null;
-
-    if (!url) {
-      console.error("Checkout API missing redirect URL:", data);
-      return {
-        success: false,
-        error: "Checkout failed: no redirect URL returned.",
-        data,
-      };
-    }
-
-    return { success: true, url, data };
-  } catch (err) {
-    console.error("Checkout session creation failed:", err);
-    return { success: false, error: err.message };
+    data = await res.json();
+  } catch {
+    throw { status: 500, message: "Invalid JSON response from server" };
   }
+
+  if (!res.ok) {
+    throw { status: res.status, message: data.message || "Checkout failed." };
+  }
+
+  const url = data?.url || data?.session?.url;
+  if (!url) {
+    throw { status: 500, message: "No checkout URL returned from server." };
+  }
+
+  return { url };
 }
+
 

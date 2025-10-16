@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function CheckoutCancel() {
+export default function NotFoundPage() {
   return (
     <div
       className="page flex flex-col items-center justify-center py-10 px-4 text-center"
@@ -11,36 +11,27 @@ export default function CheckoutCancel() {
         className="card max-w-xl w-full p-8 rounded-2xl shadow-md border border-gray-200"
         style={{ background: "white" }}
       >
-        <h1 className="text-2xl font-semibold mb-3 text-red-600">
-          Payment canceled ❌
+        <h1 className="text-2xl font-semibold mb-3 text-red-700">
+          Page not found
         </h1>
-
-        <div className="text-sm text-gray-700 leading-relaxed mb-6">
-          <p>
-            Your payment was canceled before completion. No charges have been made.
-          </p>
-          <p className="mt-3 text-gray-500">
-            You can return to your cart, review your details, and try again at any time.
-          </p>
-        </div>
+        <p className="text-sm text-gray-600 leading-relaxed mb-6">
+          The page you are looking for does not exist or may have been moved.
+          Check the URL, use the links below, or return to the homepage.
+        </p>
 
         <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
           <Link
-            to="/cart"
-            className="btn px-5 py-2 rounded border border-gray-300 hover:bg-gray-100"
-          >
-            Back to cart
-          </Link>
-          <Link
             to="/"
-            className="btn px-5 py-2 rounded bg-gray-900 text-white hover:bg-gray-800"
+            className="btn px-5 py-2 rounded border border-gray-300 hover:bg-gray-100"
           >
             Continue shopping
           </Link>
-        </div>
-
-        <div className="mt-6 text-xs text-gray-400">
-          Need help? <Link to="/mesoContact  " className="underline">Contact support</Link>
+          <Link
+            to="/mesocontact"
+            className="btn px-5 py-2 rounded bg-gray-900 text-white hover:bg-gray-800"
+          >
+            Need help?
+          </Link>
         </div>
       </div>
     </div>

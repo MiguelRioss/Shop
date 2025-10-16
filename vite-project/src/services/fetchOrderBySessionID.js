@@ -4,6 +4,7 @@ import apiURLresolve from "./apiURLresolve";
 export default async function fetchOrderBySessionId(sessionId) {
     const apiBase = apiURLresolve()
     const res = await fetch(`${apiBase}/api/orders/session/${sessionId}`);
+    console.log(res)
     if (!res.ok) throw new Error(`Failed to fetch stock: ${res.status}`);
     return res.json(); // expect { id: { stockValue, name, ... }, ... }
 }

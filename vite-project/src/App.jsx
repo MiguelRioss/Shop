@@ -18,19 +18,20 @@ import IndvidualPageProduct from "./Pages/IndvidualPageProduct.jsx";
 import LegalPage from "./Pages/LegalPage.jsx";
 import config from "./websiteConfig.json";
 import FounderLetterPage from "./Pages/FounderLetterPage.jsx";
+import NotFoundPage from "./Pages/NotFoundPage.jsx";
 
 import fetchStock from "./services/fetchStock.js";
+import { ErrorProvider, ErrorContext } from "./components/ErrorContext.jsx"
+import ErrorToast from "./components/ErrorsToast.jsx"
 
 export default function App() {
   const [products, setProducts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
+    React.useEffect(() => {
     (async () => {
       try {
         const data = await fetchStock();
-        console.log("Fetched stock data:", data);
-        // make array from {id: {...}, id: {...}}
         const arr = Array.isArray(data) ? data : Object.values(data);
         setProducts(arr);
       } catch (err) {
@@ -42,6 +43,7 @@ export default function App() {
   }, []);
 
   return (
+     <ErrorProvider>
     <CartProvider>
       <Router>
         <ScrollToTop />
@@ -79,11 +81,21 @@ export default function App() {
           <Route path="/mesocontact" element={<ContactPage contactUsInfo={config.contactPage}/>} />
           <Route path="/mesoconnect" element={<ContactPage />} />
           <Route path="/mesostory" element={<FounderLetterPage letter={config.founderLetter} />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer {...config.footer} />
         <CartToast />
         <MobileCartFab />
+          <GlobalErrorToast />
       </Router>
     </CartProvider>
+    </ErrorProvider>
   );
+}
+
+
+// small helper component inside App.jsx
+function GlobalErrorToast() {
+  const { error, clearError } = React.useContext(ErrorContext);
+  return <ErrorToast error={error} onClose={clearError} />;
 }

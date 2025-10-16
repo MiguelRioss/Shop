@@ -39,17 +39,12 @@ export const goToMesoStories = (navigate, location, closeMenu, anchor) => {
   if (typeof closeMenu === "function") closeMenu(false);
 };
 
-// utils/ScrollToCarroussel.js
-export const goToContactForm = (
-  navigate,
-  location,
-  closeMenu,
-  anchor,
-  subject
-) => {
+export const goToContactForm = (navigate, location, closeMenu, anchor, subject) => {
   const path = "/mesocontact";
+  const url = subject
+    ? `${path}?subject=${encodeURIComponent(subject)}`
+    : path;
 
-  // When already on the contact page
   if (location.pathname === path) {
     if (anchor) {
       const key = anchor.startsWith("#") ? anchor : `#${anchor}`;
@@ -58,12 +53,7 @@ export const goToContactForm = (
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   } else {
-    // Pass both scroll target and subject via state
-    const state = {
-      ...(anchor ? { scrollTo: anchor.replace(/^#/, "") } : {}),
-      ...(subject ? { subject } : {}),
-    };
-    navigate(path, { state });
+    navigate(url); // 👈 now includes ?subject=...
   }
 
   if (typeof closeMenu === "function") closeMenu(false);

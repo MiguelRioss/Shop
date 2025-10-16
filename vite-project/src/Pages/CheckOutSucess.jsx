@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import fetchOrderBySessionId from "../services/fetchOrderBySessionID";
-
+import { useCart } from "../components/CartContext";
 function centsToEUR(cents) {
   if (cents == null) return "—";
   return new Intl.NumberFormat("en-IE", {
@@ -15,6 +15,7 @@ export default function CheckoutSuccess() {
   const [loading, setLoading] = React.useState(!!sessionId);
   const [order, setOrder] = React.useState(null);
   const [error, setError] = React.useState("");
+  const { clear } = useCart(); // ✅ access the clear() function from context
 
   async function loadOrder() {
     if (!sessionId) return;
@@ -32,8 +33,10 @@ export default function CheckoutSuccess() {
   }
 
   React.useEffect(() => {
-    if (sessionId) loadOrder();
-  }, [sessionId]);
+    if (sessionId) {
+      loadOrder().finally(() => clear());
+    }
+  }, [sessionId, clear]);
 
   return (
     <div
@@ -70,8 +73,6 @@ export default function CheckoutSuccess() {
             <h2 className="text-lg font-medium mb-4 text-gray-800">
               Order summary
             </h2>
-            
-
 
             <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-left text-sm">
               <div className="text-gray-500">Name</div>
@@ -84,13 +85,13 @@ export default function CheckoutSuccess() {
               <div className="font-semibold text-gray-700">
                 {centsToEUR(order.amount_total)}
               </div>
-
-              
-              
             </div>
 
             <div className="mt-6 space-y-2 text-sm text-gray-500 text-left">
-              <p>A confirmation email was sent to you with more detailed information and your invoice.</p>
+              <p>
+                A confirmation email was sent to you with more detailed
+                information and your invoice.
+              </p>
               <p> We’ll notify you once your order ships.</p>
             </div>
           </>
@@ -120,7 +121,7 @@ export default function CheckoutSuccess() {
             Continue shopping
           </Link>
           <Link
-            to="/support"
+            to="/mesoContact"
             className="btn px-5 py-2 rounded bg-gray-900 text-white hover:bg-gray-800"
           >
             Need help?

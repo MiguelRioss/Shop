@@ -63,7 +63,7 @@
             }
         ],
         "productImage": "/handsTA.webp",
-        "sectionClass": "relative bg-[#f2f7fc] bg-cover bg-center overflow-hidden",
+        "sectionClass": "relative bg-[#f2f7fc] p-5 bg-cover bg-center overflow-hidden",
         "containerClass": "relative mx-auto max-w-7xl px-8 py-30 lg:py-44",
         "gridClass": "grid items-center gap-10 lg:grid-cols-2 lg:pr-56",
         "textColClass": "space-y-10  text-center lg:text-left",

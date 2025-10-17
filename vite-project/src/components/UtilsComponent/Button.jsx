@@ -17,8 +17,12 @@ export default function Button({
   },
   ...rest
 }) {
-  const baseClasses =
-    "inline-flex items-center rounded-full px-5 py-2 text-sm font-medium text-white hover:opacity-40 transition-opacity";
+  const baseClasses = `
+  inline-flex items-center rounded-full px-5 py-2 text-sm font-medium text-white 
+  hover:opacity-40 transition-opacity 
+  disabled:opacity-40 disabled:cursor-not-allowed
+`;
+
   const justifyClass = justifyClassMap[justify] || justifyClassMap.center;
   const composedClassName = [baseClasses, justifyClass, className]
     .filter(Boolean)

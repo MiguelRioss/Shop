@@ -58,3 +58,38 @@ export const goToContactForm = (navigate, location, closeMenu, anchor, subject) 
 
   if (typeof closeMenu === "function") closeMenu(false);
 };
+
+export const goToLegalSection = (
+  navigate,
+  location,
+  closeMenu,
+  anchorId
+) => {
+  const path = "/legal";
+  const targetId = (anchorId ?? "").replace(/^#/, "");
+  const href = targetId ? `${path}#${targetId}` : path;
+
+  const close = () => {
+    if (typeof closeMenu === "function") closeMenu(false);
+  };
+
+  if (location.pathname === path) {
+    if (targetId) {
+      if (window.location.hash !== `#${targetId}`) {
+        navigate(href, { replace: true });
+      }
+      requestAnimationFrame(() => {
+        scrollToTarget(`#${targetId}`, headerOffset());
+      });
+    } else {
+      if (window.location.hash) navigate(path, { replace: true });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    close();
+    return;
+  }
+
+  const options = targetId ? { state: { scrollTo: targetId } } : undefined;
+  navigate(href, options);
+  close();
+};

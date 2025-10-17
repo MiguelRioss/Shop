@@ -2,7 +2,7 @@ import InputField from "../InputFieldComponent.jsx";
 
 /**
  * Generic address section used for both Shipping and Billing.
- * 
+ *
  * Props:
  * - title: "Shipping address" or "Billing address"
  * - prefix: "" or "billing" (used to prefix field names)
@@ -73,7 +73,12 @@ export default function AddressSection({
             }`}
           >
             {countries.map((c) => (
-              <option key={c.code} value={c.code}>
+              <option
+                key={c.code}
+                value={c.code}
+                disabled={c.disabled}
+                className={c.disabled ? "text-gray-400 italic" : ""}
+              >
                 {c.name}
               </option>
             ))}

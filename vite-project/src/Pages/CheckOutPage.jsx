@@ -10,23 +10,36 @@ import CheckoutForm from "../components/CheckOut/CheckoutForm.jsx";
 import ProductSummary from "../components/CheckOut/CheckoutSummary.jsx";
 import { useContext } from "react";
 import { ErrorContext } from "../components/ErrorContext.jsx";
-
-const SHIPPING_COST_CENTS = 1000;
+import { countries as countryData } from "country-data";
 
 const countries = [
   { code: "", name: "Choose...", dial: "" },
-  { code: "AU", name: "Australia", dial: "+61" },
-  { code: "BR", name: "Brazil", dial: "+55" },
-  { code: "CA", name: "Canada", dial: "+1" },
-  { code: "CR", name: "Costa Rica", dial: "+506" },
-  { code: "DE", name: "Germany", dial: "+49" },
-  { code: "MX", name: "Mexico", dial: "+52" },
-  { code: "NL", name: "Netherlands", dial: "+31" },
-  { code: "NZ", name: "New Zealand", dial: "+64" },
-  { code: "PT", name: "Portugal", dial: "+351" },
-  { code: "ZA", name: "South Africa", dial: "+27" },
-  { code: "UY", name: "Uruguay", dial: "+598" },
+  ...countryData.all
+    // remove confusing or duplicate territories
+    .filter(
+      (c) =>
+        ![
+          "UM", // United States Minor Outlying Islands
+          "VI", // U.S. Virgin Islands
+          "GU", // Guam
+          "MP", // Northern Mariana Islands
+          "AS", // American Samoa
+        ].includes(c.alpha2)
+    )
+    .map((c) => {
+      const isUS = c.alpha2 === "US";
+      return {
+        code: c.alpha2,
+        name: isUS
+          ? "United States (EUA) — Not available for shipping"
+          : c.name,
+        dial: c.countryCallingCodes?.[0] || "",
+        disabled: isUS,
+      };
+    }),
 ];
+
+const SHIPPING_COST_CENTS = 1000;
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -76,12 +89,16 @@ export default function CheckoutPage() {
 
     setSubmitting(true);
     try {
+      if (form.country === "US") {
+        alert("We currently cannot ship to the United States (EUA).");
+        return;
+      }
       const { url } = await createCheckoutSession({
         items,
         form,
         shippingCostCents: SHIPPING_COST_CENTS,
       });
-      console.log(url)
+      console.log(url);
 
       window.location.href = url;
     } catch (err) {

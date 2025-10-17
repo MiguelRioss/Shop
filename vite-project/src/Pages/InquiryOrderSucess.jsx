@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import fetchOrderBySessionId from "../services/fetchOrderBySessionID";
 import { useCart } from "../components/CartContext";
+import fetchOrderByID from "../services/fetchOrderBySessionID";
 function centsToEUR(cents) {
   if (cents == null) return "—";
   return new Intl.NumberFormat("en-IE", {
@@ -10,34 +10,33 @@ function centsToEUR(cents) {
   }).format((Number(cents) || 0) / 100);
 }
 
-export default function CheckoutSuccess() {
-  const { sessionID: sessionId } = useParams();
-  const [loading, setLoading] = React.useState(!!sessionId);
+export default function InquiryOrderSucess() {
+  const { orderID: orderID } = useParams();
+  const [loading, setLoading] = React.useState(!!orderID);
   const [order, setOrder] = React.useState(null);
   const [error, setError] = React.useState("");
   const { clear } = useCart(); // ✅ access the clear() function from context
 
   async function loadOrder() {
-    if (!sessionId) return;
+    if (!orderID) return;
     setLoading(true);
     setError("");
     try {
-      const result = await fetchOrderBySessionId(sessionId);
+      const result = await fetchOrderByID(orderID);
       setOrder(result);
     } catch (e) {
-      console.error("❌ Failed to fetch order:", e);
-      setError(e.message || "Failed to load order.");
+      setError(e.message);
     } finally {
       setLoading(false);
     }
   }
 
   React.useEffect(() => {
-    if (sessionId) {
+    if (orderID) {
       loadOrder().finally(() => clear());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionId]);
+  }, [orderID]);
 
   return (
     <div
@@ -49,7 +48,7 @@ export default function CheckoutSuccess() {
         style={{ background: "white" }}
       >
         <h1 className="text-2xl font-semibold mb-3 text-green-700">
-          Payment successful 🎉
+          Email Sent 🎉
         </h1>
         {error && (
           <div className="p-4 mb-6 text-left rounded-lg border-l-4 border-red-600 bg-red-50">
@@ -89,21 +88,17 @@ export default function CheckoutSuccess() {
             </div>
 
             <div className="mt-6 space-y-2 text-sm text-gray-500 text-left">
-              <p>
-                A confirmation email was sent to you with more detailed
-                information and your invoice.
-              </p>
+              <p>An email was sent to you with more information and alternative payment methods</p>
               <p> We’ll notify you once your order ships.</p>
             </div>
           </>
         ) : (
           <div className="text-sm text-gray-500 leading-relaxed">
             <p>
-              Payment succeeded and Stripe showed you this success page. We’re
-              still finalizing your order in our system. This usually takes a
-              few seconds.
+              Your order was receive still. We’re still finalizing your order in
+              our system. This usually takes a few seconds.
             </p>
-            {sessionId && (
+            {orderID && (
               <button
                 className="btn mt-4 px-4 py-2 rounded bg-gray-900 text-white hover:bg-gray-800"
                 onClick={loadOrder}

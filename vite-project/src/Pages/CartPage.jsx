@@ -144,7 +144,9 @@ export default function Cart() {
                 background:
                   "linear-gradient(to right, var(--brand-from), var(--brand-to))",
               }}
+
               onClick={() => navigate("/checkout")}
+              disabled = {!items?.length}
             >
               Checkout
             </Button>

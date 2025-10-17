@@ -23,6 +23,7 @@ import NotFoundPage from "./Pages/NotFoundPage.jsx";
 import fetchStock from "./services/fetchStock.js";
 import { ErrorProvider, ErrorContext } from "./components/ErrorContext.jsx"
 import ErrorToast from "./components/ErrorsToast.jsx"
+import InquiryOrderSucess from "./Pages/InquiryOrderSucess.jsx";
 
 export default function App() {
   const [products, setProducts] = React.useState([]);
@@ -77,6 +78,7 @@ export default function App() {
           <Route path="/checkout" element={<HeroCheckout />} />
           <Route path="/mesobuzz" element={<StoriesP />} />
           <Route path="/checkout/success/:sessionID" element={<CheckoutSuccess />} />
+          <Route path="/checkout/orderSuccess/:orderID" element={<InquiryOrderSucess />} />
           <Route path="/checkout/cancel" element={<CheckoutCancel />} />
           <Route path="/mesocontact" element={<ContactPage contactUsInfo={config.contactPage}/>} />
           <Route path="/mesoconnect" element={<ContactPage />} />

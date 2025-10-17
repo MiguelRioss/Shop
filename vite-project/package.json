@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",
+    "country-data": "^0.0.31",
+    "country-list": "^2.4.1",
+    "country-telephone-data": "^0.6.3",
     "express": "^5.1.0",
     "firebase": "^12.2.1",
     "lucide-react": "^0.542.0",

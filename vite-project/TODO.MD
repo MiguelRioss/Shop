@@ -96,9 +96,9 @@
 
 - [ ] Make better success and cancel page on the checkout
 
-- [ ] Subject : Join the Wating List ,
-   * [ ] Brevo ? to send email ? 
-- [ ] MesoBuzz Meso Storie  
+- [X] ~~*Subject : Join the Wating List ,*~~ [2025-10-17]
+   * [X] ~~*Brevo ? to send email ?*~~ [2025-10-17] 
+- [X] ~~*MesoBuzz Meso Storie*~~ [2025-10-17]  
 
 ## todo 
 - [X] ~~*Waiting List*~~ [2025-10-03]

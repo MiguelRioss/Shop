@@ -1,7 +1,8 @@
 ﻿// src/components/Footer.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Facebook, Instagram, Globe } from "lucide-react";
+import { goToLegalSection } from "./ProductsCarrousell/utils/ScrollToCarroussel.js";
 
 const iconMap = {
   browser: Globe,
@@ -23,11 +24,23 @@ export default function Footer({
   copyrightName,
   socialLinks = [],
 }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { heading: commHeading, body: commBody, socialsBlurb } = community;
   const { heading: discHeading, body: discBody } = disclaimer;
 
   const [activeTip, setActiveTip] = React.useState(null); // index of icon showing tip
   const tipTimerRef = React.useRef(null);
+  const handleFooterLinkClick = React.useCallback(
+    (event, href) => {
+      if (!href || typeof href !== "string") return;
+      if (!href.startsWith("/legal")) return;
+      event.preventDefault();
+      const anchor = href.includes("#") ? href.split("#")[1] : "";
+      goToLegalSection(navigate, location, undefined, anchor);
+    },
+    [location, navigate]
+  );
 
   React.useEffect(() => {
     return () => {
@@ -260,6 +273,7 @@ export default function Footer({
               <Link
                 key={l.href}
                 to={l.href}
+                onClick={(e) => handleFooterLinkClick(e, l.href)}
                 className="underline underline-offset-4 hover:text-white"
               >
                 {l.label}

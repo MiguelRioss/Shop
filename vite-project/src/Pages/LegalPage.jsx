@@ -1,9 +1,13 @@
 ﻿// src/pages/PoliciesPage.jsx
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-  import site from "../websiteConfig.json"; // adjust path
-// const data = site.policies; // if policies live inside site.json
-const data = site.policies; // <- assumes your last fixed JSON
+import site from "../websiteConfig.json";
+import {
+  headerOffset,
+  scrollToTarget,
+} from "../components/ProductsCarrousell/utils/ScrollToCarroussel.js";
+
+const data = site.policies;
 
 const linkify = (text) => {
   const parts = String(text).split(/(https?:\/\/\S+|[\w.+-]+@[\w.-]+\.[\w.-]+)/g);
@@ -15,25 +19,26 @@ const linkify = (text) => {
 };
 
 export default function LegalPage() {
-  const location = useLocation(); const { hash } = location; const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { hash } = location;
 
   React.useEffect(() => {
-  const stateTarget = location.state && location.state.scrollTo;
-  const hashTarget = hash ? hash.slice(1) : null;
-  const target = stateTarget || hashTarget;
+    const stateTarget = location.state?.scrollTo;
+    const hashTarget = hash ? hash.slice(1) : null;
+    const target = stateTarget || hashTarget;
 
-  if (target) {
-    requestAnimationFrame(() => {
-      scrollToTarget(`#${target}`, headerOffset());
-    });
-    // Clear state if it was used
-    if (stateTarget) {
-      navigate(location.pathname, { replace: true, state: null });
+    if (target) {
+      requestAnimationFrame(() => {
+        scrollToTarget(`#${target}`, headerOffset());
+      });
+      if (stateTarget) {
+        navigate(location.pathname, { replace: true, state: null });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: "auto" });
     }
-  } else {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }
-}, [hash, location, navigate]);
+  }, [hash, location.pathname, location.state, navigate]);
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-16 space-y-20">

@@ -10,28 +10,34 @@
 export function handleFormChange(e, countries, setForm) {
   const { name, value, type, checked } = e.target;
 
-  // Auto-sync dial code and country
-  if (name === "country") {
-    const selected = countries.find((c) => c.code === value);
-    setForm((f) => ({
-      ...f,
-      [name]: value,
-      dialCode: selected?.dial || f.dialCode,
-    }));
-    return;
-  }
+  setForm((prev) => {
+    const next = { ...prev, [name]: type === "checkbox" ? checked : value };
 
-  if (name === "dialCode") {
-    const selected = countries.find((c) => c.dial === value);
-    setForm((f) => ({
-      ...f,
-      dialCode: value,
-      country: selected?.code || f.country,
-    }));
-    return;
-  }
+    // --- When user selects a country ---
+    if (name === "country") {
+      const selected = countries.find((c) => c.code === value);
+      if (selected?.dial) {
+        const currentCountry = countries.find(
+          (c) => c.dial === prev.dialCode
+        );
+        const shouldUpdateDial =
+          !prev.dialCode || (currentCountry && currentCountry.code === prev.country);
 
-  setForm((f) => ({ ...f, [name]: type === "checkbox" ? checked : value }));
+        if (shouldUpdateDial) {
+          next.dialCode = selected.dial;
+        }
+      }
+    }
+
+    // --- When user selects a dial code ---
+    if (name === "dialCode") {
+      // Do not force the country to match — let the user mix freely
+      // Only ensure the dial code value is updated
+      next.dialCode = value;
+    }
+
+    return next;
+  });
 }
 
 /**

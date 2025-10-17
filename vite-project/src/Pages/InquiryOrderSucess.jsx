@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "../components/CartContext";
-import fetchOrderByID from "../services/fetchOrderBySessionID";
+import fetchOrderByID from "../services/fetchOrderByID";
 function centsToEUR(cents) {
   if (cents == null) return "—";
   return new Intl.NumberFormat("en-IE", {

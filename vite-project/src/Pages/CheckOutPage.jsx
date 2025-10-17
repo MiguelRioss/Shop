@@ -33,7 +33,7 @@ const countries = [
         name: isUS
           ? "United States (EUA) — Not available for shipping"
           : c.name,
-        dial: c.countryCallingCodes?.[0] || "",
+        dial: (c.countryCallingCodes?.[0] || "").trim(),
         disabled: isUS,
       };
     }),
@@ -73,6 +73,19 @@ export default function CheckoutPage() {
 
   const [errors, setErrors] = React.useState({});
   const [submitting, setSubmitting] = React.useState(false);
+  React.useEffect(() => {
+    if (!form.country || form.dialCode) return;
+    const selected = countries.find((c) => c.code === form.country && c.dial);
+    if (!selected) return;
+    setForm((prev) =>
+      prev.dialCode
+        ? prev
+        : {
+            ...prev,
+            dialCode: selected.dial,
+          }
+    );
+  }, [form.country, form.dialCode]);
 
   const fmt = (n) => `\u20AC${(n ?? 0).toFixed(2)}`;
   const subtotalAmount = subtotal ?? 0;

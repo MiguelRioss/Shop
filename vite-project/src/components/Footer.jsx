@@ -250,19 +250,6 @@ export default function Footer({
               ) : null}
             </div>
           </div>
-
-          {/* Right: simple top links */}
-          <nav className="md:col-span-4 md:justify-self-end">
-            <ul className="flex gap-8 text-sm font-semibold text-white/90 md:gap-10">
-              {topLinks.map((l) => (
-                <li key={l.href}>
-                  <Link to={l.href} className="hover:text-white">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
         </div>
 
         <div className="mt-12 h-px w-full bg-white/10" />

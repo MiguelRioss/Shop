@@ -20,9 +20,14 @@ export default function PhonePicker({ form, errors, onChange, countries }) {
           name="dialCode"
           value={form.dialCode}
           onChange={onChange}
-          className="mt-1 w-28 rounded-lg border border-gray-300 px-2 py-2 outline-none focus:ring-2 focus:ring-black/10"
+          required
+          className={`mt-1 w-28 rounded-lg border px-2 py-2 outline-none focus:ring-2 focus:ring-black/10 ${
+            errors.dialCode ? "border-red-400" : "border-gray-300"
+          }`}
         >
-          <option value="">Code</option>
+          <option value="" disabled hidden>
+            Code
+          </option>
           {countries
             .filter((c) => c.dial)
             .map((c) => (
@@ -43,8 +48,10 @@ export default function PhonePicker({ form, errors, onChange, countries }) {
         />
       </div>
 
-      {errors.phone && (
-        <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
+      {(errors.dialCode || errors.phone) && (
+        <p className="text-xs text-red-500 mt-1">
+          {errors.dialCode || errors.phone}
+        </p>
       )}
     </div>
   );

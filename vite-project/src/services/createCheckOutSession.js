@@ -5,27 +5,43 @@
  */
 
 import apiURLresolve from "./apiURLresolve";
+import { countries as countryData } from "country-data";
+
+const countryNameLookup = countryData.all.reduce((acc, country) => {
+  if (country.alpha2) acc[country.alpha2] = country.name;
+  return acc;
+}, {});
+
+const resolveCountryName = (code = "") => {
+  if (!code) return "";
+  return countryNameLookup[code] || code;
+};
 
 // src/services/createCheckoutSession.js
 export async function createCheckoutSession({ items = [], form = {}, shippingCostCents = 0 }) {
   const endpoint = `${apiURLresolve()}/api/checkout-sessions`;
+  const dialCode = String(form.dialCode || "").trim();
+  const phoneNumber = String(form.phone || "").trim();
+  const formattedPhone = [dialCode, phoneNumber].filter(Boolean).join(" ").trim();
 
   const shippingAddress = {
     line1: form.address1,
     line2: form.address2,
     city: form.city,
     postal_code: form.postcode,
-    country: form.country,
+    country: resolveCountryName(form.country),
+    countryCode: form.country || "",
   };
 
   const billingAddress = form.billingSame
-    ? shippingAddress
+    ? { ...shippingAddress }
     : {
         line1: form.billingAddress1,
         line2: form.billingAddress2,
         city: form.billingCity,
         postal_code: form.billingPostcode,
-        country: form.billingCountry,
+        country: resolveCountryName(form.billingCountry),
+        countryCode: form.billingCountry || "",
       };
 
   const payload = {
@@ -33,7 +49,9 @@ export async function createCheckoutSession({ items = [], form = {}, shippingCos
     customer: {
       name: form.fullName,
       email: form.email,
-      phone: `${form.dialCode} ${form.phone}`.trim(),
+      phone: formattedPhone,
+      phoneNumber,
+      dialCode,
       notes: form.notes,
     },
     address: shippingAddress,
@@ -67,5 +85,3 @@ export async function createCheckoutSession({ items = [], form = {}, shippingCos
 
   return { url };
 }
-
-

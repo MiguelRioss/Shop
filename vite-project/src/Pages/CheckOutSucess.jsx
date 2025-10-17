@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import fetchOrderBySessionId from "../services/fetchOrderBySessionID";
+import fetchOrderBySessionId from "../services/fetchOrderByID";
 import { useCart } from "../components/CartContext";
 function centsToEUR(cents) {
   if (cents == null) return "—";

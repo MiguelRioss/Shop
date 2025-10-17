@@ -63,7 +63,7 @@
             }
         ],
         "productImage": "/handsTA.webp",
-        "sectionClass": "relative bg-[#f2f7fc] p-5 bg-cover bg-center overflow-hidden",
+        "sectionClass": "relative bg-[#f2f7fc]  bg-cover bg-center overflow-hidden",
         "containerClass": "relative mx-auto max-w-7xl px-8 py-30 lg:py-44",
         "gridClass": "grid items-center gap-10 lg:grid-cols-2 lg:pr-56",
         "textColClass": "space-y-10  text-center lg:text-left",
@@ -72,7 +72,7 @@
         "mobileImgWrapClass": "mt-10 lg:hidden overflow-visible",
         "mobileImgClass": "ml-auto w-[78vw] sm:w-[65vw] md:w-[58vw] max-w-none object-contain mr-[-10vw] sm:mr-[-12vw] md:mr-[-14vw]",
         "desktopImgWrapClass": "pointer-events-none absolute bottom-6 right-0 hidden lg:block z-10",
-        "desktopImgClass": "h-[92vh] max-h-[1060px] object-contain mr-[-24px]"
+        "desktopImgClass": "h-170 object-contain  "
     },
     "productShowcase": {
         "usageDefault": [

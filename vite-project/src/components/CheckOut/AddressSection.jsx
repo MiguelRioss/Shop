@@ -60,18 +60,27 @@ export default function AddressSection({
           error={errors[key("postcode")]}
         />
 
+        {/* ✅ COUNTRY DROPDOWN FIXED */}
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor={key("country")}
+            className="block text-sm font-medium text-gray-700"
+          >
             Country *
           </label>
           <select
+            id={key("country")}
             name={key("country")}
             value={form[key("country")]}
             onChange={onChange}
+            required
             className={`mt-1 w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-black/10 ${
               errors[key("country")] ? "border-red-400" : "border-gray-300"
             }`}
           >
+            {/* Default option */}
+            <option value="">Select country…</option>
+
             {countries.map((c) => (
               <option
                 key={c.code}

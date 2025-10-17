@@ -19,21 +19,19 @@ export default function FounderLetterPage(props) {
       </header>
 
       <article className="font-serif text-[18px] leading-8 text-gray-900">
-        {/* Hero image that wraps with text on md+ */}
+        {/* Hero image — centered on mobile/tablet, floated on desktop */}
         {hero.src && (
           <figure
             className={[
-              // mobile stack
-              "mb-6 sm:mb-8", // ⬅ bigger bottom margin so text resumes lower
-              // float + horizontal gutter on md+
-              alignRight ? "md:float-right md:ml-6" : "md:float-left md:mr-6",
-              "md:mb-10", // ⬅ extra gap on larger screens
+              "mb-8 sm:mb-10",
+              "mx-auto md:mx-0 text-center",
+              alignRight ? "md:float-right md:ml-8" : "md:float-left md:mr-8",
             ].join(" ")}
             style={{
-              width: (hero.width || 280) + "px",
-              height: (hero.height || 340) + "px",
+              width: "100%",
+              maxWidth: (hero.width || 320) + "px",
               shapeOutside: "inset(0 round 16px)",
-              shapeMargin: "14px", // ⬅ add buffer around the wrap area
+              shapeMargin: "14px",
             }}
           >
             <img
@@ -41,21 +39,22 @@ export default function FounderLetterPage(props) {
               alt={hero.alt || letter.title}
               loading="eager"
               decoding="async"
-              className="block w-full h-full object-cover rounded-xl shadow-md"
+              className="block mx-auto w-[80%] sm:w-[70%] md:w-full h-auto rounded-xl shadow-md"
             />
             {hero.caption && (
-              <figcaption className="mt-2 text-xs text-gray-500">
+              <figcaption className="mt-3 text-xs text-gray-500 text-center">
                 {hero.caption}
               </figcaption>
             )}
           </figure>
         )}
 
-        <article className="font-serif text-[18px] text-gray-900 leading-8">
+        {/* Text body — adds padding on mobile/tablet */}
+        <article className="font-serif text-[18px] text-gray-900 leading-8 px-2 sm:px-4 md:px-0">
           <div className="space-y-8">
             {letter.body.split(/\n{2,}/).map((block, i) => (
               <div key={i}>
-                {block.split(/\n/).map((line, j, arr) => (
+                {block.split(/\n/).map((line, j) => (
                   <span key={j} className="block mb-3 last:mb-0">
                     {line || "\u00A0"}
                   </span>
@@ -65,7 +64,7 @@ export default function FounderLetterPage(props) {
           </div>
         </article>
 
-        {/* Clear the float at the end so following content doesn't wrap around */}
+        {/* Clears float so footer or following content doesn’t wrap */}
         <div className="clear-both" />
       </article>
     </main>

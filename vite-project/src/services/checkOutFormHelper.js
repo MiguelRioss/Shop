@@ -56,6 +56,7 @@ export function validateCheckoutForm(form, setErrors) {
 
   // Customer
   requireField(form, true, "fullName", "Required", e);
+  requireField(form, true, "dialCode", "Select a dial code", e);
   if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = "Enter a valid email";
   requireField(form, true, "phone", "Required", e);
   if (form.phone && !/^[0-9\s()+-]+$/.test(form.phone))

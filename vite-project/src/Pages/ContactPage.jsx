@@ -19,7 +19,7 @@ export default function ContactPage({ contactUsInfo }) {
     message: "",
     orderId: "",
     country: "",
-    subscribe: false,
+    subscribe: true,
   });
 
   const [status, setStatus] = React.useState("idle");

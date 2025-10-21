@@ -11,7 +11,7 @@ import ProductSummary from "../components/CheckOut/CheckoutSummary.jsx";
 import { useContext } from "react";
 import { ErrorContext } from "../components/ErrorContext.jsx";
 import { countries as countryData } from "country-data";
-import shippingPrices from "../websiteConfig.json";
+import {shippingPrices} from "../websiteConfig.json";
 
 const countries = [
   { code: "", name: "Choose...", dial: "" },

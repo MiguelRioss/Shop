@@ -102,7 +102,7 @@ export default function Cart() {
                             onChange={(e) =>
                               setQty(item.id, parseInt(e.target.value, 10))
                             }
-                            options={Array.from({ length: 10 }, (_, i) => i + 1)}
+                            options={Array.from({ length: 4 }, (_, i) => i + 1)}
                             className="w-20 text-center"
                           />
 

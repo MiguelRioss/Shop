@@ -1,4 +1,4 @@
-﻿{
+{
     "navbar": {
         "logoSrc": "/logo.png",
         "homeHref": "/",
@@ -17,7 +17,7 @@
                 "label": "MesoStory"
             },
             {
-                "href": "/Mesoblog",
+                "href": "/mesoblog",
                 "label": "MesoBlog"
             },
             {
@@ -908,12 +908,6 @@
                 "required": true
             },
             {
-                "label": "Country",
-                "name": "country",
-                "type": "text",
-                "required": false
-            },
-            {
                 "label": "Order ID",
                 "name": "orderId",
                 "type": "text",
@@ -926,7 +920,6 @@
                 "options": [
                     "General enquiry",
                     "Order support",
-                    "Country missing at checkout? We'll help",
                     "Feedback",
                     "Get a 10ml Sample",
                     "Join the Waiting List"
@@ -957,5 +950,8 @@
             "subscribeEndpoint": "https://api-backend-mesodose-2.onrender.com/api/subscribe",
             "fallbackEmail": "info@mesodose.com"
         }
+    },
+    "shippingPrices": {
+        "default": 1000
     }
 }

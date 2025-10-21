@@ -17,13 +17,13 @@ import ContactPage from "./Pages/ContactPage.jsx";
 import IndvidualPageProduct from "./Pages/IndvidualPageProduct.jsx";
 import LegalPage from "./Pages/LegalPage.jsx";
 import config from "./websiteConfig.json";
-import FounderLetterPage from "./Pages/FounderLetterPage.jsx";
 import NotFoundPage from "./Pages/NotFoundPage.jsx";
 
 import fetchStock from "./services/fetchStock.js";
 import { ErrorProvider, ErrorContext } from "./components/ErrorContext.jsx"
 import ErrorToast from "./components/ErrorsToast.jsx"
 import InquiryOrderSucess from "./Pages/InquiryOrderSucess.jsx";
+import FounderLetterPage from "./Pages/FounderLetterPage.jsx";
 
 export default function App() {
   const [products, setProducts] = React.useState([]);
@@ -68,21 +68,70 @@ export default function App() {
               />
             }
           />
-          <Route path="/research" element={<PlaceholderPage title="Research" message="Our research hub is coming soon." />} />
-          <Route path="/blog" element={<PlaceholderPage title="Blog" message="Our latest articles are on the way." />} />
-          <Route path="/help" element={<PlaceholderPage title="Help" message="Support resources are on the way." />} />
-          <Route path="/affiliate" element={<PlaceholderPage title="Affiliate" message="Affiliate program details are coming soon." />} />
+          <Route
+            path="/research"
+            element={
+              <PlaceholderPage
+                title="Research"
+                message="Our research hub is under construction."
+              />
+            }
+          />
+          <Route
+            path="/blog"
+            element={
+              <PlaceholderPage
+                title="Blog"
+                message="Our blog is under construction."
+              />
+            }
+          />
+          <Route
+            path="/help"
+            element={
+              <PlaceholderPage
+                title="Help Center"
+                message="Our help center is under construction."
+              />
+            }
+          />
+          <Route
+            path="/affiliate"
+            element={
+              <PlaceholderPage
+                title="Affiliate Program"
+                message="Our affiliate program page is under construction."
+              />
+            }
+          />
           <Route path="/legal" element={<LegalPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/products/:id" element={<IndvidualPageProduct products={products} page={config.individualProductPage} />} />
           <Route path="/checkout" element={<HeroCheckout />} />
-          <Route path="/mesobuzz" element={<StoriesP />} />
+          <Route
+            path="/mesobuzz"
+            element={
+              <PlaceholderPage
+                title="MesoBuzz"
+                message="Our MesoBuzz page is under construction."
+              />
+            }
+          />
           <Route path="/checkout/success/:sessionID" element={<CheckoutSuccess />} />
           <Route path="/checkout/orderSuccess/:orderID" element={<InquiryOrderSucess />} />
           <Route path="/checkout/cancel" element={<CheckoutCancel />} />
           <Route path="/mesocontact" element={<ContactPage contactUsInfo={config.contactPage}/>} />
           <Route path="/mesoconnect" element={<ContactPage />} />
-          <Route path="/mesostory" element={<FounderLetterPage letter={config.founderLetter} />} />
+          <Route path="/mesostory" element={< FounderLetterPage/>} />
+          <Route
+            path="/mesoblog"
+            element={
+              <PlaceholderPage
+                title="MesoBlog"
+                message="Our MesoBlog is under construction."
+              />
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer {...config.footer} />

@@ -8,19 +8,56 @@ import { useLocation } from "react-router-dom";
 export default function ContactPage({ contactUsInfo }) {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const initialSubject = queryParams.get("subject");
+  const subjectField = contactUsInfo.fields.find((f) => f.name === "subject");
+  const subjectOptions = subjectField?.options ?? [];
+  const fallbackSubject = subjectOptions[0] || "";
+  const subjectFromQuery = queryParams.get("subject");
+  const initialSubject = subjectFromQuery && subjectOptions.includes(subjectFromQuery)
+    ? subjectFromQuery
+    : fallbackSubject;
+  const initialOrderId = queryParams.get("orderId") ?? "";
+  const initialName = queryParams.get("name") ?? "";
+  const initialEmail = queryParams.get("email") ?? "";
+  const nameField = contactUsInfo.fields.find((f) => f.name === "name");
+  const emailField = contactUsInfo.fields.find((f) => f.name === "email");
+  const orderField = contactUsInfo.fields.find((f) => f.name === "orderId");
+  const messageField = contactUsInfo.fields.find((f) => f.name === "message");
+  const subscribeField = contactUsInfo.fields.find(
+    (f) => f.name === "subscribe"
+  );
+  const nameFieldProps =
+    nameField ?? { label: "Name", name: "name", type: "text", required: true };
+  const emailFieldProps =
+    emailField ?? {
+      label: "Email",
+      name: "email",
+      type: "email",
+      required: true,
+    };
+  const orderFieldProps =
+    orderField ?? { label: "Order ID", name: "orderId", type: "text" };
+  const messageLabel = messageField?.label ?? "Message";
+  const subscribeLabel =
+    subscribeField?.label ?? "Subscribe to our newsletter";
 
-  const [form, setForm] = React.useState({
-    name: "",
-    email: "",
-    subject: 
-      initialSubject ||
-      contactUsInfo.fields.find((f) => f.name === "subject").options[0],
+  const [form, setForm] = React.useState(() => ({
+    name: initialName,
+    email: initialEmail,
+    subject: initialSubject,
     message: "",
-    orderId: "",
-    country: "",
+    orderId: initialOrderId,
     subscribe: true,
-  });
+  }));
+
+  React.useEffect(() => {
+    setForm((prev) => ({
+      ...prev,
+      name: initialName || prev.name,
+      email: initialEmail || prev.email,
+      subject: initialSubject,
+      orderId: initialOrderId,
+    }));
+  }, [initialSubject, initialOrderId, initialName, initialEmail]);
 
   const [status, setStatus] = React.useState("idle");
 
@@ -61,7 +98,7 @@ export default function ContactPage({ contactUsInfo }) {
       const to = contactUsInfo.api.fallbackEmail;
       const subject = encodeURIComponent(`MesoConnect - ${form.subject}`);
       const body = encodeURIComponent(
-        `Name: ${form.name}\nEmail: ${form.email}\nCountry: ${form.country}\nOrder ID: ${form.orderId}\n\nMessage:\n${form.message}`
+        `Name: ${form.name}\nEmail: ${form.email}\nOrder ID: ${form.orderId}\n\nMessage:\n${form.message}`
       );
       window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
       setStatus("sent");
@@ -83,43 +120,35 @@ export default function ContactPage({ contactUsInfo }) {
           {/* Name + Email */}
           <div className="grid gap-4 md:grid-cols-2">
             <InputField
-              {...contactUsInfo.fields[0]}
+              {...nameFieldProps}
               value={form.name}
               onChange={onChange}
             />
             <InputField
-              {...contactUsInfo.fields[1]}
+              {...emailFieldProps}
               value={form.email}
               onChange={onChange}
             />
           </div>
 
-          {/* Country + Order ID */}
-          <div className="grid gap-4 md:grid-cols-2">
-            <InputField
-              {...contactUsInfo.fields[2]}
-              value={form.country}
-              onChange={onChange}
-            />
-            <InputField
-              {...contactUsInfo.fields[3]}
-              value={form.orderId}
-              onChange={onChange}
-            />
-          </div>
+          <InputField
+            {...orderFieldProps}
+            value={form.orderId}
+            onChange={onChange}
+          />
 
           {/* Subject dropdown */}
           <SubjectSelect
             name="subject"
-            label={contactUsInfo.fields[4].label}
+            label={subjectField?.label || "Subject"}
             value={form.subject}
-            options={contactUsInfo.fields[4].options}
+            options={subjectOptions}
             onChange={onChange}
           />
 
           {/* Message */}
           <label className="block text-sm font-medium text-gray-800">
-            {contactUsInfo.fields[5].label}
+            {messageLabel}
           </label>
           <textarea
             name="message"
@@ -141,7 +170,7 @@ export default function ContactPage({ contactUsInfo }) {
                 className="h-4 w-4"
               />
               <span className="text-sm text-gray-800">
-                {contactUsInfo.fields[6].label}
+                {subscribeLabel}
               </span>
             </label>
           </div>

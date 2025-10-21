@@ -39,6 +39,34 @@ export default function CheckoutSuccess() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
+  const contactSubject = "Order support";
+  const contactHref = React.useMemo(() => {
+    const params = new URLSearchParams({ subject: contactSubject });
+    if (order?.id) {
+      params.set("orderId", order.id);
+    }
+
+    const nameValue = [order?.name, order?.metadata?.fullName, order?.customer_details?.name].find(
+      (value) => typeof value === "string" && value.trim()
+    );
+    const emailValue = [
+      order?.email,
+      order?.customer_email,
+      order?.customer_details?.email,
+      order?.metadata?.email,
+      order?.metadata?.contactEmail,
+    ].find((value) => typeof value === "string" && value.trim());
+
+    if (nameValue) {
+      params.set("name", nameValue.trim());
+    }
+    if (emailValue) {
+      params.set("email", emailValue.trim());
+    }
+
+    return `/mesocontact?${params.toString()}`;
+  }, [order]);
+
   return (
     <div
       className="page flex flex-col items-center justify-center py-10 px-4 text-center"
@@ -122,7 +150,7 @@ export default function CheckoutSuccess() {
             Continue shopping
           </Link>
           <Link
-            to="/mesoContact"
+            to={contactHref}
             className="btn px-5 py-2 rounded bg-gray-900 text-white hover:bg-gray-800"
           >
             Need help?

@@ -11,6 +11,7 @@ import ProductSummary from "../components/CheckOut/CheckoutSummary.jsx";
 import { useContext } from "react";
 import { ErrorContext } from "../components/ErrorContext.jsx";
 import { countries as countryData } from "country-data";
+import shippingPrices from "../websiteConfig.json";
 
 const countries = [
   { code: "", name: "Choose...", dial: "" },
@@ -39,7 +40,7 @@ const countries = [
     }),
 ];
 
-const SHIPPING_COST_CENTS = 1000;
+const SHIPPING_COST_CENTS = shippingPrices.default ;
 
 export default function CheckoutPage() {
   const navigate = useNavigate();

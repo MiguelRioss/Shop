@@ -4,13 +4,16 @@ import YouTubeWithThumbnail from "./YouTubeWithThumbnail.jsx";
 import Button from "./UtilsComponent/Button.jsx";
 import { goToProducts } from "./ProductsCarrousell/utils/ScrollToCarroussel.js";
 
+const defaultVideo = {};
+const defaultCta = { label: "Learn more", href: "" };
+
 export default function HeroWithVideo({
-  video, // { id?: string, url?: string, thumbnail?: string, title?: string }
-  cta, // { label: string, href: string }
-  heading, // string
-  subheading, // string
-  benefits, // [{ icon: string, alt: string, title: string, note: string }]
-  disclaimer, // string
+  video = defaultVideo, // { id?: string, url?: string, thumbnail?: string, title?: string }
+  cta = defaultCta, // { label: string, href: string }
+  heading = "", // string
+  subheading = "", // string
+  benefits = [], // [{ icon: string, alt: string, title: string, note: string }]
+  disclaimer = "", // string
 }) {
   const navigate = useNavigate();
   const location = useLocation();

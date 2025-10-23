@@ -18,17 +18,36 @@ import {
 import { useEffect, useState } from "react";
 import { AnnouncementHero } from "../components/AnnoncementHero.jsx";
 import ProductViewSwitcher from "../components/ProductViewSwitcher.jsx";
+const defaultPromoBanner = {
+  heading: "",
+  intro: "",
+  imageText: "",
+  imageTextAlt: "",
+  imageTextClass: "",
+};
+
+const defaultHowItWorks = {
+  heading: "",
+  steps: [],
+};
+
+const defaultHeroWithVideo = {};
+const defaultThreeFloatHero = {};
+const defaultCaroussel = {};
+const defaultPressCarousel = {};
+const defaultFaq = { items: [] };
+
 function HomePage({
-  announcement,
-  hero,
-  products,
-  promoBanner,
-  HowItWorks,
-  heroWithVideo,
-  threeFloatHero,
-  caroussel,
-  pressCarousel,
-  faq,
+  announcement = {},
+  hero = {},
+  products = [],
+  promoBanner = defaultPromoBanner,
+  HowItWorks = defaultHowItWorks,
+  heroWithVideo = defaultHeroWithVideo,
+  threeFloatHero = defaultThreeFloatHero,
+  caroussel = defaultCaroussel,
+  pressCarousel = defaultPressCarousel,
+  faq = defaultFaq,
 }) {
   const location = useLocation();
   const navigate = useNavigate();

@@ -2,9 +2,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../CartContext.jsx";
-import config from "../../websiteConfig.json";
 
 export default function CartButton({
+  config,
   href: propHref,
   className = "",
   style = {},

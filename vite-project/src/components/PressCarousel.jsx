@@ -45,10 +45,9 @@ export default function PressCarousel({
     return () => clearInterval(id);
   }, [autoPlay, intervalMs, paused, count]);
 
-  if (!count) return null;
-
   // Preload all logo images once to avoid repeated network fetches when slides rotate
   useEffect(() => {
+    if (!items?.length) return;
     const urls = items.map((it) => it.logo).filter(Boolean);
     const imgs = urls.map((src) => {
       const img = new Image();
@@ -65,6 +64,8 @@ export default function PressCarousel({
       });
     };
   }, [items]);
+
+  if (!count) return null;
 
   return (
     <section className="bg-white">

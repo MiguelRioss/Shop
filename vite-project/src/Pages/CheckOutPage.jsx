@@ -11,7 +11,7 @@ import ProductSummary from "../components/CheckOut/CheckoutSummary.jsx";
 import { useContext } from "react";
 import { ErrorContext } from "../components/ErrorContext.jsx";
 import { countries as countryData } from "country-data";
-import {shippingPrices} from "../websiteConfig.json";
+import useWebsiteConfig from "../hooks/useWebsiteConfig.js";
 
 const countries = [
   { code: "", name: "Choose...", dial: "" },
@@ -40,11 +40,12 @@ const countries = [
     }),
 ];
 
-const SHIPPING_COST_CENTS = shippingPrices.default ;
-
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { items, subtotal } = useCart();
+  const { config, loading: configLoading, error: configError } = useWebsiteConfig();
+  const shippingPrices = config?.shippingPrices;
+  const shippingCostDefaultCents = shippingPrices?.default ?? 0;
 
   React.useEffect(() => {
     if (!items?.length) {
@@ -90,7 +91,8 @@ export default function CheckoutPage() {
 
   const fmt = (n) => `\u20AC${(n ?? 0).toFixed(2)}`;
   const subtotalAmount = subtotal ?? 0;
-  const shippingCost = items?.length ? SHIPPING_COST_CENTS / 100 : 0;
+  const shippingCostCents = items?.length ? shippingCostDefaultCents : 0;
+  const shippingCost = shippingCostCents / 100;
   const total = subtotalAmount + shippingCost;
 
   const onChange = (e) => handleFormChange(e, countries, setForm);
@@ -110,7 +112,7 @@ export default function CheckoutPage() {
       const { url } = await createCheckoutSession({
         items,
         form,
-        shippingCostCents: SHIPPING_COST_CENTS,
+        shippingCostCents: shippingCostDefaultCents,
       });
       console.log(url);
 
@@ -125,6 +127,28 @@ export default function CheckoutPage() {
       setSubmitting(false);
     }
   };
+
+  if (configLoading && !shippingPrices) {
+    return (
+      <section className="bg-[#fcfcf6] min-h-screen py-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-center text-gray-600">Loading checkout…</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (configError) {
+    return (
+      <section className="bg-[#fcfcf6] min-h-screen py-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-center text-red-600">
+            We could not load checkout configuration. Please refresh and try again.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-[#fcfcf6] min-h-screen py-10 px-4">

@@ -6,17 +6,17 @@ import Button from "./UtilsComponent/Button";
 import CartButton from "./UtilsComponent/CartButton.jsx";
 
 export default function Navbar({
-  logoSrc,
+  logoSrc = "/logo.png",
   homeHref,
-  logoAlt,
-  links,
+  logoAlt = "Home",
+  links = [],
   cartHref,
-  cta,
+  cta = { label: "Shop now" },
   announcement,
-  containerClass,
-  navBg,
-  gradientFrom,
-  gradientTo,
+  containerClass = "mx-auto px-4",
+  navBg = "#ffffff",
+  gradientFrom = "#000000",
+  gradientTo = "#333333",
   logoClass,
   logoOffsetClass,
 }) {

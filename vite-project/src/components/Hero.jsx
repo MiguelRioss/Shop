@@ -2,23 +2,38 @@
 import Button from "./UtilsComponent/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import runCta from "./ProductsCarrousell/utils/ctaRunner.mjs";
+const defaultSectionClass =
+  "relative bg-[#f2f7fc] bg-cover bg-center overflow-hidden";
+const defaultContainerClass =
+  "relative mx-auto max-w-7xl px-6 py-24 lg:py-36";
+const defaultGridClass = "grid items-center gap-10 lg:grid-cols-2";
+const defaultTextColClass = "space-y-8 text-center lg:text-left";
+const defaultHeadingClass =
+  "text-4xl font-bold leading-tight text-gray-900 sm:text-5xl";
+const defaultSubheadingClass = "max-w-xl text-lg text-gray-700 mx-auto lg:mx-0";
+const defaultMobileImgWrapClass = "mt-10 lg:hidden overflow-visible";
+const defaultMobileImgClass = "mx-auto max-w-[65vw] object-contain";
+const defaultDesktopImgWrapClass =
+  "pointer-events-none absolute bottom-0 right-0 hidden lg:block";
+const defaultDesktopImgClass = "h-[480px] object-contain";
+
 export default function Hero({
-  bgImage,
+  bgImage = "",
   overlay, // { show: boolean, color: string }
-  heading,
-  subheading,
-  cta, // [{ show, label, href }, { show, label, href }...]
-  productImage,
-  sectionClass,
-  containerClass,
-  gridClass,
-  textColClass,
-  headingClass,
-  subheadingClass,
-  mobileImgWrapClass,
-  mobileImgClass,
-  desktopImgWrapClass,
-  desktopImgClass,
+  heading = "",
+  subheading = "",
+  cta = [], // [{ show, label, href }, { show, label, href }...]
+  productImage = "",
+  sectionClass = defaultSectionClass,
+  containerClass = defaultContainerClass,
+  gridClass = defaultGridClass,
+  textColClass = defaultTextColClass,
+  headingClass = defaultHeadingClass,
+  subheadingClass = defaultSubheadingClass,
+  mobileImgWrapClass = defaultMobileImgWrapClass,
+  mobileImgClass = defaultMobileImgClass,
+  desktopImgWrapClass = defaultDesktopImgWrapClass,
+  desktopImgClass = defaultDesktopImgClass,
 }) {
   const location = useLocation();
   const navigate = useNavigate();

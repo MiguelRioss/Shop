@@ -1,6 +1,5 @@
-import webConfig from "../websiteConfig.json";
 
-export default function FounderLetterPage(props) {
+export default function FounderLetterPage(webConfig,props) {
   const letter = props.letter ?? webConfig.founderLetter;
   if (!letter) return null;
 

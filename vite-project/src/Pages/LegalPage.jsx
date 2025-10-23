@@ -1,13 +1,11 @@
 ﻿// src/pages/PoliciesPage.jsx
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import site from "../websiteConfig.json";
+import useWebsiteConfig from "../hooks/useWebsiteConfig.js";
 import {
   headerOffset,
   scrollToTarget,
 } from "../components/ProductsCarrousell/utils/ScrollToCarroussel.js";
-
-const data = site.policies;
 
 const linkify = (text) => {
   const parts = String(text).split(/(https?:\/\/\S+|[\w.+-]+@[\w.-]+\.[\w.-]+)/g);
@@ -22,6 +20,8 @@ export default function LegalPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { hash } = location;
+  const { config, loading, error } = useWebsiteConfig();
+  const policies = config?.policies;
 
   React.useEffect(() => {
     const stateTarget = location.state?.scrollTo;
@@ -40,9 +40,35 @@ export default function LegalPage() {
     }
   }, [hash, location.pathname, location.state, navigate]);
 
+  if (loading && !policies) {
+    return (
+      <main className="mx-auto max-w-4xl px-6 py-16">
+        <p className="text-center text-black/60">Loading policies…</p>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="mx-auto max-w-4xl px-6 py-16">
+        <p className="text-center text-red-600">
+          We could not load the legal policies. Please try again later.
+        </p>
+      </main>
+    );
+  }
+
+  if (!policies?.sections?.length) {
+    return (
+      <main className="mx-auto max-w-4xl px-6 py-16">
+        <p className="text-center text-black/60">No policies available.</p>
+      </main>
+    );
+  }
+
   return (
     <main className="mx-auto max-w-4xl px-6 py-16 space-y-20">
-      {data.sections.map((sec) => (
+      {policies.sections.map((sec) => (
         <section
           key={sec.id}
           id={sec.id}

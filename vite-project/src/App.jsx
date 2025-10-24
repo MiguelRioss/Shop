@@ -24,6 +24,7 @@ import { ErrorProvider, ErrorContext } from "./components/ErrorContext.jsx";
 import ErrorToast from "./components/ErrorsToast.jsx";
 import InquiryOrderSucess from "./Pages/InquiryOrderSucess.jsx";
 import FounderLetterPage from "./Pages/FounderLetterPage.jsx";
+import MossBuzzPage from "./Pages/MossBuzzPage.jsx";
 
 export default function App() {
   const [products, setProducts] = React.useState([]);
@@ -125,9 +126,9 @@ export default function App() {
             <Route
               path="/mesobuzz"
               element={
-                <PlaceholderPage
-                  title="MesoBuzz"
-                  message="Our MesoBuzz page is under construction."
+                <MossBuzzPage
+                  hero={config.hero}
+                  announcement={config.announcement}
                 />
               }
             />

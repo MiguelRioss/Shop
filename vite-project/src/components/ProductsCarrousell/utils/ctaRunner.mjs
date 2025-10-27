@@ -1,4 +1,8 @@
-import { goToProducts, goToMesoStories } from "./ScrollToCarroussel.js";
+import {
+  goToProducts,
+  goToMesoStories,
+  goToContactForm as goToContactFormAction,
+} from "./ScrollToCarroussel.js";
 
 const ACTIONS = {
   goToProducts: (navigate, location, closeMenu) =>
@@ -6,6 +10,19 @@ const ACTIONS = {
 
   goToMesoStories: (navigate, location, closeMenu, payload) =>
     goToMesoStories(navigate, location, closeMenu, payload?.anchor),
+
+  goToContactForm: (navigate, location, closeMenu, payload) => {
+    const anchor =
+      typeof payload === "object" && payload !== null ? payload.anchor : undefined;
+    const subject =
+      typeof payload === "object" && payload !== null ? payload.subject : undefined;
+    goToContactFormAction(navigate, location, closeMenu, anchor, subject);
+  },
+
+  goToMosBuzzUpload: (navigate, location, closeMenu) => {
+    if (typeof closeMenu === "function") closeMenu(false);
+    navigate("/mesobuzz/upload");
+  },
 };
 
 export default function runCta(e, item, navigate, location, closeMenu) {

@@ -1,0 +1,114 @@
+﻿{
+  "mossBuzz": {
+    "hero": {
+      "heading": "Welcome to MOSBUZZ - Where Your Mesodose Journey Shines",
+      "subheading": "Show us how you drop in - your rituals, reflections, and transformations. Unbox it. Feel it. Share it. Get rewarded.",
+      "bgImage": "/backgroundIbogenics.webp",
+      "overlay": {
+        "show": true,
+        "color": "rgba(255,255,255,0.7)"
+      },
+      "productImage": "/beeTincture.png",
+      "cta": [
+        {
+          "show": true,
+          "label": "Soon Submit Your Video",
+          "action": "goToMosBuzzUpload",
+          "disabled": true
+        }
+      ]
+    },
+    "howItWorks": {
+      "heading": "How MOSBUZZ Works",
+      "subheading": "Start slow. Stay consistent. See label for guidance. For general wellness.",
+      "steps": [
+        {
+          "image": "/shake.png",
+          "alt": "Shake and drop ritual",
+          "title": "Shake & drop",
+          "text": "Shake your bottle gently. Place 20 drops of Meso under your tongue. Pause, breathe, and feel your inner system respond."
+        },
+        {
+          "image": "/personNature.png",
+          "alt": "Tune in moment",
+          "title": "Tune in & notice",
+          "text": "Let Meso's subtle frequency guide you inward. Notice sensations, thoughts, and shifts in your mood or focus. This is your meso-moment of awareness."
+        },
+        {
+          "image": "/personSharing.png",
+          "alt": "Capturing and sharing ritual",
+          "title": "Capture & share",
+          "text": "Record a short clip of your mesodosing ritual - your calm, your clarity, your creativity. Keep it real. Some days flow, others feel heavier - that's part of the process. We love the truth."
+        }
+      ]
+    },
+    "videos": [
+      {
+        "id": "video-aurora",
+        "src": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
+        "poster": "/mesoDrops.jpg",
+        "user": "Lila",
+        "location": "Lisbon, PT",
+        "caption": "Morning ritual unbox, ready to mosaic.",
+        "likes": 1240,
+        "tag": "#UnboxMOSBUZZ"
+      },
+      {
+        "id": "video-studio",
+        "src": "https://storage.googleapis.com/coverr-main/mp4/Misty_Rain_Forest.mp4",
+        "poster": "/friends.webp",
+        "user": "Marcus",
+        "location": "Austin, USA",
+        "caption": "Building the middle tiles with friends.",
+        "likes": 980,
+        "tag": "#InTheStudio"
+      },
+      {
+        "id": "video-finished",
+        "src": "https://storage.googleapis.com/coverr-main/mp4/Footboys.mp4",
+        "poster": "/nature.webp",
+        "user": "Ana",
+        "location": "Porto, PT",
+        "caption": "Final reveal - the ripple pattern is complete.",
+        "likes": 2150,
+        "tag": "#RippleReveal"
+      }
+    ],
+    "upload": {
+      "title": "Submit Your MOSBUZZ Video",
+      "subtitle": "Share your ritual with the community. Keep it real - feelings, reflections, and all the authentic moments that define your mesodose practice.",
+      "helper": "MP4, MOV, or WebM. Up to 200 MB.",
+      "disclaimer": "By submitting, you confirm you own the rights to this footage and grant MOSBUZZ permission to share it across channels.",
+      "successMessage": "Thanks! Your clip was uploaded successfully.",
+      "errorMessage": "Upload failed. Please try again."
+    },
+    "shorts": [
+      {
+        "id": "ty2mbhvvcuw",
+        "youtubeId": "TY2mbhvVcuw",
+        "title": "Creative Flow Check-In",
+        "description": "What's all the Buzz? Pedro mesodosing with Ibotincture TA by Ibogenics.",
+        "user": "Pedro",
+        "tag": "#InTheStudio",
+        "likes": 980,
+        "location": "Lisbon, Portugal",
+        "city": "Lisbon",
+        "country": "Portugal",
+        "shareUrl": "https://www.youtube.com/shorts/TY2mbhvVcuw"
+      },
+      {
+        "id": "we-eni2xgyq",
+        "youtubeId": "WE_enI2xgYQ",
+        "title": "Morning Shake & Share",
+        "description": "Hal is MesoBuzzing after 10 days on Ibotincture TA drops.",
+        "user": "Hal",
+        "tag": "#UnboxMOSBUZZ",
+        "likes": 1840,
+        "location": "Totnes, UK",
+        "city": "Totnes",
+        "country": "United Kingdom",
+        "shareUrl": "https://www.youtube.com/shorts/WE_enI2xgYQ"
+      }
+    ]
+  }
+}

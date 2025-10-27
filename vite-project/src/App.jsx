@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import HomePage from "./Pages/HomePage.jsx";
@@ -25,6 +25,9 @@ import ErrorToast from "./components/ErrorsToast.jsx";
 import InquiryOrderSucess from "./Pages/InquiryOrderSucess.jsx";
 import FounderLetterPage from "./Pages/FounderLetterPage.jsx";
 import MossBuzzPage from "./Pages/MossBuzzPage.jsx";
+import localWebsiteConfig from "./websiteConfig.json";
+
+const mossBuzzLocalConfig = localWebsiteConfig?.mossBuzz ?? {};
 
 export default function App() {
   const [products, setProducts] = React.useState([]);
@@ -36,8 +39,8 @@ export default function App() {
         const data = await fetchStock();
         const configData = await fetchWebSiteConfigFile();
 
-        console.log("🧱 CONFIG DATA:", configData);
-        console.log("📦 STOCK DATA:", data);
+        console.log("?? CONFIG DATA:", configData);
+        console.log("?? STOCK DATA:", data);
 
         setConfig(configData);
         const arr = Array.isArray(data) ? data : Object.values(data);
@@ -49,6 +52,49 @@ export default function App() {
       }
     })();
   }, []);
+
+  const baseMossBuzzHero = config.heroMossBuzz || config.hero || {};
+  const mossBuzzHero = {
+    ...(mossBuzzLocalConfig.hero || {}),
+    ...(config.heroMossBuzz || {}),
+  };
+
+  if (
+    mossBuzzLocalConfig.hero?.cta ||
+    config.heroMossBuzz?.cta
+  ) {
+    mossBuzzHero.cta =
+      config.heroMossBuzz?.cta ?? mossBuzzLocalConfig.hero?.cta;
+  }
+
+  const mossBuzzHowItWorksBase = {
+    ...(mossBuzzLocalConfig.howItWorks || {}),
+    ...(config.howItWorksMossBuzz || {}),
+  };
+  if (!mossBuzzHowItWorksBase.steps?.length) {
+    mossBuzzHowItWorksBase.steps = mossBuzzLocalConfig.howItWorks?.steps || [];
+  }
+
+  const mossBuzzAnnouncement =
+    config.mossBuzz?.announcement ??
+    mossBuzzLocalConfig.announcement ??
+    config.announcement;
+
+  const mossBuzzVideos =
+    config.mossBuzz?.videos ??
+    mossBuzzLocalConfig.videos ??
+    config.mossBuzzVideos ??
+    [];
+
+  const mossBuzzUploadCopy =
+    config.mossBuzz?.upload ??
+    mossBuzzLocalConfig.upload ??
+    {};
+
+  const mossBuzzShorts =
+    config.mossBuzz?.shorts ??
+    mossBuzzLocalConfig.shorts ??
+    [];
 
   return (
     <ErrorProvider>
@@ -127,8 +173,26 @@ export default function App() {
               path="/mesobuzz"
               element={
                 <MossBuzzPage
-                  hero={config.hero}
-                  announcement={config.announcement}
+                  hero={mossBuzzHero}
+                  announcement={mossBuzzAnnouncement}
+                  howItWorks={mossBuzzHowItWorksBase}
+                  videos={mossBuzzVideos}
+                  uploadCopy={mossBuzzUploadCopy}
+                  shorts={mossBuzzShorts}
+                />
+              }
+            />
+            <Route
+              path="/mesobuzz/upload"
+              element={
+                <MossBuzzPage
+                  hero={mossBuzzHero}
+                  announcement={mossBuzzAnnouncement}
+                  howItWorks={mossBuzzHowItWorksBase}
+                  videos={mossBuzzVideos}
+                  uploadCopy={mossBuzzUploadCopy}
+                  shorts={mossBuzzShorts}
+                  initialShowUpload
                 />
               }
             />
@@ -146,7 +210,10 @@ export default function App() {
               element={<ContactPage contactUsInfo={config.contactPage} />}
             />
             <Route path="/mesoconnect" element={<ContactPage />} />
-            <Route path="/mesostory" element={<FounderLetterPage />} />
+            <Route
+              path="/mesostory"
+              element={<FounderLetterPage letter={config.founderLetter} />}
+            />
             <Route
               path="/mesoblog"
               element={

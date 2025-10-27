@@ -5,17 +5,19 @@ import runCta from "./ProductsCarrousell/utils/ctaRunner.mjs";
 const defaultSectionClass =
   "relative bg-[#f2f7fc] bg-cover bg-center overflow-hidden";
 const defaultContainerClass =
-  "relative mx-auto max-w-7xl px-6 py-24 lg:py-36";
-const defaultGridClass = "grid items-center gap-10 lg:grid-cols-2";
-const defaultTextColClass = "space-y-8 text-center lg:text-left";
+  "relative mx-auto max-w-7xl px-8 py-30 lg:py-44";
+const defaultGridClass =
+  "grid items-center gap-10 lg:grid-cols-2 lg:pr-56";
+const defaultTextColClass = "space-y-10 text-center lg:text-left";
 const defaultHeadingClass =
   "text-4xl font-bold leading-tight text-gray-900 sm:text-5xl";
 const defaultSubheadingClass = "max-w-xl text-lg text-gray-700 mx-auto lg:mx-0";
 const defaultMobileImgWrapClass = "mt-10 lg:hidden overflow-visible";
-const defaultMobileImgClass = "mx-auto max-w-[65vw] object-contain";
+const defaultMobileImgClass =
+  "ml-auto w-[78vw] sm:w-[65vw] md:w-[58vw] max-w-none object-contain mr-[-10vw] sm:mr-[-12vw] md:mr-[-14vw]";
 const defaultDesktopImgWrapClass =
-  "pointer-events-none absolute bottom-0 right-0 hidden lg:block";
-const defaultDesktopImgClass = "h-[480px] object-contain";
+  "pointer-events-none absolute bottom-6 right-0 hidden lg:block z-10";
+const defaultDesktopImgClass = "h-170 object-contain";
 
 export default function Hero({
   bgImage = "",
@@ -63,9 +65,14 @@ export default function Hero({
                 .map((item, i) => (
                   <Button
                     key={item.label || i}
-                    onClick={(e) =>
-                      runCta(e, item, navigate, location)
-                    }
+                    disabled={item.disabled}
+                    onClick={(e) => {
+                      if (item.disabled) {
+                        e.preventDefault();
+                        return;
+                      }
+                      runCta(e, item, navigate, location);
+                    }}
                   >
                     {item.label}
                   </Button>

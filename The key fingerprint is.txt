@@ -1,0 +1,16 @@
+The key fingerprint is:
+SHA256:oDbJLaRLb4Ouft3Ba8ncPSeIwp/AEhm6dEkv2aks9mc vm-access-key
+The key's randomart image is:
++--[ED25519 256]--+
+|                 |
+|                 |
+|   o. .          |
+|  o+B+..         |
+| ooBB+o S        |
+|..+==o o         |
+| +o+*o+ * o      |
+|..oo.E.O.o + .   |
+|ooo.o +o    +    |
++----[SHA256]-----+
+
+Passkey 

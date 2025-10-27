@@ -1,14 +1,21 @@
+const defaultImageWrapClass =
+  "absolute left-1/2 top-0 -translate-x-1/2 -translate-y-11 sm:left-10 sm:translate-x-10 sm:-translate-y-10";
+const defaultImageClass = "h-30 w-auto sm:h-60 drop-shadow-lg";
+
 export default function PromoBanner({
-  heading,          // string
-  intro,            // string (paragraph above the banner)
-  bgGradient,       // CSS string (fallback linear-gradient)
-  image,            // string path
-  imageAlt,         // string
-  imageClass,       // Tailwind classes for <img>
-  imageWrapClass,   // Tailwind classes for wrapper positioning
-  textHeading,      // string (heading inside the banner)
-  textLines         // array of strings
+  heading, // string
+  intro, // string (paragraph above the banner)
+  bgGradient, // CSS string (fallback linear-gradient)
+  image, // string path
+  imageAlt, // string
+  imageClass, // Tailwind classes for <img>
+  imageWrapClass, // Tailwind classes for wrapper positioning
+  textHeading, // string (heading inside the banner)
+  textLines, // array of strings
 }) {
+  const resolvedImageWrapClass = imageWrapClass || defaultImageWrapClass;
+  const resolvedImageClass = imageClass || defaultImageClass;
+
   return (
     <div>
      
@@ -20,11 +27,11 @@ export default function PromoBanner({
         <div className="relative mx-auto max-w-5xl px-4 py-16">
           {/* Image container */}
           {image && (
-            <div className={imageWrapClass}>
+            <div className={resolvedImageWrapClass}>
               <img
                 src={image}
                 alt={imageAlt}
-                className={imageClass}
+                className={resolvedImageClass}
                 loading="lazy"
                 decoding="async"
               />

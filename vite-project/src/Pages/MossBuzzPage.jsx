@@ -1,26 +1,28 @@
+// Update your MossBuzzPage component
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Hero from "../components/Hero";
 import BubblesHeroSection from "../components/BubblesHeroSection";
 import { AnnouncementHero } from "../components/AnnoncementHero.jsx";
 import MossBuzzVideoSwitcher from "../components/MossBuzzVideoSwitcher.jsx";
 import MossBuzzUploadModal from "../components/MossBuzzUploadModal.jsx";
-import MossBuzzShortsGallery from "../components/MossBuzzShortsGallery.jsx";
+import MossBuzzThankYouModal from "../components/MossBuzzThankYouModal.jsx"; // Import the new modal
 
 export default function MossBuzzPage({
   hero = {},
   announcement = {},
   howItWorks = {},
   videos = [],
-  uploadCopy = {},
   shorts = [],
+  uploadCopy = {},
   initialShowUpload = false,
 }) {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
   const [showUploadModal, setShowUploadModal] = React.useState(
     Boolean(initialShowUpload),
   );
+  const [showThankYouModal, setShowThankYouModal] = React.useState(false); // New state for thank you modal
 
   React.useEffect(() => {
     setShowUploadModal(Boolean(initialShowUpload));
@@ -28,10 +30,7 @@ export default function MossBuzzPage({
 
   const heroData =
     hero && Object.keys(hero).length > 0
-      ? {
-          ...hero,
-          productImage: hero.productImage || "/beeTincture.png",
-        }
+      ? { ...hero, productImage: hero.productImage || "/beeTincture.png" }
       : null;
 
   const hasHowItWorksHeading = Boolean(
@@ -42,11 +41,21 @@ export default function MossBuzzPage({
     : false;
   const shouldRenderHowItWorks = hasHowItWorksHeading || hasHowItWorksSteps;
 
-  const closeModal = () => {
+  const closeUploadModal = () => {
     setShowUploadModal(false);
     if (location.pathname.endsWith("/upload")) {
       navigate("/mesobuzz", { replace: true });
     }
+  };
+
+  const closeThankYouModal = () => {
+    setShowThankYouModal(false);
+  };
+
+  // New function to handle successful upload
+  const handleUploadSuccess = () => {
+    setShowUploadModal(false); // Close upload modal
+    setShowThankYouModal(true); // Open thank you modal
   };
 
   return (
@@ -55,15 +64,25 @@ export default function MossBuzzPage({
         {announcement && Object.keys(announcement).length > 0 && (
           <AnnouncementHero announcement={announcement} />
         )}
+
         {heroData && <Hero {...heroData} />}
+
         {shouldRenderHowItWorks && <BubblesHeroSection {...howItWorks} />}
+
         <MossBuzzVideoSwitcher videos={videos} shorts={shorts} />
-        <MossBuzzShortsGallery shorts={shorts} />
       </div>
+
       <MossBuzzUploadModal
         open={showUploadModal}
-        onClose={closeModal}
+        onClose={closeUploadModal}
+        onSuccess={handleUploadSuccess} // Pass the success handler
         copy={uploadCopy}
+      />
+
+      <MossBuzzThankYouModal
+        open={showThankYouModal}
+        onClose={closeThankYouModal}
+        copy={uploadCopy.thankYou || {}} // You can add thankYou copy to your uploadCopy prop
       />
     </>
   );

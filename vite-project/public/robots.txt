@@ -1,0 +1,24 @@
+# robots.txt for https://mesodose.com
+# ---------------------------------
+# This file tells search engines which parts of the site to crawl and index.
+
+User-agent: *
+Allow: /
+
+# Disallow internal or admin-only sections (optional — adjust if they exist)
+Disallow: /cart
+Disallow: /checkout
+Disallow: /api
+
+# Sitemap location — important for indexing all pages
+Sitemap: https://mesodose.com/sitemap.xml
+
+# Optional: clean crawl-delay for politeness (some bots respect this)
+Crawl-delay: 10
+
+# ---------------------------------
+# Notes:
+# - “Allow: /” tells Google, Bing, etc. to index your entire site.
+# - The sitemap line ensures faster discovery of products, blogs, etc.
+# - Crawl-delay helps prevent overloading your server if you have API calls.
+# ---------------------------------

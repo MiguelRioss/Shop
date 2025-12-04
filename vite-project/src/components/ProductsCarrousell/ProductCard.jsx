@@ -16,7 +16,7 @@ export default function ProductCard({
   const { addItem } = useCart();
   const product = { id, image, price, priceInEuros, title, description };
   // Debug log
- 
+
   const handleBuy = () =>
     typeof addItem === "function" ? addItem(product, 1) : null;
 
@@ -87,13 +87,14 @@ export default function ProductCard({
 
         {/* Actions */}
         <div className="mt-auto space-y-2">
-         <JoinTheWaitingListAction soldOut={soldOut} onBuy={handleBuy}/>
+          <JoinTheWaitingListAction soldOut={soldOut} onBuy={handleBuy} />
           <Link
             to={`/products/${product.id}`}
+            aria-label={`Learn more about ${title}`}
             className="w-full h-10 md:h-11 inline-flex items-center justify-center rounded-full border-2 border-[var(--brand-from)] text-[var(--brand-from)] bg-white font-semibold transition-colors transition-transform hover:bg-[var(--brand)] hover:text-white active:scale-95"
-            onClick={() => window.scroll({ top: 0, behavior: "smooth" })}
           >
             Learn More
+            <span className="sr-only"> about {title}</span>
           </Link>
         </div>
       </div>

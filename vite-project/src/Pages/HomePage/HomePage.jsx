@@ -1,23 +1,32 @@
 ﻿// Pages/HomePage.jsx
-import Hero from "../components/Hero";
-import PromoBanner from "../components/PromoBanner";
-import PromoHeading from "./PromoHeading.jsx";
-import BubblesHeroSection from "../components/BubblesHeroSection";
-import HeroWithVideo from "../components/HeroWithVideo";
-import ThreeFloatHeadersHero from "../components/ThreeFloatHeadersHero";
-import TestimonialsCarousselHero from "../components/TestimonialsCarousselHero";
-import PressCarousel from "../components/PressCarousel";
-import FAQ from "../components/FAQ";
-import ProductCarouselSwiper from "../components/ProductsCarrousell/ProductCarouselSwiper.jsx";
-import ProductsGrid from "../components/ProductsCarrousell/ProductsGrid";
+import Hero from "../../components/Hero.jsx";
+import PromoBanner from "../../components/PromoBanner.jsx";
+import PromoHeading from "../PromoHeading.jsx";
+import BubblesHeroSection from "../../components/BubblesHeroSection.jsx";
+
+import HeroWithVideo from "../../components/HeroWithVideo.jsx";
+
+import ThreeFloatHeadersHero from "../../components/ThreeFloatHeadersHero.jsx";
+
+import TestimonialsCarousselHero from "../../components/TestimonialsCarousselHero.jsx";
+import PressCarousel from "../../components/PressCarousel.jsx";
+import FAQ from "../../components/FAQ.jsx";
+
+import ProductCarouselSwiper from "../../components/ProductsCarrousell/ProductCarouselSwiper.jsx";
+import ProductsGrid from "../../components/ProductsCarrousell/ProductsGrid.jsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   scrollToTarget,
   headerOffset,
-} from "../components/ProductsCarrousell/utils/ScrollToCarroussel.js";
-import { useEffect, useState } from "react";
-import { AnnouncementHero } from "../components/AnnoncementHero.jsx";
-import ProductViewSwitcher from "../components/ProductViewSwitcher.jsx";
+} from "../../components/ProductsCarrousell/utils/ScrollToCarroussel.js";
+
+
+import { useEffect } from "react";
+
+import { AnnouncementHero } from "../../components/AnnoncementHero.jsx";
+import ProductViewSwitcher from "../../components/ProductViewSwitcher.jsx";
+import HomePageSEO from "./HomePageSEO.jsx";
+
 const defaultPromoBanner = {
   heading: "",
   intro: "",
@@ -68,6 +77,7 @@ function HomePage({
   }, [location, navigate]);
   return (
     <div>
+       <HomePageSEO />
       <AnnouncementHero announcement={announcement} />
       <Hero {...hero} />
       {/* ProductCarousel WILL fill this container width */}

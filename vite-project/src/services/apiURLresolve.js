@@ -1,3 +1,5 @@
 export default function apiURLresolve(){
-    return " http://localhost:3000"
+    return "https://api-backend-mesodose-2.onrender.com"
 }
+
+//i NEED TO HAVE LOCAL ONLINE ENV

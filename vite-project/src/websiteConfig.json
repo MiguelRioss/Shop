@@ -1,7 +1,7 @@
 ﻿{
   "mossBuzz": {
     "hero": {
-      "heading": "Welcome to MOSBUZZ - Where Your Mesodose Journey Shines",
+      "heading": "Welcome to MESOBUZZ® - Where Your Mesodose Journey Shines",
       "subheading": "Show us how you drop in - your rituals, reflections, and transformations. Unbox it. Feel it. Share it. Get rewarded.",
       "bgImage": "/backgroundIbogenics.webp",
       "overlay": {
@@ -19,8 +19,8 @@
       ]
     },
     "howItWorks": {
-      "heading": "How MOSBUZZ Works",
-      "subheading": "Start slow. Stay consistent. See label for guidance. For general wellness.",
+      "heading": "How MESOBUZZ Works",
+      "subheading": "Three simple steps to share your mesodose journey and unlock exclusive rewards.",
       "steps": [
         {
           "image": "/shake.png",
@@ -75,7 +75,7 @@
       }
     ],
     "upload": {
-      "title": "Submit Your MOSBUZZ Video",
+      "title": "Submit Your MESOBUZZ Video",
       "subtitle": "Share your ritual with the community. Keep it real - feelings, reflections, and all the authentic moments that define your mesodose practice.",
       "helper": "MP4, MOV, or WebM. Up to 200 MB.",
       "disclaimer": "By submitting, you confirm you own the rights to this footage and grant MOSBUZZ permission to share it across channels.",

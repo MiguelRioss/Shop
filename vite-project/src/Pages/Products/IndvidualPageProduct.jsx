@@ -1,12 +1,30 @@
 ﻿import React from "react";
 import { Link, useParams } from "react-router-dom";
-import ProductCarouselSwiper from "../components/ProductsCarrousell/ProductCarouselSwiper.jsx";
-import Details from "../components/IndivualPageDetailsComponent.jsx";
-
-export default function IndvidualPageProduct({ products = [], page }) {
+import ProductCarouselSwiper from "../../components/ProductsCarrousell/ProductCarouselSwiper.jsx";
+import Details from "../../components/IndivualPageDetailsComponent.jsx";
+import ProductSEO from "./ProductSEO.jsx"; // ✅ import SEO
+import OtherProductsSEO from "./OtherProductSEO.jsx"
+export default function IndvidualPageProduct({ products = [], page = {} }) {
   const { id } = useParams();
-
   const [activeDetail, setActiveDetail] = React.useState(null);
+
+  // ✅ define safe fallback structure to prevent null crashes
+  const fallbackPage = {
+    notFound: {
+      title: "Product Not Found",
+      message:
+        "We couldn’t locate this item. It may have been removed or renamed.",
+      button: {
+        label: "Back to Shop",
+        href: "/shop",
+        gradient: "linear-gradient(90deg, var(--brand-from), var(--brand-to))",
+      },
+    },
+    pageLayout: { bg: "bg-white", container: "mx-auto max-w-7xl px-6 py-12" },
+  };
+
+  // merge any existing config with fallback
+  const safePage = { ...fallbackPage, ...page };
 
   const product = React.useMemo(() => {
     if (!Array.isArray(products)) return null;
@@ -31,15 +49,15 @@ export default function IndvidualPageProduct({ products = [], page }) {
       <main className="bg-[var(--secondBackground)] min-h-[60vh]">
         <div className="mx-auto max-w-4xl px-4 py-20 text-center">
           <h1 className="text-3xl font-semibold text-gray-900">
-            {page.notFound.title}
+            {safePage.notFound.title}
           </h1>
-          <p className="mt-4 text-gray-600">{page.notFound.message}</p>
+          <p className="mt-4 text-gray-600">{safePage.notFound.message}</p>
           <Link
-            to={page.notFound.button.href}
+            to={safePage.notFound.button.href}
             className="mt-6 inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white"
-            style={{ background: page.notFound.button.gradient }}
+            style={{ background: safePage.notFound.button.gradient }}
           >
-            {page.notFound.button.label}
+            {safePage.notFound.button.label}
           </Link>
         </div>
       </main>
@@ -48,26 +66,47 @@ export default function IndvidualPageProduct({ products = [], page }) {
 
   return (
     <main className={page.pageLayout.bg}>
+      {/* ✅ SEO block */}
+      <ProductSEO
+        title={`${product.title} – Mesodose`}
+        description={product.description}
+        keywords={[
+          product.title,
+          "ibogaine tincture",
+          "mesodosing",
+          "functional dose",
+          "plant medicine",
+          "buy ibotincture",
+        ]}
+        slug={product.slug || product.id}
+        image={product.image}
+        price={product.priceInEuros ?? product.price}
+        currency="EUR"
+        availability="InStock"
+        brand="Mesodose"
+      />
+
+      {/* --------- Main content ---------- */}
       <section className={page.pageLayout.container}>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-          {/* IMAGE */}
-          <div className={page.productImage.wrapperClass}>
-            <img
-              src={product.image}
-              alt={product.title}
-              className={page.productImage.imgClass}
-              loading="lazy"
-            />
+          <div>
+            {/* IMAGE SECTION — Fully Responsive (Tailwind Only) */}
+            <div className="flex justify-center items-start w-full p-4 sm:p-6 lg:p-8">
+              <img
+                src={product.image}
+                alt={product.title}
+                loading="lazy"
+                className="w-2/5"
+              />
+            </div>
           </div>
 
-          {/* DETAILS */}
           <div className="space-y-4">
             <h1 className={page.sections.headingClass}>{product.title}</h1>
             <p className={page.sections.descriptionClass}>
               {product.description}
             </p>
 
-            {/* PRICE */}
             <div
               className="flex items-center gap-3 text-xl font-semibold sm:text-2xl"
               style={{ color: page.price.color }}
@@ -76,7 +115,7 @@ export default function IndvidualPageProduct({ products = [], page }) {
               {product.priceInEuros ?? product.price}
             </div>
 
-            {/* PRODUCT SECTIONS */}
+            {/* Collapsible details */}
             {product.sections?.map((s, i) => (
               <Details
                 key={i}
@@ -88,7 +127,6 @@ export default function IndvidualPageProduct({ products = [], page }) {
                 {s.description && (
                   <p className="text-gray-600">{s.description}</p>
                 )}
-
                 {s.bullets?.length && (
                   <ul className="mt-2 list-disc space-y-2 pl-5 text-gray-600">
                     {s.bullets.map((b, j) => (
@@ -96,14 +134,13 @@ export default function IndvidualPageProduct({ products = [], page }) {
                     ))}
                   </ul>
                 )}
-
                 {s.descriptionNote && (
                   <p className="mt-2 text-gray-600">{s.descriptionNote}</p>
                 )}
               </Details>
             ))}
 
-            {/* HIGHLIGHTS */}
+            {/* Highlights */}
             <div className="mt-4">
               <div className={page.highlights.boxClass}>
                 <ul className="space-y-3 text-sm">
@@ -136,7 +173,7 @@ export default function IndvidualPageProduct({ products = [], page }) {
               </div>
             </div>
 
-            {/* CART BUTTON */}
+            {/* Add-to-cart */}
             <Link
               to={page.cartButton.href}
               className="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold text-white sm:px-6"
@@ -148,9 +185,12 @@ export default function IndvidualPageProduct({ products = [], page }) {
         </div>
       </section>
 
-      {/* RELATED PRODUCTS */}
+      {/* Related products */}
       {otherProducts.length > 0 && (
         <section className={page.related.bg}>
+          {/* ✅ Related products SEO */}
+          <OtherProductsSEO products={otherProducts} />
+
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24">
             <h2 className="text-center text-3xl font-semibold text-gray-900 sm:text-4xl">
               {page.related.heading}

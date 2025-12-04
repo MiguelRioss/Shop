@@ -1,5 +1,4 @@
 // src/components/Products/ProductSquareCard.jsx
-import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../components/CartContext.jsx";
 import JoinTheWaitingListAction from "./JoinTheWatingListAction.jsx";

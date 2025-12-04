@@ -31,7 +31,7 @@ export default function useWebsiteConfig() {
     inFlightPromise
       .then((data) => {
         if (!active) return;
-        setConfig(data);
+        setConfig(data);  
         setLoading(false);
       })
       .catch((err) => {

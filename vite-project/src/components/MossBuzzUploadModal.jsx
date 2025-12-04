@@ -3,10 +3,12 @@ import uploadMossBuzzVideo from "../services/uploadMossBuzzVideo.mjs";
 
 const initialForm = {
   file: null,
-  firstName: "",
-  location: "",
-  email: "",
-  caption: "",
+  name: "", // Maps to backend 'name'
+  city: "", // Maps to backend 'city'
+  country: "", // Maps to backend 'country'
+  userEmail: "", // Maps to backend 'userEmail' - REQUIRED for email
+  description: "", // Maps to backend 'description'
+  // userName will be handled by hidden field
 };
 
 export default function MossBuzzUploadModal({
@@ -64,11 +66,9 @@ export default function MossBuzzUploadModal({
     try {
       await uploadMossBuzzVideo(form);
 
-      // Call the onSuccess callback instead of setting local state
       if (onSuccess) {
         onSuccess();
       } else {
-        // Fallback to local state if no callback provided
         setStatus({ type: "success", message: successMessage });
         setForm(initialForm);
         if (previewUrl) {
@@ -120,11 +120,9 @@ export default function MossBuzzUploadModal({
           </header>
 
           <form onSubmit={handleSubmit} className="space-y-7">
+            {/* Video File Input */}
             <div>
-              <label
-                htmlFor="video"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="video" className="block text-sm font-medium text-gray-700">
                 Video clip
               </label>
               <input
@@ -138,101 +136,108 @@ export default function MossBuzzUploadModal({
               />
               <p className="mt-2 text-xs text-gray-500">{helper}</p>
               {previewUrl && (
-                <video
-                  src={previewUrl}
-                  controls
-                  className="mt-4 w-full rounded-2xl bg-black/5"
-                />
+                <video src={previewUrl} controls className="mt-4 w-full rounded-2xl bg-black/5" />
               )}
             </div>
 
+            {/* Name and City */}
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label
-                  htmlFor="firstName"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   First name
                 </label>
                 <input
-                  id="firstName"
-                  name="firstName"
+                  id="name"
+                  name="name"
                   type="text"
-                  value={form.firstName}
-                  onChange={(e) => updateField("firstName", e.target.value)}
+                  value={form.name}
+                  onChange={(e) => updateField("name", e.target.value)}
                   className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:border-[var(--brand-from)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-from)]"
                   placeholder="Ana"
                   required
                 />
               </div>
               <div>
-                <label
-                  htmlFor="location"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Location
+                <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                  City
                 </label>
                 <input
-                  id="location"
-                  name="location"
+                  id="city"
+                  name="city"
                   type="text"
-                  value={form.location}
-                  onChange={(e) => updateField("location", e.target.value)}
+                  value={form.city}
+                  onChange={(e) => updateField("city", e.target.value)}
                   className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:border-[var(--brand-from)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-from)]"
-                  placeholder="Lisbon, PT"
+                  placeholder="Lisbon"
                 />
               </div>
             </div>
 
+            {/* Country */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                Country
+              </label>
+              <input
+                id="country"
+                name="country"
+                type="text"
+                value={form.country}
+                onChange={(e) => updateField("country", e.target.value)}
+                className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:border-[var(--brand-from)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-from)]"
+                placeholder="Portugal"
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label htmlFor="userEmail" className="block text-sm font-medium text-gray-700">
                 Contact email
               </label>
               <input
-                id="email"
-                name="email"
+                id="userEmail"
+                name="userEmail"
                 type="email"
-                value={form.email}
-                onChange={(e) => updateField("email", e.target.value)}
+                value={form.userEmail}
+                onChange={(e) => updateField("userEmail", e.target.value)}
                 className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:border-[var(--brand-from)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-from)]"
                 placeholder="you@example.com"
                 required
               />
             </div>
 
+            {/* Description */}
             <div>
-              <label
-                htmlFor="caption"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                 Caption / context
               </label>
               <textarea
-                id="caption"
-                name="caption"
+                id="description"
+                name="description"
                 rows={4}
-                value={form.caption}
-                onChange={(e) => updateField("caption", e.target.value)}
+                value={form.description}
+                onChange={(e) => updateField("description", e.target.value)}
                 className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:border-[var(--brand-from)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-from)]"
                 placeholder="Tell us about your mesodosing clip..."
               />
             </div>
 
+            {/* Hidden userName field */}
+            <input type="hidden" name="userName" value={form.name} />
+
+            {/* Status Messages */}
             {status.type === "error" && (
               <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
                 {status.message}
               </p>
             )}
-
             {status.type === "success" && (
               <p className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
                 {status.message}
               </p>
             )}
 
+            {/* Submit Button */}
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs text-gray-500">{disclaimer}</p>
               <button

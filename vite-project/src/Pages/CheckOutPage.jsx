@@ -16,17 +16,7 @@ import useWebsiteConfig from "../hooks/useWebsiteConfig.js";
 const countries = [
   { code: "", name: "Choose...", dial: "" },
   ...countryData.all
-    // remove confusing or duplicate territories
-    .filter(
-      (c) =>
-        ![
-          "UM", // United States Minor Outlying Islands
-          "VI", // U.S. Virgin Islands
-          "GU", // Guam
-          "MP", // Northern Mariana Islands
-          "AS", // American Samoa
-        ].includes(c.alpha2)
-    )
+    .filter((c) => !["UM", "VI", "GU", "MP", "AS"].includes(c.alpha2))
     .map((c) => {
       const isUS = c.alpha2 === "US";
       return {
@@ -42,7 +32,17 @@ const countries = [
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { items, subtotal } = useCart();
+
+  // 👇 IMPORTANT: pull discount fields from the cart
+  const {
+    items,
+    subtotal,          // pre-discount subtotal
+    discount,          // object or null
+    discountAmount,    // number
+    total,             // subtotal - discount (no shipping)
+    hasDiscount,       // boolean
+  } = useCart();
+
   const { config, loading: configLoading, error: configError } = useWebsiteConfig();
   const shippingPrices = config?.shippingPrices;
   const shippingCostDefaultCents = shippingPrices?.default ?? 0;
@@ -75,6 +75,7 @@ export default function CheckoutPage() {
 
   const [errors, setErrors] = React.useState({});
   const [submitting, setSubmitting] = React.useState(false);
+
   React.useEffect(() => {
     if (!form.country || form.dialCode) return;
     const selected = countries.find((c) => c.code === form.country && c.dial);
@@ -90,10 +91,13 @@ export default function CheckoutPage() {
   }, [form.country, form.dialCode]);
 
   const fmt = (n) => `\u20AC${(n ?? 0).toFixed(2)}`;
+
   const subtotalAmount = subtotal ?? 0;
   const shippingCostCents = items?.length ? shippingCostDefaultCents : 0;
   const shippingCost = shippingCostCents / 100;
-  const total = subtotalAmount + shippingCost;
+
+  // 👇 Use cart's discount-aware total, then add shipping for the checkout UI
+  const totalWithShipping = (total ?? subtotalAmount) + shippingCost;
 
   const onChange = (e) => handleFormChange(e, countries, setForm);
   const validate = () => validateCheckoutForm(form, setErrors);
@@ -107,21 +111,23 @@ export default function CheckoutPage() {
     try {
       if (form.country === "US") {
         alert("We currently cannot ship to the United States (EUA).");
+        setSubmitting(false);
         return;
       }
+
+      console.log("checkout page", discount)
+      // 👇 Send discount info so backend/Stripe matches UI
       const { url } = await createCheckoutSession({
         items,
         form,
         shippingCostCents: shippingCostDefaultCents,
+        discount,
       });
-      console.log(url);
 
       window.location.href = url;
     } catch (err) {
       console.error("Checkout error:", err);
-
       let userMessage = err.message;
-
       setError({ status: err.status || 500, message: userMessage });
     } finally {
       setSubmitting(false);
@@ -168,10 +174,16 @@ export default function CheckoutPage() {
             handleSubmit={handleSubmit}
             submitting={submitting}
           />
+
+          {/* 👇 Pass discount props so the summary can show them */}
           <ProductSummary
             items={items}
             subtotal={subtotal}
+            discount={discount}
+            discountAmount={discountAmount}
+            hasDiscount={hasDiscount}
             shippingCost={shippingCost}
+            total={totalWithShipping}
             fmt={fmt}
           />
         </div>

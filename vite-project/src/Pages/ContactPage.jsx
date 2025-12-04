@@ -5,26 +5,37 @@ import SubjectSelect from "../components/SubjectSelect.jsx";
 import InputField from "../components/InputFieldComponent.jsx";
 import { useLocation } from "react-router-dom";
 
-export default function ContactPage({ contactUsInfo }) {
+// Add default props or safe access
+export default function ContactPage({ contactUsInfo = {} }) {
   const location = useLocation();
+  
+  // Safe access with defaults
+  const safeContactUsInfo = contactUsInfo || {};
+  const fields = safeContactUsInfo.fields || [];
+  const api = safeContactUsInfo.api || {};
+  
   const queryParams = new URLSearchParams(location.search);
-  const subjectField = contactUsInfo.fields.find((f) => f.name === "subject");
+  const subjectField = fields.find((f) => f.name === "subject");
   const subjectOptions = subjectField?.options ?? [];
   const fallbackSubject = subjectOptions[0] || "";
+  
   const subjectFromQuery = queryParams.get("subject");
   const initialSubject = subjectFromQuery && subjectOptions.includes(subjectFromQuery)
     ? subjectFromQuery
-    : fallbackSubject;
-  const initialOrderId = queryParams.get("orderId") ?? "";
-  const initialName = queryParams.get("name") ?? "";
-  const initialEmail = queryParams.get("email") ?? "";
-  const nameField = contactUsInfo.fields.find((f) => f.name === "name");
-  const emailField = contactUsInfo.fields.find((f) => f.name === "email");
-  const orderField = contactUsInfo.fields.find((f) => f.name === "orderId");
-  const messageField = contactUsInfo.fields.find((f) => f.name === "message");
-  const subscribeField = contactUsInfo.fields.find(
-    (f) => f.name === "subscribe"
-  );
+    : (subjectOptions.includes(decodeURIComponent(subjectFromQuery || "")) 
+        ? decodeURIComponent(subjectFromQuery) 
+        : fallbackSubject);
+  
+  const initialOrderId = decodeURIComponent(queryParams.get("orderId") || "");
+  const initialName = decodeURIComponent(queryParams.get("name") || "");
+  const initialEmail = decodeURIComponent(queryParams.get("email") || "");
+
+  const nameField = fields.find((f) => f.name === "name");
+  const emailField = fields.find((f) => f.name === "email");
+  const orderField = fields.find((f) => f.name === "orderId");
+  const messageField = fields.find((f) => f.name === "message");
+  const subscribeField = fields.find((f) => f.name === "subscribe");
+  
   const nameFieldProps =
     nameField ?? { label: "Name", name: "name", type: "text", required: true };
   const emailFieldProps =
@@ -78,7 +89,7 @@ export default function ContactPage({ contactUsInfo }) {
 
     setStatus("sending");
     try {
-      const res = await fetch(contactUsInfo.api.contactEndpoint, {
+      const res = await fetch(api.contactEndpoint || "/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -86,7 +97,7 @@ export default function ContactPage({ contactUsInfo }) {
       if (!res.ok) throw new Error();
 
       if (form.subscribe) {
-        await fetch(contactUsInfo.api.subscribeEndpoint, {
+        await fetch(api.subscribeEndpoint || "/api/subscribe", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: form.email, fullName: form.name }),
@@ -95,7 +106,7 @@ export default function ContactPage({ contactUsInfo }) {
 
       setStatus("sent");
     } catch (err) {
-      const to = contactUsInfo.api.fallbackEmail;
+      const to = api.fallbackEmail || "support@example.com";
       const subject = encodeURIComponent(`MesoConnect - ${form.subject}`);
       const body = encodeURIComponent(
         `Name: ${form.name}\nEmail: ${form.email}\nOrder ID: ${form.orderId}\n\nMessage:\n${form.message}`
@@ -109,9 +120,11 @@ export default function ContactPage({ contactUsInfo }) {
     <main className="bg-[var(--secondBackground)] min-h-[70vh]">
       <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
         <h1 className="font-serif text-3xl md:text-4xl text-gray-900">
-          {contactUsInfo.title}
+          {safeContactUsInfo.title || "Contact Us"}
         </h1>
-        <p className="mt-2 text-gray-700">{contactUsInfo.intro}</p>
+        <p className="mt-2 text-gray-700">
+          {safeContactUsInfo.intro || "We'd love to hear from you. Send us a message and we'll respond as soon as possible."}
+        </p>
 
         <form
           onSubmit={onSubmit}
@@ -178,8 +191,8 @@ export default function ContactPage({ contactUsInfo }) {
           {/* Bottom actions */}
           <div className="flex items-center justify-between gap-3">
             <p className="text-xs text-gray-600">
-              {contactUsInfo.privacyNote}{" "}
-              <Link to={contactUsInfo.privacyHref} className="underline">
+              {safeContactUsInfo.privacyNote || "We'll get back to you soon."}{" "}
+              <Link to={safeContactUsInfo.privacyHref || "/privacy"} className="underline">
                 Privacy Policy
               </Link>
               .
@@ -190,18 +203,20 @@ export default function ContactPage({ contactUsInfo }) {
               disabled={status === "sending"}
             >
               {status === "sending"
-                ? contactUsInfo.submitButton.sendingLabel
-                : contactUsInfo.submitButton.label}
+                ? (safeContactUsInfo.submitButton?.sendingLabel || "Sending...")
+                : (safeContactUsInfo.submitButton?.label || "Send Message")}
             </Button>
           </div>
 
           {status === "sent" && (
             <p className="text-sm text-green-700">
-              {contactUsInfo.successMessage}
+              {safeContactUsInfo.successMessage || "Message sent successfully!"}
             </p>
           )}
           {status === "error" && (
-            <p className="text-sm text-red-600">{contactUsInfo.errorMessage}</p>
+            <p className="text-sm text-red-600">
+              {safeContactUsInfo.errorMessage || "Please fill in all required fields."}
+            </p>
           )}
         </form>
       </div>

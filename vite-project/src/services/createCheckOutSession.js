@@ -18,7 +18,7 @@ const resolveCountryName = (code = "") => {
 };
 
 // src/services/createCheckoutSession.js
-export async function createCheckoutSession({ items = [], form = {}, shippingCostCents = 0 }) {
+export async function createCheckoutSession({ items = [], form = {}, shippingCostCents = 0 , discount}) {
   const endpoint = `${apiURLresolve()}/api/checkout-sessions`;
   const dialCode = String(form.dialCode || "").trim();
   const phoneNumber = String(form.phone || "").trim();
@@ -59,6 +59,7 @@ export async function createCheckoutSession({ items = [], form = {}, shippingCos
     billingSameAsShipping: form.billingSame,
     clientReferenceId: `cart_${Date.now()}`,
     shippingCostCents,
+    discount
   };
 
   const res = await fetch(endpoint, {

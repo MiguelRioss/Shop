@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
-import HomePage from "./Pages/HomePage.jsx";
+import HomePage from "./Pages/HomePage/HomePage.jsx";
 import CartPage from "./Pages/CartPage.jsx";
 import Footer from "./components/Footer.jsx";
 import { CartProvider } from "./components/CartContext.jsx";
@@ -9,12 +9,11 @@ import CartToast from "./components/CartToast.jsx";
 import MobileCartFab from "./components/MobileCartFab.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import HeroCheckout from "./Pages/CheckOutPage.jsx";
-import StoriesP from "./Pages/StoriesPage.jsx";
 import CheckoutCancel from "./Pages/CheckOutCancel.jsx";
 import CheckoutSuccess from "./Pages/CheckOutSucess.jsx";
 import PlaceholderPage from "./Pages/PlaceholderPage.jsx";
 import ContactPage from "./Pages/ContactPage.jsx";
-import IndvidualPageProduct from "./Pages/IndvidualPageProduct.jsx";
+import IndvidualPageProduct from "./Pages/Products/IndvidualPageProduct.jsx";
 import LegalPage from "./Pages/LegalPage.jsx";
 import NotFoundPage from "./Pages/NotFoundPage.jsx";
 
@@ -26,6 +25,11 @@ import InquiryOrderSucess from "./Pages/InquiryOrderSucess.jsx";
 import FounderLetterPage from "./Pages/FounderLetterPage.jsx";
 import MossBuzzPage from "./Pages/MossBuzzPage.jsx";
 import localWebsiteConfig from "./websiteConfig.json";
+import BlogPost from "./Pages/Blogs/IndvidualPost/BlogPost.jsx";
+import BlogGrid from "./Pages/Blogs/BlogGrid.jsx";
+import GlobalSchema from "./Pages/SEO/GlobalSchema.JSX";
+import DownloadPage from "./Pages/Downloads/DownloadPage.jsx";
+import RouteTracker from "./components/routeTracker/RouteTracker.jsx";
 
 const mossBuzzLocalConfig = localWebsiteConfig?.mossBuzz ?? {};
 
@@ -53,16 +57,12 @@ export default function App() {
     })();
   }, []);
 
-  const baseMossBuzzHero = config.heroMossBuzz || config.hero || {};
   const mossBuzzHero = {
     ...(mossBuzzLocalConfig.hero || {}),
     ...(config.heroMossBuzz || {}),
   };
 
-  if (
-    mossBuzzLocalConfig.hero?.cta ||
-    config.heroMossBuzz?.cta
-  ) {
+  if (mossBuzzLocalConfig.hero?.cta || config.heroMossBuzz?.cta) {
     mossBuzzHero.cta =
       config.heroMossBuzz?.cta ?? mossBuzzLocalConfig.hero?.cta;
   }
@@ -87,20 +87,18 @@ export default function App() {
     [];
 
   const mossBuzzUploadCopy =
-    config.mossBuzz?.upload ??
-    mossBuzzLocalConfig.upload ??
-    {};
+    config.mossBuzz?.upload ?? mossBuzzLocalConfig.upload ?? {};
 
   const mossBuzzShorts =
-    config.mossBuzz?.shorts ??
-    mossBuzzLocalConfig.shorts ??
-    [];
+    config.mossBuzz?.shorts ?? mossBuzzLocalConfig.shorts ?? [];
 
   return (
     <ErrorProvider>
       <CartProvider>
         <Router>
+          <GlobalSchema />
           <ScrollToTop />
+          <RouteTracker />
           <Navbar {...config.navbar} />
           <Routes>
             <Route
@@ -121,42 +119,8 @@ export default function App() {
                 />
               }
             />
-            <Route
-              path="/research"
-              element={
-                <PlaceholderPage
-                  title="Research"
-                  message="Our research hub is under construction."
-                />
-              }
-            />
-            <Route
-              path="/blog"
-              element={
-                <PlaceholderPage
-                  title="Blog"
-                  message="Our blog is under construction."
-                />
-              }
-            />
-            <Route
-              path="/help"
-              element={
-                <PlaceholderPage
-                  title="Help Center"
-                  message="Our help center is under construction."
-                />
-              }
-            />
-            <Route
-              path="/affiliate"
-              element={
-                <PlaceholderPage
-                  title="Affiliate Program"
-                  message="Our affiliate program page is under construction."
-                />
-              }
-            />
+            <Route path="/mesoblog/:slug" element={<BlogPost />} />
+
             <Route path="/legal" element={<LegalPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route
@@ -214,16 +178,10 @@ export default function App() {
               path="/mesostory"
               element={<FounderLetterPage letter={config.founderLetter} />}
             />
-            <Route
-              path="/mesoblog"
-              element={
-                <PlaceholderPage
-                  title="MesoBlog"
-                  message="Our MesoBlog is under construction."
-                />
-              }
-            />
+            <Route path="/mesoblog" element={<BlogGrid />} />
             <Route path="*" element={<NotFoundPage />} />
+
+            <Route path="/download" element={<DownloadPage />} />
           </Routes>
           <Footer {...config.footer} />
           <CartToast />

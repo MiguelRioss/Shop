@@ -3,29 +3,30 @@ import Button from "../components/UtilsComponent/Button.jsx";
 import { Link } from "react-router-dom";
 import SubjectSelect from "../components/SubjectSelect.jsx";
 import InputField from "../components/InputFieldComponent.jsx";
+import CustomerAndAddressSection from "../components/Form/CustomerAndAddressSection.jsx";
 import { useLocation } from "react-router-dom";
 
-// Add default props or safe access
 export default function ContactPage({ contactUsInfo = {} }) {
   const location = useLocation();
-  
-  // Safe access with defaults
+
   const safeContactUsInfo = contactUsInfo || {};
   const fields = safeContactUsInfo.fields || [];
   const api = safeContactUsInfo.api || {};
-  
+
   const queryParams = new URLSearchParams(location.search);
   const subjectField = fields.find((f) => f.name === "subject");
   const subjectOptions = subjectField?.options ?? [];
   const fallbackSubject = subjectOptions[0] || "";
-  
+
   const subjectFromQuery = queryParams.get("subject");
-  const initialSubject = subjectFromQuery && subjectOptions.includes(subjectFromQuery)
-    ? subjectFromQuery
-    : (subjectOptions.includes(decodeURIComponent(subjectFromQuery || "")) 
-        ? decodeURIComponent(subjectFromQuery) 
-        : fallbackSubject);
-  
+  const initialSubject =
+    subjectFromQuery &&
+    subjectOptions.includes(subjectFromQuery)
+      ? subjectFromQuery
+      : subjectOptions.includes(decodeURIComponent(subjectFromQuery || ""))
+      ? decodeURIComponent(subjectFromQuery)
+      : fallbackSubject;
+
   const initialOrderId = decodeURIComponent(queryParams.get("orderId") || "");
   const initialName = decodeURIComponent(queryParams.get("name") || "");
   const initialEmail = decodeURIComponent(queryParams.get("email") || "");
@@ -35,7 +36,7 @@ export default function ContactPage({ contactUsInfo = {} }) {
   const orderField = fields.find((f) => f.name === "orderId");
   const messageField = fields.find((f) => f.name === "message");
   const subscribeField = fields.find((f) => f.name === "subscribe");
-  
+
   const nameFieldProps =
     nameField ?? { label: "Name", name: "name", type: "text", required: true };
   const emailFieldProps =
@@ -123,34 +124,15 @@ export default function ContactPage({ contactUsInfo = {} }) {
           {safeContactUsInfo.title || "Contact Us"}
         </h1>
         <p className="mt-2 text-gray-700">
-          {safeContactUsInfo.intro || "We'd love to hear from you. Send us a message and we'll respond as soon as possible."}
+          {safeContactUsInfo.intro ||
+            "We'd love to hear from you. Send us a message and we'll respond as soon as possible."}
         </p>
 
         <form
           onSubmit={onSubmit}
           className="mt-8 space-y-5 bg-white rounded-2xl p-6 shadow-sm border border-gray-200"
         >
-          {/* Name + Email */}
-          <div className="grid gap-4 md:grid-cols-2">
-            <InputField
-              {...nameFieldProps}
-              value={form.name}
-              onChange={onChange}
-            />
-            <InputField
-              {...emailFieldProps}
-              value={form.email}
-              onChange={onChange}
-            />
-          </div>
-
-          <InputField
-            {...orderFieldProps}
-            value={form.orderId}
-            onChange={onChange}
-          />
-
-          {/* Subject dropdown */}
+          {/* SUBJECT SELECT */}
           <SubjectSelect
             name="subject"
             label={subjectField?.label || "Subject"}
@@ -159,7 +141,41 @@ export default function ContactPage({ contactUsInfo = {} }) {
             onChange={onChange}
           />
 
-          {/* Message */}
+          {/* IF SAMPLE REQUEST, SHOW FULL ADDRESS FORM */}
+          {form.subject === "Get a 10ml Sample" && (
+            <CustomerAndAddressSection
+              form={form}
+              errors={{}}
+              countries={contactUsInfo.countries || []}
+              onChange={onChange}
+            />
+          )}
+
+          {/* OTHERWISE SHOW SIMPLE NAME + EMAIL + ORDER */}
+          {form.subject !== "Get a 10 ml Sample" && (
+            <>
+              <div className="grid gap-4 md:grid-cols-2">
+                <InputField
+                  {...nameFieldProps}
+                  value={form.name}
+                  onChange={onChange}
+                />
+                <InputField
+                  {...emailFieldProps}
+                  value={form.email}
+                  onChange={onChange}
+                />
+              </div>
+
+              <InputField
+                {...orderFieldProps}
+                value={form.orderId}
+                onChange={onChange}
+              />
+            </>
+          )}
+
+          {/* MESSAGE */}
           <label className="block text-sm font-medium text-gray-800">
             {messageLabel}
           </label>
@@ -172,7 +188,7 @@ export default function ContactPage({ contactUsInfo = {} }) {
             className="mt-1 w-full rounded-2xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-[var(--brand-from)]"
           />
 
-          {/* Newsletter */}
+          {/* NEWSLETTER */}
           <div className="border rounded-lg p-4">
             <label className="inline-flex items-center gap-3 cursor-pointer">
               <input
@@ -188,23 +204,27 @@ export default function ContactPage({ contactUsInfo = {} }) {
             </label>
           </div>
 
-          {/* Bottom actions */}
+          {/* ACTIONS */}
           <div className="flex items-center justify-between gap-3">
             <p className="text-xs text-gray-600">
               {safeContactUsInfo.privacyNote || "We'll get back to you soon."}{" "}
-              <Link to={safeContactUsInfo.privacyHref || "/privacy"} className="underline">
+              <Link
+                to={safeContactUsInfo.privacyHref || "/privacy"}
+                className="underline"
+              >
                 Privacy Policy
               </Link>
               .
             </p>
+
             <Button
               type="submit"
               className="px-7 py-3 text-sm font-semibold"
               disabled={status === "sending"}
             >
               {status === "sending"
-                ? (safeContactUsInfo.submitButton?.sendingLabel || "Sending...")
-                : (safeContactUsInfo.submitButton?.label || "Send Message")}
+                ? safeContactUsInfo.submitButton?.sendingLabel || "Sending..."
+                : safeContactUsInfo.submitButton?.label || "Send Message"}
             </Button>
           </div>
 
@@ -215,7 +235,8 @@ export default function ContactPage({ contactUsInfo = {} }) {
           )}
           {status === "error" && (
             <p className="text-sm text-red-600">
-              {safeContactUsInfo.errorMessage || "Please fill in all required fields."}
+              {safeContactUsInfo.errorMessage ||
+                "Please fill in all required fields."}
             </p>
           )}
         </form>

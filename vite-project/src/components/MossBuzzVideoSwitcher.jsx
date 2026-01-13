@@ -1,19 +1,22 @@
 import React from "react";
-import MossBuzzVideoFeed from "./MossBuzzVideoFeed.jsx";
 import MossBuzzVideoCarousel from "./MossBuzzVideoCarousel.jsx";
+import MossBuzzVideoGrid from "./MossBuzzVideoGrid.jsx";
 
 const options = [
-  { value: "reels", label: "Reels" },
   { value: "carousel", label: "Carousel" },
+  { value: "grid", label: "Grid" },
 ];
 
 export default function MossBuzzVideoSwitcher({
   videos = [],
   shorts = [],
   title = "Featured Community Videos",
-  subtitle = "Tap through real MOSBUZZ stories or switch to a carousel view.",
+  subtitle = "Browse real MOSBUZZ stories in a carousel or grid view.",
 }) {
-  const [mode, setMode] = React.useState("reels");
+  const [mode, setMode] = React.useState(() => {
+    if (typeof window === "undefined") return "carousel";
+    return window.innerWidth < 640 ? "grid" : "carousel";
+  });
   const groupId = React.useId();
 
   const update = (value) => {
@@ -33,9 +36,6 @@ export default function MossBuzzVideoSwitcher({
   return (
     <section className="mx-auto w-full max-w-4xl px-4 py-12 sm:px-6 lg:px-0">
       <header className="mb-8 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--brand)]">
-          Section 2
-        </p>
         <h2 className="mt-2 text-2xl font-serif text-gray-900 sm:text-3xl">
           {title}
         </h2>
@@ -93,29 +93,23 @@ export default function MossBuzzVideoSwitcher({
 
       <div className="flex justify-center">
         <div className="w-full max-w-3xl">
-          {mode === "reels" ? (
-            <MossBuzzVideoFeed
-              videos={videos}
-              shorts={shorts}
-              showHeader={false}
-              title={title}
-              subtitle={subtitle}
-            />
-          ) : (
+          {mode === "carousel" ? (
             <MossBuzzVideoCarousel videos={videos} shorts={shorts} />
-          )}
+          ) : mode === "grid" ? (
+            <MossBuzzVideoGrid videos={videos} shorts={shorts} />
+          ) : null}
         </div>
       </div>
 
-      <div className="mt-10 flex justify-center">
-        <button
-          type="button"
-          disabled
-          className="inline-flex items-center rounded-full bg-gray-200 px-5 py-2 text-sm font-semibold text-gray-500 shadow-sm cursor-not-allowed"
-        >
-          Soon Submit Your Video
-        </button>
-      </div>
+        {/* <div className="mt-10 flex justify-center">
+          <button
+            type="button"
+            disabled
+            className="inline-flex items-center rounded-full bg-gray-200 px-5 py-2 text-sm font-semibold text-gray-500 shadow-sm cursor-not-allowed"
+          >
+            Soon Submit Your Video
+          </button>
+        </div> */}
     </section>
   );
 }

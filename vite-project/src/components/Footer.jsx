@@ -69,6 +69,8 @@
                   alt={brandText || "Ibogenics by Mesodose"}
                   className="mx-auto md:ml-0 h-18  w-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
                   loading="lazy"
+                  width="240"
+                  height="72"
                   decoding="async"
                 />
               </Link>

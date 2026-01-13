@@ -10,25 +10,10 @@ import CheckoutForm from "../components/CheckOut/CheckoutForm.jsx";
 import ProductSummary from "../components/CheckOut/CheckoutSummary.jsx";
 import { useContext } from "react";
 import { ErrorContext } from "../components/ErrorContext.jsx";
-import { countries as countryData } from "country-data";
+import countryOptions from "../constants/countryOptions.js";
 import useWebsiteConfig from "../hooks/useWebsiteConfig.js";
 
-const countries = [
-  { code: "", name: "Choose...", dial: "" },
-  ...countryData.all
-    .filter((c) => !["UM", "VI", "GU", "MP", "AS"].includes(c.alpha2))
-    .map((c) => {
-      const isUS = c.alpha2 === "US";
-      return {
-        code: c.alpha2,
-        name: isUS
-          ? "United States (EUA) — Not available for shipping"
-          : c.name,
-        dial: (c.countryCallingCodes?.[0] || "").trim(),
-        disabled: isUS,
-      };
-    }),
-];
+const countries = countryOptions;
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -191,3 +176,4 @@ export default function CheckoutPage() {
     </section>
   );
 }
+

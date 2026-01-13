@@ -1,62 +1,76 @@
+import React from "react";
+
 export default function ProductSEO({
-  title = "Ibogaine Tincture – Mesodose",
-  description = "Shop artisanal ibogaine tinctures for mesodosing — functional, perceptible dosing for calm focus and balance.",
-  keywords = [
-    "ibogaine tincture",
-    "mesodosing",
-    "ibotincture",
-    "buy ibogaine",
-    "functional dose",
-    "plant medicine",
-  ],
-  slug = "",
-  image = "https://mesodose.com/assets/og-product.jpg",
-  price = "0.00",
+  title,
+  description,
+  keywords = [],
+  slug,
+  image, // MUST be absolute URL
+  price,
   currency = "EUR",
   availability = "InStock",
   brand = "Mesodose",
 }) {
   const baseUrl = "https://mesodose.com";
-  const pageUrl = slug ? `${baseUrl}/shop/${slug}` : baseUrl;
+  const pageUrl = `${baseUrl}/shop/${slug}`;
+
+  // 🚨 HARD REQUIREMENT: image must be absolute
+  const canonicalImage = image.startsWith("http")
+    ? image
+    : `${baseUrl}${image}`;
 
   const productSchema = {
-    "@context": "https://schema.org/",
+    "@context": "https://schema.org",
     "@type": "Product",
     name: title,
-    image: [image],
     description,
-    brand: { "@type": "Brand", name: brand },
+    image: {
+      "@type": "ImageObject",
+      url: canonicalImage,
+      width: 1200,
+      height: 1200,
+    },
+    brand: {
+      "@type": "Brand",
+      name: brand,
+    },
     offers: {
       "@type": "Offer",
       url: pageUrl,
       priceCurrency: currency,
       price,
       availability: `https://schema.org/${availability}`,
-      seller: { "@type": "Organization", name: brand },
+      seller: {
+        "@type": "Organization",
+        name: brand,
+      },
     },
   };
 
   return (
     <>
+      {/* ---------- CORE SEO ---------- */}
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={keywords.join(", ")} />
+      {keywords.length > 0 && (
+        <meta name="keywords" content={keywords.join(", ")} />
+      )}
       <link rel="canonical" href={pageUrl} />
 
-      {/* Open Graph */}
+      {/* ---------- OPEN GRAPH (PRODUCT ONLY) ---------- */}
       <meta property="og:type" content="product" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={pageUrl} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={canonicalImage} />
 
-      {/* Twitter Card */}
+      {/* ---------- TWITTER CARD ---------- */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={canonicalImage} />
 
-      {/* JSON-LD Schema */}
+      {/* ---------- STRUCTURED DATA ---------- */}
       <script type="application/ld+json">
         {JSON.stringify(productSchema)}
       </script>

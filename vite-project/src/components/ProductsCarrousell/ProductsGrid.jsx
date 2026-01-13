@@ -9,13 +9,7 @@ export default function ProductsGrid({ products = [] }) {
         {products.map((p) => (
           <ProductSquareCard
             key={p.id}
-            id={p.id}
-            image={p.image}
-            title={p.title}
-            description={p.description}
-            priceInEuros={p.priceInEuros}
-            fewTag={p.fewTag}
-            soldOut={p.soldOut}
+            product={p}
           />
         ))}
       </div>

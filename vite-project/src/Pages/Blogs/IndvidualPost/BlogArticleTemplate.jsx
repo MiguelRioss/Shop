@@ -1,5 +1,5 @@
 import React from "react";
-
+import YouTubeWithThumbnail from "../../../components/YouTubeWithThumbnail";
 /**
  * BlogArticleTemplate — Tailwind v4 + Typography
  * Layout: 2/5 TOC (left) + 3/5 article (right)
@@ -16,6 +16,24 @@ const formatDate = (iso) => {
   } catch {
     return "";
   }
+};
+
+const extractYouTube = (raw = "") => {
+  const str = String(raw || "");
+
+  // grabs: YOUTUBE_VIDEO: youtube.com/watch?v=xxxxxxx
+  const m = str.match(/YOUTUBE_VIDEO:\s*([^\s<]+)\s*/i);
+  if (!m) return { youtubeUrl: null, html: str };
+
+  let url = (m[1] || "").trim();
+
+  // normalise missing protocol
+  if (url && !/^https?:\/\//i.test(url)) url = `https://${url}`;
+
+  // remove the token from the html so it doesn't show as text
+  const cleaned = str.replace(m[0], "").trim();
+
+  return { youtubeUrl: url, html: cleaned };
 };
 
 const readingTimeFromHTML = (sections) => {
@@ -61,7 +79,6 @@ export default function BlogArticleTemplate({ blog }) {
     tags = [],
     breadcrumbs = [],
   } = data;
-s
   // Check if we have valid data
   if (!blog || !sections || sections.length === 0) {
     return (
@@ -176,6 +193,8 @@ s
                       boxShadow: "0 0 30px rgba(138,156,240,0.25)",
                       border: "2px solid var(--brand-to)",
                     }}
+                    width="704"
+                    height="528"
                     onError={(e) => {
                       e.target.style.display = "none";
                     }}
@@ -190,6 +209,8 @@ s
                       boxShadow: "0 0 30px rgba(138,156,240,0.25)",
                       border: "2px solid var(--brand-to)",
                     }}
+                    width="704"
+                    height="528"
                     onError={(e) => {
                       e.target.style.display = "none";
                     }}
@@ -241,38 +262,54 @@ s
             [&_a]:font-bold [&_a]:italic [&_a]:underline [&_a]:underline-offset-2 [&_a]:hover:no-underline
           "
           >
-            {sections.map((s) => (
-              <section id={s.id} key={s.id} className="mt-0 scroll-mt-[8rem]">
-                <h2 className="font-bold">{s.title}</h2>
+            {sections.map((s) => {
+              const { youtubeUrl, html } = extractYouTube(s.html);
 
-                <div
-                  className="
-    [&_p]:mt-3 [&_p]:mb-3
-    [&_ul]:my-4 [&_ol]:my-4
-    [&_ul]:list-disc [&_ol]:list-decimal
-    [&_ul]:ml-6  [&_ul]:pl-2   /* 👈 add this */
-    [&_li]:my-1  [&_li]:ml-2   /* optional: reduce li margin */
-  "
-                  dangerouslySetInnerHTML={{
-                    __html: processHyperlinks(ensureHtmlBlocks(s.html)),
-                  }}
-                />
+              return (
+                <section id={s.id} key={s.id} className="mt-0 scroll-mt-[8rem]">
+                  <h2 className="font-bold">{s.title}</h2>
 
-                {typeof s.imageId === "number" && (
-                  <figure className="my-8">
-                    <img
-                      src={`/blogs/${slug}/${s.imageId}.jpg`}
-                      alt={s.title}
-                      className="mx-auto rounded-xl shadow-md"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.style.display = "none";
+                  {/* ✅ If DOCX contains YOUTUBE_VIDEO: ... render thumbnail player */}
+                  {youtubeUrl && (
+                    <div className="not-prose my-6">
+                      <YouTubeWithThumbnail url={youtubeUrl} />
+                    </div>
+                  )}
+
+                  {/* ✅ Render remaining text (if any) */}
+                  {String(html || "").trim() && (
+                    <div
+                      className="
+            [&_p]:mt-3 [&_p]:mb-3
+            [&_ul]:my-4 [&_ol]:my-4
+            [&_ul]:list-disc [&_ol]:list-decimal
+            [&_ul]:ml-6 [&_ul]:pl-2
+            [&_li]:my-1 [&_li]:ml-2
+          "
+                      dangerouslySetInnerHTML={{
+                        __html: processHyperlinks(ensureHtmlBlocks(html)),
                       }}
                     />
-                  </figure>
-                )}
-              </section>
-            ))}
+                  )}
+
+                  {typeof s.imageId === "number" && (
+                    <figure className="my-8">
+                      <img
+                        src={`/blogs/${slug}/${s.imageId}.jpg`}
+                        alt={s.title}
+                        className="mx-auto rounded-xl shadow-md"
+                        loading="lazy"
+                        width="800"
+                        height="600"
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                        }}
+                      />
+                    </figure>
+                  )}
+                </section>
+              );
+            })}
 
             <hr
               className="my-8 border-t"

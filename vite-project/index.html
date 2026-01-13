@@ -2,49 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/logoIcon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Analytics 4 -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-HZPPN39S9E"
-    ></script>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/logoIcon.png" />
+
+    <!-- Google Analytics 4 (skip during prerender/headless) -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-HZPPN39S9E");
+      (function () {
+        if (typeof window === "undefined") return;
+        var ua = (navigator && navigator.userAgent) || "";
+        var isPrerender =
+          window.__PRERENDERING__ ||
+          /HeadlessChrome/i.test(ua || "") ||
+          /ReactSnap/i.test(ua || "");
+        if (isPrerender) {
+          window.__PRERENDERING__ = true;
+          return;
+        }
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          window.dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+
+        var script = document.createElement("script");
+        script.async = true;
+        script.src =
+          "https://www.googletagmanager.com/gtag/js?id=G-HZPPN39S9E";
+        document.head.appendChild(script);
+
+        gtag("js", new Date());
+        gtag("config", "G-HZPPN39S9E");
+      })();
     </script>
 
-    <!-- HTML Meta Tags -->
-    <title>Mesodose</title>
-    <meta name="description" content="Start your Mesodose now" />
+    <!--
+      IMPORTANT:
+      Do NOT put title, meta description, Open Graph,
+      or Twitter tags here.
 
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://www.mesodose.com" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Mesodose" />
-    <meta property="og:description" content="Start your Mesodose now" />
-    <meta
-      property="og:image"
-      content="https://opengraph.b-cdn.net/production/images/c242560e-8e26-4190-981a-f77514c83d94.png?token=TAJVc-0kJ9bEwjvbyoyZOuWdZXhNbkd55JcGuLwtQr0&height=692&width=1024&expires=33298527688"
-    />
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content="mesodose.com" />
-    <meta property="twitter:url" content="https://www.mesodose.com" />
-    <meta name="twitter:title" content="Mesodose" />
-    <meta name="twitter:description" content="Start your Mesodose now" />
-    <meta
-      name="twitter:image"
-      content="https://opengraph.b-cdn.net/production/images/c242560e-8e26-4190-981a-f77514c83d94.png?token=TAJVc-0kJ9bEwjvbyoyZOuWdZXhNbkd55JcGuLwtQr0&height=692&width=1024&expires=33298527688"
-    />
-
-    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
+      All SEO is handled inside React per route.
+    -->
   </head>
   <body>
     <div id="root"></div>

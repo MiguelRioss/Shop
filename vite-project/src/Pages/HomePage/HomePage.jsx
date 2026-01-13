@@ -20,12 +20,13 @@ import {
   headerOffset,
 } from "../../components/ProductsCarrousell/utils/ScrollToCarroussel.js";
 
-
 import { useEffect } from "react";
 
 import { AnnouncementHero } from "../../components/AnnoncementHero.jsx";
 import ProductViewSwitcher from "../../components/ProductViewSwitcher.jsx";
 import HomePageSEO from "./HomePageSEO.jsx";
+import TestimonialsCarousselHeroTrustPilot from "../../components/TestimonialCarrouseel/TestimonialsCarousselHeroTrusPilot.jsx";
+import TrustpilotSection from "../../components/TestimonialCarrouseel/TrustpilotSection.jsx";
 
 const defaultPromoBanner = {
   heading: "",
@@ -42,7 +43,6 @@ const defaultHowItWorks = {
 
 const defaultHeroWithVideo = {};
 const defaultThreeFloatHero = {};
-const defaultCaroussel = {};
 const defaultPressCarousel = {};
 const defaultFaq = { items: [] };
 
@@ -54,33 +54,33 @@ function HomePage({
   HowItWorks = defaultHowItWorks,
   heroWithVideo = defaultHeroWithVideo,
   threeFloatHero = defaultThreeFloatHero,
-  caroussel = defaultCaroussel,
   pressCarousel = defaultPressCarousel,
   faq = defaultFaq,
+  tlcBanner = {},
+  trustpilotReviews = [], // ✅ default added
 }) {
   const location = useLocation();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const key = location.state?.scrollTo;
     if (!key) return;
 
     const selector = `[data-scroll="${key}"]`;
-    // run after paint so layout/height is correct
     requestAnimationFrame(() => {
       scrollToTarget(selector, headerOffset());
     });
 
-    // clear state so subsequent clicks always work
     navigate(location.pathname, { replace: true, state: null });
   }, [location, navigate]);
+
   return (
     <div>
-       <HomePageSEO />
+      <HomePageSEO />
       <AnnouncementHero announcement={announcement} />
       <Hero {...hero} />
-      {/* ProductCarousel WILL fill this container width */}
+
+      {/* Products */}
       <section
         data-scroll="products"
         className="scroll-mt-32 md:scroll-mt-40 lg:scroll-mt-48"
@@ -93,6 +93,11 @@ function HomePage({
           onViewChange={(mode) => console.log("view:", mode)}
         />
       </section>
+
+      {/* ✅ Trustpilot Reviews Carousel */}
+      <TrustpilotSection reviews={trustpilotReviews} />
+
+
       <PromoHeading
         heading={promoBanner.heading}
         intro={promoBanner.intro}
@@ -100,16 +105,16 @@ function HomePage({
         imageAlt={promoBanner.imageTextAlt}
         imageClass={promoBanner.imageTextClass}
       />
-      <PromoBanner {...promoBanner} />
+
+      <PromoBanner {...tlcBanner} />
       <BubblesHeroSection {...HowItWorks} />
       <HeroWithVideo {...heroWithVideo} />
       <ThreeFloatHeadersHero {...threeFloatHero} />
-      <TestimonialsCarousselHero {...caroussel} />
       <PressCarousel {...pressCarousel} />
+      <PromoBanner {...promoBanner} />
       <FAQ {...faq} />
     </div>
   );
 }
 
 export default HomePage;
-

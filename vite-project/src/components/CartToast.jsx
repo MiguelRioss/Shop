@@ -45,6 +45,8 @@ export default function CartToast() {
             alt={product?.title || product?.label || "Product"}
             className="h-12 w-12 rounded-lg object-cover border border-black/5"
             loading="lazy"
+            width="48"
+            height="48"
             decoding="async"
           />
           <div className="min-w-0 flex-1">

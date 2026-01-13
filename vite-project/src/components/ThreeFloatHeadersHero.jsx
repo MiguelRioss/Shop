@@ -32,6 +32,8 @@ export default function ThreeFloatHeadersHero({
                     alt={item.title}
                     className="h-full w-full object-cover"
                     loading="lazy"
+                    width="960"
+                    height="640"
                     decoding="async"
                   />
                 </div>

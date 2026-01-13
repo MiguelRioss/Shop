@@ -46,9 +46,11 @@ export default function InquiryOrderSucess() {
       params.set("orderId", resolvedOrderId);
     }
 
-    const nameValue = [order?.name, order?.metadata?.fullName, order?.customer_details?.name].find(
-      (value) => typeof value === "string" && value.trim()
-    );
+    const nameValue = [
+      order?.name,
+      order?.metadata?.fullName,
+      order?.customer_details?.name,
+    ].find((value) => typeof value === "string" && value.trim());
     const emailValue = [
       order?.email,
       order?.customer_email,
@@ -117,8 +119,11 @@ export default function InquiryOrderSucess() {
             </div>
 
             <div className="mt-6 space-y-2 text-sm text-gray-500 text-left">
-              <p>An email was sent to you with more information and alternative payment methods</p>
-              <p> We’ll notify you once your order ships.</p>
+              <p>Your order is confirmed — payment is next.</p>
+              <p>This payment method isn’t available for your country, but we can still ship to you.</p>
+              <p>Check your email to complete payment with alternative methods. </p>
+              <p>Once paid, we will send you a tracking number</p>
+
             </div>
           </>
         ) : (

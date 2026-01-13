@@ -50,3 +50,40 @@ export function formatBlogDate(isoString) {
     year: "numeric",
   });
 }
+
+
+
+
+// ✅ Individual list
+export async function getAllIndividualBlogs() {
+  try {
+    const res = await fetch(`${uri}/api/individualBlogs`);
+
+    if (!res.ok) {
+      throw new Error(`Error ${res.status}: Failed to load individual blogs`);
+    }
+
+    const data = await res.json();
+    return Array.isArray(data) ? data : data.blogs || data.individualBlogs || [];
+  } catch (err) {
+    console.error("⚠️ Failed to fetch individual blogs:", err.message);
+    return [];
+  }
+}
+
+// ✅ Series list
+export async function getAllBlogSeries() {
+  try {
+    const res = await fetch(`${uri}/api/blogsSeries`);
+
+    if (!res.ok) {
+      throw new Error(`Error ${res.status}: Failed to load blog series`);
+    }
+
+    const data = await res.json();
+    return Array.isArray(data) ? data : data.blogs || data.blogSeries || data.blogsSeries || [];
+  } catch (err) {
+    console.error("⚠️ Failed to fetch blog series:", err.message);
+    return [];
+  }
+}

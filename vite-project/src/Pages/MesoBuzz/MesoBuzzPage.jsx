@@ -1,14 +1,14 @@
-// Update your MossBuzzPage component
+// Update your MesoBuzzPage component
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Hero from "../components/Hero";
-import BubblesHeroSection from "../components/BubblesHeroSection";
-import { AnnouncementHero } from "../components/AnnoncementHero.jsx";
-import MossBuzzVideoSwitcher from "../components/MossBuzzVideoSwitcher.jsx";
-import MossBuzzUploadModal from "../components/MossBuzzUploadModal.jsx";
-import MossBuzzThankYouModal from "../components/MossBuzzThankYouModal.jsx"; // Import the new modal
+import Hero from "../../components/Hero.jsx";
+import BubblesHeroSection from "../../components/BubblesHeroSection.jsx";
+import { AnnouncementHero } from "../../components/AnnoncementHero.jsx";
+import MossBuzzVideoSwitcher from "../../components/MossBuzzVideoSwitcher.jsx";
+import MossBuzzUploadModal from "../../components/MossBuzzUploadModal.jsx";
+import MossBuzzThankYouModal from "../../components/MossBuzzThankYouModal.jsx"; // Import the new modal
 
-export default function MossBuzzPage({
+export default function MesoBuzzPage({
   hero = {},
   announcement = {},
   howItWorks = {},

@@ -29,7 +29,6 @@ export default function PhonePicker({ form, errors, onChange, countries }) {
             Code
           </option>
           {countries
-            .filter((c) => c.dial)
             .map((c) => (
               <option key={c.code} value={c.dial} disabled={c.disabled}>
                 {c.dial} {c.name === "Choose..." ? "" : `(${c.name})`}

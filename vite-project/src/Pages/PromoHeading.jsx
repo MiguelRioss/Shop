@@ -34,6 +34,8 @@ export default function PromoHeading({
               alt={imageAlt}
               className={resolvedImageClass}
               loading="lazy"
+              width="640"
+              height="640"
               decoding="async"
             />
           </div>

@@ -1,29 +1,16 @@
-const defaultImageWrapClass =
-  "absolute left-1/2 top-0 -translate-x-1/2 -translate-y-11 sm:left-10 sm:translate-x-10 sm:-translate-y-10";
-const defaultImageClass = "h-30 w-auto sm:h-60 drop-shadow-lg";
-
 export default function PromoBanner({
-  heading,            // string
-  intro,              // string (unused here, but keep if you use it above the banner)
-  bgGradient,         // CSS string (fallback linear-gradient)
-  image,              // string path
-  imageAlt,           // string
-  imageClass,         // Tailwind classes for <img>
-  imageWrapClass,     // Tailwind classes for wrapper positioning
-  textHeading,        // string (heading inside the banner)
-  textLines,          // array of strings
-  // NEW (optional)
+  bgGradient,
+  image,
+  imageAlt,
+  textHeading,
+  textLines,
   contactUrl = "https://mesodose.com/mesocontact?subject=Get%20a%2010ml%20Sample",
   contactLabel = "Contact us",
   contactToken = "[[contact]]",
+  useBullets = false, // 👈 NEW
 }) {
-  const resolvedImageWrapClass = imageWrapClass || defaultImageWrapClass;
-  const resolvedImageClass = imageClass || defaultImageClass;
-
-  // Minimal helper: inject link where the token appears.
-  // Also gracefully handles lines that literally contain "Contact us".
-  function renderLine(line) {
-    // Prefer explicit token
+  // --- link helper ---
+  const renderLine = (line) => {
     if (line.includes(contactToken)) {
       const parts = line.split(contactToken);
       return parts.map((part, i) =>
@@ -43,13 +30,12 @@ export default function PromoBanner({
       );
     }
 
-    // Fallback: first occurrence of "Contact us" (case-insensitive)
     const match = line.match(/contact us/i);
     if (!match) return line;
 
     const idx = match.index;
     const before = line.slice(0, idx);
-    const middle = line.slice(idx, idx + match[0].length); // preserves original case
+    const middle = line.slice(idx, idx + match[0].length);
     const after = line.slice(idx + match[0].length);
 
     return (
@@ -64,45 +50,71 @@ export default function PromoBanner({
         {after}
       </>
     );
-  }
+  };
 
   return (
-    <div>
-      <section
-        className="text-white"
-        style={{
-          background:
-            bgGradient || "linear-gradient(to right, var(--brand-from), var(--brand-to))",
-        }}
-      >
-        <div className="relative mx-auto max-w-5xl px-4 py-16">
-          {/* Image */}
-          {image && (
-            <div className={resolvedImageWrapClass}>
-              <img
-                src={image}
-                alt={imageAlt}
-                className={resolvedImageClass}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-          )}
+    <section
+      className="relative mt-30 text-white overflow-visible"
+      style={{
+        background:
+          bgGradient ||
+          "linear-gradient(to right, var(--brand-from), var(--brand-to))",
+      }}
+    >
+      {/* Image always floats above the section */}
+      {image && (
+        <div
+          className="
+            absolute left-1/2 top-0 
+            -translate-x-1/2 -translate-y-1/4
+            sm:left-[35%] sm:top-1/4 sm:-translate-y-1/2
+            z-20 flex justify-center w-full sm:w-auto
+          "
+        >
+          <img
+            src={image}
+            alt={imageAlt}
+            className="max-h-60 mb-20 sm:max-h-90 w-auto drop-shadow-2xl"
+            loading="lazy"
+            width="320"
+            height="240"
+            decoding="async"
+          />
+        </div>
+      )}
 
-          {/* Text */}
-          <div className="flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left sm:gap-12 sm:justify-center">
-            <div className="hidden sm:block w-40 md:w-48" />
-            <div className="max-w-2xl mt-5">
-              <h2 className="text-2xl font-bold sm:text-3xl">{textHeading}</h2>
-              {textLines?.map((line, i) => (
-                <p key={i} className="mt-3 text-base leading-relaxed">
-                  {renderLine(line)}
-                </p>
+      {/* Content */}
+      <div className="relative z-10 mx-auto max-w-7xl px-12 pt-40 pb-8 sm:pt-10 sm:pb-10">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end sm:text-right gap-6">
+          <div className="w-full sm:w-1/2 sm:ml-auto">
+            <h2 className="text-2xl font-bold sm:text-3xl">{textHeading}</h2>
+
+            {textLines &&
+              (useBullets ? (
+                <ul
+                  className="
+                    mt-4 space-y-2 text-base leading-relaxed
+                    list-disc list-outside pl-6
+                    text-left inline-block
+                  "
+                >
+                  {textLines.map((line, i) => (
+                    <li key={i}>
+                      {renderLine(line.replace(/^\s*-\s*/, ""))}
+                      {/* strip leading "- " so you don't get double bullets */}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                textLines.map((line, i) => (
+                  <p key={i} className="mt-3 text-base leading-relaxed">
+                    {renderLine(line)}
+                  </p>
+                ))
               ))}
-            </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }

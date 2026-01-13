@@ -4,17 +4,10 @@ import ProductTags from "./ProductTags.jsx";
 import JoinTheWaitingListAction from "./JoinTheWatingListAction.jsx";
 
 export default function ProductCard({
-  id,
-  image,
-  price,
-  priceInEuros,
-  title,
-  description,
-  fewTag,
-  soldOut,
+  product
 }) {
   const { addItem } = useCart();
-  const product = { id, image, price, priceInEuros, title, description };
+  console.log("?? ProductCard product:", product);
   // Debug log
 
   const handleBuy = () =>
@@ -39,7 +32,7 @@ export default function ProductCard({
       minimumFractionDigits: 2,
     }).format(Number(n) || 0);
 
-  const formattedPrice = formatMoney(parsePrice(priceInEuros ?? price));
+  const formattedPrice = formatMoney(parsePrice(product.priceInEuros));
 
   return (
     <article
@@ -59,13 +52,15 @@ export default function ProductCard({
         "
       >
         <img
-          src={image}
-          alt={title}
+          src={product.image}
+          alt={product.title}
           loading="lazy"
           className="relative z-10 w-full h-full p-2 object-contain"
+          width="240"
+          height="240"
         />
 
-        <ProductTags soldOut={soldOut} few={fewTag} />
+        <ProductTags soldOut={product.soldOut} few={product.fewTag} />
       </div>
 
       {/* Content */}
@@ -76,25 +71,25 @@ export default function ProductCard({
             {formattedPrice}
           </div>
           <h3 className="text-sm md:text-base font-medium text-gray-900 line-clamp-2">
-            {title}
+            {product.title}
           </h3>
         </div>
 
         {/* Description */}
         <p className="text-xs md:text-sm text-gray-500 mt-2 mb-3 line-clamp-3 h-[60px]">
-          {description}
+          {product.description}
         </p>
 
         {/* Actions */}
         <div className="mt-auto space-y-2">
-          <JoinTheWaitingListAction soldOut={soldOut} onBuy={handleBuy} />
+          <JoinTheWaitingListAction soldOut={product.soldOut} onBuy={handleBuy} />
           <Link
-            to={`/products/${product.id}`}
-            aria-label={`Learn more about ${title}`}
+            to={`/products/${product.slug}`}
+            aria-label={`Learn more about ${product.title}`}
             className="w-full h-10 md:h-11 inline-flex items-center justify-center rounded-full border-2 border-[var(--brand-from)] text-[var(--brand-from)] bg-white font-semibold transition-colors transition-transform hover:bg-[var(--brand)] hover:text-white active:scale-95"
           >
             Learn More
-            <span className="sr-only"> about {title}</span>
+            <span className="sr-only"> about {product.title}</span>
           </Link>
         </div>
       </div>

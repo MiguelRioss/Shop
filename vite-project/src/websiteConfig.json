@@ -1,5 +1,6 @@
 ﻿{
   "mossBuzz": {
+    "channelId": "UCvntZ2fY8snkqklhok84Sbg",
     "hero": {
       "heading": "Welcome to MESOBUZZ® - Where Your Mesodose Journey Shines",
       "subheading": "Show us how you drop in - your rituals, reflections, and transformations. Unbox it. Feel it. Share it. Get rewarded.",
@@ -12,9 +13,9 @@
       "cta": [
         {
           "show": true,
-          "label": "Soon Submit Your Video",
+          "label": "Submit Your Video",
           "action": "goToMosBuzzUpload",
-          "disabled": true
+          "disabled": false
         }
       ]
     },

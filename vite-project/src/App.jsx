@@ -1,5 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import HomePage from "./Pages/HomePage/HomePage.jsx";
 import CartPage from "./Pages/CartPage.jsx";
@@ -23,20 +30,26 @@ import { ErrorProvider, ErrorContext } from "./components/ErrorContext.jsx";
 import ErrorToast from "./components/ErrorsToast.jsx";
 import InquiryOrderSucess from "./Pages/InquiryOrderSucess.jsx";
 import FounderLetterPage from "./Pages/FounderLetterPage.jsx";
-import MossBuzzPage from "./Pages/MossBuzzPage.jsx";
+import MesoBuzzPage from "./Pages/MesoBuzz/MesoBuzzPage.jsx";
 import localWebsiteConfig from "./websiteConfig.json";
 import BlogPost from "./Pages/Blogs/IndvidualPost/BlogPost.jsx";
-import BlogGrid from "./Pages/Blogs/BlogGrid.jsx";
+import BlogGrid from "./Pages/Blogs/GRID/BlogGrid.jsx";
 import GlobalSchema from "./Pages/SEO/GlobalSchema.JSX";
 import DownloadPage from "./Pages/Downloads/DownloadPage.jsx";
 import RouteTracker from "./components/routeTracker/RouteTracker.jsx";
-
+import IndividualPostView from "./Pages/Blogs/IndividualBlogView.jsx";
+import BlogSeriesView from "./Pages/Blogs/BlogSeriesView.jsx";
+import FaqsPage from "./Pages/FaqsPage.jsx";
+import DocsGridPage from "./Pages/GridDocsPage/DocsGridPage.jsx";
+import UnsubscribePage from "./Pages/Unsubscrive/UnsubscribePage.jsx";
+import fetchYouTubeChannelVideos from "./services/fetchYouTubeChannelVideos.mjs";
 const mossBuzzLocalConfig = localWebsiteConfig?.mossBuzz ?? {};
 
 export default function App() {
   const [products, setProducts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [config, setConfig] = React.useState({});
+  const [mossBuzzYouTubeItems, setMossBuzzYouTubeItems] = React.useState([]);
   React.useEffect(() => {
     (async () => {
       try {
@@ -56,6 +69,40 @@ export default function App() {
       }
     })();
   }, []);
+
+  const mossBuzzChannelId =
+    config.mossBuzz?.channelId ??
+    mossBuzzLocalConfig.channelId ??
+    "UCvntZ2fY8snkqklhok84Sbg";
+  const mossBuzzPlaylistId =
+    config.mossBuzz?.playlistId ?? mossBuzzLocalConfig.playlistId;
+
+  React.useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const results = await Promise.allSettled([
+        mossBuzzChannelId
+          ? fetchYouTubeChannelVideos(mossBuzzChannelId)
+          : Promise.resolve([]),
+        mossBuzzPlaylistId
+          ? fetchYouTubeChannelVideos(null, { playlistId: mossBuzzPlaylistId })
+          : Promise.resolve([]),
+      ]);
+      if (cancelled) return;
+      const merged = [];
+      results.forEach((result) => {
+        if (result.status === "fulfilled") {
+          merged.push(...result.value);
+        } else {
+          console.warn("Failed to load MossBuzz YouTube videos", result.reason);
+        }
+      });
+      setMossBuzzYouTubeItems(merged);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [mossBuzzChannelId, mossBuzzPlaylistId]);
 
   const mossBuzzHero = {
     ...(mossBuzzLocalConfig.hero || {}),
@@ -80,7 +127,9 @@ export default function App() {
     mossBuzzLocalConfig.announcement ??
     config.announcement;
 
-  const mossBuzzVideos =
+  const mossBuzzShortsFallback =
+    config.mossBuzz?.shorts ?? mossBuzzLocalConfig.shorts ?? [];
+  const mossBuzzVideosFallback =
     config.mossBuzz?.videos ??
     mossBuzzLocalConfig.videos ??
     config.mossBuzzVideos ??
@@ -89,8 +138,20 @@ export default function App() {
   const mossBuzzUploadCopy =
     config.mossBuzz?.upload ?? mossBuzzLocalConfig.upload ?? {};
 
+  const mossBuzzYouTubeShorts = mossBuzzYouTubeItems.filter(
+    (item) => item.isShort,
+  );
+  const mossBuzzYouTubeVideos = mossBuzzYouTubeItems.filter(
+    (item) => !item.isShort,
+  );
   const mossBuzzShorts =
-    config.mossBuzz?.shorts ?? mossBuzzLocalConfig.shorts ?? [];
+    mossBuzzYouTubeShorts.length > 0
+      ? mossBuzzYouTubeShorts
+      : mossBuzzShortsFallback;
+  const mossBuzzVideos =
+    mossBuzzYouTubeVideos.length > 0
+      ? mossBuzzYouTubeVideos
+      : mossBuzzVideosFallback;
 
   return (
     <ErrorProvider>
@@ -116,6 +177,8 @@ export default function App() {
                   caroussel={config.caroussel}
                   pressCarousel={config.pressCarousel}
                   faq={config.faq}
+                  tlcBanner={config.tlcBanner}
+                  trustpilotReviews={config.reviews}
                 />
               }
             />
@@ -124,7 +187,7 @@ export default function App() {
             <Route path="/legal" element={<LegalPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route
-              path="/products/:id"
+              path="/shop/:id"
               element={
                 <IndvidualPageProduct
                   products={products}
@@ -132,11 +195,13 @@ export default function App() {
                 />
               }
             />
+            <Route path="/products/:id" element={<ProductRedirectToShop />} />
+            <Route path="/unsubscribe" element={<UnsubscribePage />} />
             <Route path="/checkout" element={<HeroCheckout />} />
             <Route
               path="/mesobuzz"
               element={
-                <MossBuzzPage
+                <MesoBuzzPage
                   hero={mossBuzzHero}
                   announcement={mossBuzzAnnouncement}
                   howItWorks={mossBuzzHowItWorksBase}
@@ -149,7 +214,7 @@ export default function App() {
             <Route
               path="/mesobuzz/upload"
               element={
-                <MossBuzzPage
+                <MesoBuzzPage
                   hero={mossBuzzHero}
                   announcement={mossBuzzAnnouncement}
                   howItWorks={mossBuzzHowItWorksBase}
@@ -179,9 +244,14 @@ export default function App() {
               element={<FounderLetterPage letter={config.founderLetter} />}
             />
             <Route path="/mesoblog" element={<BlogGrid />} />
+            <Route path="/mesoblog/:slug" element={<IndividualPostView />} />
+            <Route path="/mesoblog/series/:slug" element={<BlogSeriesView />} />
+
             <Route path="*" element={<NotFoundPage />} />
 
             <Route path="/download" element={<DownloadPage />} />
+            <Route path="/faqs" element={<FaqsPage faq={config.faq} />} />
+            <Route path="/docs" element={<DocsGridPage docs={config.docs} />} />
           </Routes>
           <Footer {...config.footer} />
           <CartToast />
@@ -197,4 +267,11 @@ export default function App() {
 function GlobalErrorToast() {
   const { error, clearError } = React.useContext(ErrorContext);
   return <ErrorToast error={error} onClose={clearError} />;
+}
+
+function ProductRedirectToShop() {
+  const { id } = useParams();
+  const location = useLocation();
+  const suffix = `${location.search || ""}${location.hash || ""}`;
+  return <Navigate to={`/shop/${id}${suffix}`} replace />;
 }

@@ -9,26 +9,50 @@ const defaultVideos = [];
 const YT_ORIGIN =
   typeof window !== "undefined" ? `&origin=${encodeURIComponent(window.location.origin)}` : "";
 
+function extractYouTubeId(input = "") {
+  const s = String(input || "").trim();
+  if (/^[A-Za-z0-9_-]{11}$/.test(s)) return s;
+  const match = s.match(
+    /(?:v=|youtu\.be\/|\/embed\/|shorts\/)([A-Za-z0-9_-]{11})/i,
+  );
+  return match ? match[1] : null;
+}
+
 export default function MossBuzzVideoCarousel({
   videos = defaultVideos,
   shorts = defaultShorts,
 }) {
   const items = React.useMemo(() => {
+    const merged = [];
     if (Array.isArray(shorts) && shorts.length) {
-      return shorts.map((short) => ({
-        ...short,
-        key: short.id || short.youtubeId,
-        type: "youtube",
-      }));
+      merged.push(
+        ...shorts.map((short) => ({
+          ...short,
+          key: short.id || short.youtubeId,
+          type: "youtube",
+          youtubeId: short.youtubeId || extractYouTubeId(short.shareUrl),
+          aspectRatio: short.aspectRatio || "9 / 16",
+        })),
+      );
     }
     if (Array.isArray(videos) && videos.length) {
-      return videos.map((video) => ({
-        ...video,
-        key: video.id || video.src || video.poster,
-        type: "file",
-      }));
+      merged.push(
+        ...videos.map((video) => {
+          const url = video.shareUrl || video.url || video.src || "";
+          const youtubeId = video.youtubeId || extractYouTubeId(url);
+          const isYouTube = Boolean(youtubeId);
+          return {
+            ...video,
+            key: video.id || video.youtubeId || video.src || video.poster || url,
+            type: isYouTube ? "youtube" : "file",
+            youtubeId,
+            aspectRatio:
+              video.aspectRatio || (isYouTube ? "16 / 9" : undefined),
+          };
+        }),
+      );
     }
-    return [];
+    return merged;
   }, [shorts, videos]);
 
   if (items.length === 0) return null;
@@ -50,13 +74,7 @@ export default function MossBuzzVideoCarousel({
         modules={[Pagination]}
         pagination={{ clickable: true }}
         spaceBetween={24}
-        slidesPerView={1.05}
-        breakpoints={{
-          640: { slidesPerView: 1.2 },
-          960: { slidesPerView: 1.4 },
-          1280: { slidesPerView: 1.6 },
-        }}
-        centeredSlides
+        slidesPerView={1}
         className="pb-10"
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
@@ -67,25 +85,30 @@ export default function MossBuzzVideoCarousel({
           const locationText = buildLocation(item);
           return (
             <SwiperSlide key={item.key || index} className="pt-2">
-              <div className="overflow-hidden rounded-3xl bg-black">
-                {item.type === "youtube" ? (
-                  <iframe
-                    src={buildEmbed(item.youtubeId)}
-                    title={item.title || "MOSBUZZ Short"}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="h-[420px] w-full object-cover sm:h-[480px]"
-                  />
-                ) : (
-                  <video
-                    src={item.src}
-                    poster={item.poster}
-                    controls
-                    playsInline
-                    preload="metadata"
-                    className="h-[420px] w-full object-cover sm:h-[480px]"
-                  />
-                )}
+              <div className="overflow-hidden rounded-3xl bg-black mx-auto w-full max-w-[240px] sm:max-w-[270px]">
+                <div
+                  className="w-full"
+                  style={{ aspectRatio: item.aspectRatio || "9 / 16" }}
+                >
+                  {item.type === "youtube" && item.youtubeId ? (
+                    <iframe
+                      src={buildEmbed(item.youtubeId)}
+                      title={item.title || "MOSBUZZ Video"}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <video
+                      src={item.src}
+                      poster={item.poster}
+                      controls
+                      playsInline
+                      preload="metadata"
+                      className="h-full w-full object-cover"
+                    />
+                  )}
+                </div>
                 <div
                   className="flex flex-col gap-1 px-5 py-4 text-sm text-white sm:flex-row sm:items-center sm:justify-between"
                   style={{
@@ -107,10 +130,10 @@ export default function MossBuzzVideoCarousel({
                     </p>
                   )}
                 </div>
-                </div>
-              </SwiperSlide>
-            );
-          })}
+              </div>
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
       {items.length > 1 && (
         <>

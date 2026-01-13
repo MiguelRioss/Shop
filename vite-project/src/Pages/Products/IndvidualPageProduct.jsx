@@ -2,13 +2,66 @@
 import { Link, useParams } from "react-router-dom";
 import ProductCarouselSwiper from "../../components/ProductsCarrousell/ProductCarouselSwiper.jsx";
 import Details from "../../components/IndivualPageDetailsComponent.jsx";
-import ProductSEO from "./ProductSEO.jsx"; // ✅ import SEO
-import OtherProductsSEO from "./OtherProductSEO.jsx"
+import ProductSEO from "./ProductSEO.jsx";
+import OtherProductsSEO from "./OtherProductSEO.jsx";
+import { useCart } from "../../components/CartContext.jsx";
+
 export default function IndvidualPageProduct({ products = [], page = {} }) {
   const { id } = useParams();
+  const { addItem } = useCart();
   const [activeDetail, setActiveDetail] = React.useState(null);
+  const [shareStatus, setShareStatus] = React.useState("");
 
-  // ✅ define safe fallback structure to prevent null crashes
+  const baseUrl = "https://mesodose.com";
+
+  // ---------- Safe product lookup ----------
+  const product = React.useMemo(() => {
+    if (!Array.isArray(products)) return null;
+    return products.find((item) => item.slug === id) || null;
+  }, [products, id]);
+
+  // ---------- Canonical image (ONLY after product exists) ----------
+  const canonicalImage = React.useMemo(() => {
+    if (!product?.slug) return null;
+    return `${baseUrl}/${product.slug}-60ml.png`;
+  }, [product, baseUrl]);
+
+  const otherProducts = React.useMemo(() => {
+    if (!Array.isArray(products)) return [];
+    return product ? products.filter((p) => p.id !== product.id) : products;
+  }, [products, product]);
+
+  const shareUrl = React.useMemo(() => {
+    if (!product?.slug) return "";
+    if (typeof window !== "undefined") return window.location.href;
+    return `${baseUrl}/products/${product.slug}`;
+  }, [product, baseUrl]);
+
+  const handleShare = async () => {
+    if (!shareUrl) return;
+    setShareStatus("");
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: product?.title || "Mesodose product",
+          text: product?.description || "",
+          url: shareUrl,
+        });
+        return;
+      }
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+        setShareStatus("Link copied.");
+        return;
+      }
+    } catch (err) {
+      setShareStatus("Could not share right now.");
+      return;
+    }
+    setShareStatus("Copy not supported on this device.");
+  };
+
+  // ---------- Fallback page ----------
   const fallbackPage = {
     notFound: {
       title: "Product Not Found",
@@ -23,28 +76,10 @@ export default function IndvidualPageProduct({ products = [], page = {} }) {
     pageLayout: { bg: "bg-white", container: "mx-auto max-w-7xl px-6 py-12" },
   };
 
-  // merge any existing config with fallback
   const safePage = { ...fallbackPage, ...page };
 
-  const product = React.useMemo(() => {
-    if (!Array.isArray(products)) return null;
-    return (
-      products.find((item) =>
-        typeof item.id === "number"
-          ? item.id === Number(id)
-          : String(item.id) === String(id)
-      ) || null
-    );
-  }, [products, id]);
-
-  const otherProducts = React.useMemo(() => {
-    if (!Array.isArray(products)) return [];
-    return products.filter((item) =>
-      product ? item?.id !== product.id : true
-    );
-  }, [products, product]);
-
-  if (!product) {
+  // ---------- Product not found ----------
+  if (!product || !canonicalImage) {
     return (
       <main className="bg-[var(--secondBackground)] min-h-[60vh]">
         <div className="mx-auto max-w-4xl px-4 py-20 text-center">
@@ -66,7 +101,7 @@ export default function IndvidualPageProduct({ products = [], page = {} }) {
 
   return (
     <main className={page.pageLayout.bg}>
-      {/* ✅ SEO block */}
+      {/* ---------- SEO ---------- */}
       <ProductSEO
         title={`${product.title} – Mesodose`}
         description={product.description}
@@ -78,27 +113,27 @@ export default function IndvidualPageProduct({ products = [], page = {} }) {
           "plant medicine",
           "buy ibotincture",
         ]}
-        slug={product.slug || product.id}
-        image={product.image}
+        slug={product.slug}
+        image={canonicalImage}
         price={product.priceInEuros ?? product.price}
         currency="EUR"
         availability="InStock"
         brand="Mesodose"
       />
 
-      {/* --------- Main content ---------- */}
+      {/* ---------- Main content ---------- */}
       <section className={page.pageLayout.container}>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-          <div>
-            {/* IMAGE SECTION — Fully Responsive (Tailwind Only) */}
-            <div className="flex justify-center items-start w-full p-4 sm:p-6 lg:p-8">
-              <img
-                src={product.image}
-                alt={product.title}
-                loading="lazy"
-                className="w-2/5"
-              />
-            </div>
+          <div className="flex justify-center items-start w-full p-4 sm:p-6 lg:p-8">
+            <img
+              src={canonicalImage}
+              alt={`Ibotincture ${product.title} 60 ml by Mesodose`}
+              width="600"
+              height="600"
+              loading="eager"
+              fetchPriority="high"
+              className="w-2/5"
+            />
           </div>
 
           <div className="space-y-4">
@@ -115,7 +150,6 @@ export default function IndvidualPageProduct({ products = [], page = {} }) {
               {product.priceInEuros ?? product.price}
             </div>
 
-            {/* Collapsible details */}
             {product.sections?.map((s, i) => (
               <Details
                 key={i}
@@ -127,20 +161,15 @@ export default function IndvidualPageProduct({ products = [], page = {} }) {
                 {s.description && (
                   <p className="text-gray-600">{s.description}</p>
                 )}
-                {s.bullets?.length && (
+                {s.bullets?.length > 0 && (
                   <ul className="mt-2 list-disc space-y-2 pl-5 text-gray-600">
                     {s.bullets.map((b, j) => (
                       <li key={j}>{b}</li>
                     ))}
                   </ul>
                 )}
-                {s.descriptionNote && (
-                  <p className="mt-2 text-gray-600">{s.descriptionNote}</p>
-                )}
               </Details>
             ))}
-
-            {/* Highlights */}
             <div className="mt-4">
               <div className={page.highlights.boxClass}>
                 <ul className="space-y-3 text-sm">
@@ -172,32 +201,46 @@ export default function IndvidualPageProduct({ products = [], page = {} }) {
                 </ul>
               </div>
             </div>
+            <div className="flex flex-wrap gap-4 pt-4">
+              <button
+                type="button"
+                onClick={() => addItem(product, 1)}
+                className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white sm:px-6"
+                style={{ background: page.cartButton.gradient }}
+              >
+                Add to cart
+              </button>
 
-            {/* Add-to-cart */}
-            <Link
-              to={page.cartButton.href}
-              className="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold text-white sm:px-6"
-              style={{ background: page.cartButton.gradient }}
-            >
-              {page.cartButton.label}
-            </Link>
+              <Link
+                to="/cart"
+                className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold border border-gray-300 text-gray-800 sm:px-6"
+              >
+                Go to cart
+              </Link>
+
+              <button
+                type="button"
+                onClick={handleShare}
+                className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold border border-gray-300 text-gray-800 sm:px-6"
+              >
+                Share
+              </button>
+            </div>
+            {shareStatus && (
+              <p className="text-xs text-gray-500">{shareStatus}</p>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Related products */}
       {otherProducts.length > 0 && (
         <section className={page.related.bg}>
-          {/* ✅ Related products SEO */}
           <OtherProductsSEO products={otherProducts} />
-
-          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24">
-            <h2 className="text-center text-3xl font-semibold text-gray-900 sm:text-4xl">
+          <div className="mx-auto w-full max-w-7xl px-6">
+            <h2 className="text-center text-3xl font-semibold text-gray-900">
               {page.related.heading}
             </h2>
-            <div className="mt-8 sm:mt-10">
-              <ProductCarouselSwiper products={otherProducts} single />
-            </div>
+            <ProductCarouselSwiper products={otherProducts} single />
           </div>
         </section>
       )}

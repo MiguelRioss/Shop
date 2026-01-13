@@ -5,6 +5,8 @@ import SubjectSelect from "../components/SubjectSelect.jsx";
 import InputField from "../components/InputFieldComponent.jsx";
 import CustomerAndAddressSection from "../components/Form/CustomerAndAddressSection.jsx";
 import { useLocation } from "react-router-dom";
+import countryOptions from "../constants/countryOptions.js";
+import createSampleOrder from "../services/createSampleOrder.mjs";
 
 export default function ContactPage({ contactUsInfo = {} }) {
   const location = useLocation();
@@ -20,8 +22,7 @@ export default function ContactPage({ contactUsInfo = {} }) {
 
   const subjectFromQuery = queryParams.get("subject");
   const initialSubject =
-    subjectFromQuery &&
-    subjectOptions.includes(subjectFromQuery)
+    subjectFromQuery && subjectOptions.includes(subjectFromQuery)
       ? subjectFromQuery
       : subjectOptions.includes(decodeURIComponent(subjectFromQuery || ""))
       ? decodeURIComponent(subjectFromQuery)
@@ -37,41 +38,91 @@ export default function ContactPage({ contactUsInfo = {} }) {
   const messageField = fields.find((f) => f.name === "message");
   const subscribeField = fields.find((f) => f.name === "subscribe");
 
-  const nameFieldProps =
-    nameField ?? { label: "Name", name: "name", type: "text", required: true };
-  const emailFieldProps =
-    emailField ?? {
-      label: "Email",
-      name: "email",
-      type: "email",
-      required: true,
-    };
-  const orderFieldProps =
-    orderField ?? { label: "Order ID", name: "orderId", type: "text" };
+  const nameFieldProps = nameField ?? {
+    label: "Name",
+    name: "name",
+    type: "text",
+    required: true,
+  };
+  const emailFieldProps = emailField ?? {
+    label: "Email",
+    name: "email",
+    type: "email",
+    required: true,
+  };
+  const orderFieldProps = orderField ?? {
+    label: "Order ID",
+    name: "orderId",
+    type: "text",
+  };
   const messageLabel = messageField?.label ?? "Message";
-  const subscribeLabel =
-    subscribeField?.label ?? "Subscribe to our newsletter";
+  const subscribeLabel = subscribeField?.label ?? "Subscribe to our newsletter";
+
+  const configuredCountries = safeContactUsInfo.countries;
+  const availableCountries = React.useMemo(() => {
+    if (Array.isArray(configuredCountries) && configuredCountries.length > 0) {
+      return configuredCountries;
+    }
+    return countryOptions;
+  }, [configuredCountries]);
 
   const [form, setForm] = React.useState(() => ({
     name: initialName,
+    fullName: initialName,
     email: initialEmail,
     subject: initialSubject,
     message: "",
     orderId: initialOrderId,
     subscribe: true,
+    dialCode: "",
+    phone: "",
+    notes: "",
+    address1: "",
+    address2: "",
+    city: "",
+    postcode: "",
+    country: "",
+    billingSame: true,
+    billingAddress1: "",
+    billingAddress2: "",
+    billingCity: "",
+    billingPostcode: "",
+    billingCountry: "",
   }));
 
   React.useEffect(() => {
     setForm((prev) => ({
       ...prev,
       name: initialName || prev.name,
+      fullName: initialName || prev.fullName,
       email: initialEmail || prev.email,
       subject: initialSubject,
       orderId: initialOrderId,
     }));
   }, [initialSubject, initialOrderId, initialName, initialEmail]);
 
+  React.useEffect(() => {
+    if (!form.country || form.dialCode) return;
+    const selected = availableCountries.find(
+      (c) => c.code === form.country && c.dial
+    );
+    if (!selected) return;
+    setForm((prev) =>
+      prev.dialCode
+        ? prev
+        : {
+            ...prev,
+            dialCode: selected.dial,
+          }
+    );
+  }, [form.country, form.dialCode, availableCountries]);
+
   const [status, setStatus] = React.useState("idle");
+  const isSampleRequest = React.useMemo(() => {
+    if (!form.subject) return false;
+    const normalized = form.subject.toLowerCase().replace(/\s+/g, "");
+    return normalized.includes("10mlsample");
+  }, [form.subject]);
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -80,21 +131,47 @@ export default function ContactPage({ contactUsInfo = {} }) {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
   async function onSubmit(e) {
     e.preventDefault();
-    if (!form.name || !form.email || !form.message) {
-      setStatus("error");
-      return;
+    // Validation for sample vs normal contact
+    if (isSampleRequest) {
+      const requiredFields = [
+        form.fullName,
+        form.email,
+        form.address1,
+        form.city,
+        form.postcode,
+        form.country,
+        form.phone,
+      ];
+
+      if (requiredFields.some((f) => !f || f.trim() === "")) {
+        setStatus("error");
+        return;
+      }
+    } else {
+      if (!form.name || !form.email || !form.message) {
+        setStatus("error");
+        return;
+      }
     }
 
     setStatus("sending");
+
     try {
+      // ⭐ If this is a sample request, create the order
+      if (isSampleRequest) {
+        const order = await createSampleOrder(form);
+        console.log("Sample order created:", order);
+      }
+
+      // Normal contact email flow
       const res = await fetch(api.contactEndpoint || "/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+
       if (!res.ok) throw new Error();
 
       if (form.subscribe) {
@@ -107,12 +184,7 @@ export default function ContactPage({ contactUsInfo = {} }) {
 
       setStatus("sent");
     } catch (err) {
-      const to = api.fallbackEmail || "support@example.com";
-      const subject = encodeURIComponent(`MesoConnect - ${form.subject}`);
-      const body = encodeURIComponent(
-        `Name: ${form.name}\nEmail: ${form.email}\nOrder ID: ${form.orderId}\n\nMessage:\n${form.message}`
-      );
-      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      console.error(err);
       setStatus("sent");
     }
   }
@@ -142,17 +214,17 @@ export default function ContactPage({ contactUsInfo = {} }) {
           />
 
           {/* IF SAMPLE REQUEST, SHOW FULL ADDRESS FORM */}
-          {form.subject === "Get a 10ml Sample" && (
+          {isSampleRequest && (
             <CustomerAndAddressSection
               form={form}
               errors={{}}
-              countries={contactUsInfo.countries || []}
+              countries={availableCountries}
               onChange={onChange}
             />
           )}
 
           {/* OTHERWISE SHOW SIMPLE NAME + EMAIL + ORDER */}
-          {form.subject !== "Get a 10 ml Sample" && (
+          {!isSampleRequest && (
             <>
               <div className="grid gap-4 md:grid-cols-2">
                 <InputField
@@ -175,18 +247,21 @@ export default function ContactPage({ contactUsInfo = {} }) {
             </>
           )}
 
-          {/* MESSAGE */}
-          <label className="block text-sm font-medium text-gray-800">
-            {messageLabel}
-          </label>
-          <textarea
-            name="message"
-            rows={6}
-            required
-            value={form.message}
-            onChange={onChange}
-            className="mt-1 w-full rounded-2xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-[var(--brand-from)]"
-          />
+          {!isSampleRequest && (
+            <>
+              <label className="block text-sm font-medium text-gray-800">
+                {messageLabel}
+              </label>
+              <textarea
+                name="message"
+                rows={6}
+                required
+                value={form.message}
+                onChange={onChange}
+                className="mt-1 w-full rounded-2xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-[var(--brand-from)]"
+              />
+            </>
+          )}
 
           {/* NEWSLETTER */}
           <div className="border rounded-lg p-4">
@@ -198,9 +273,7 @@ export default function ContactPage({ contactUsInfo = {} }) {
                 onChange={onChange}
                 className="h-4 w-4"
               />
-              <span className="text-sm text-gray-800">
-                {subscribeLabel}
-              </span>
+              <span className="text-sm text-gray-800">{subscribeLabel}</span>
             </label>
           </div>
 
@@ -209,7 +282,7 @@ export default function ContactPage({ contactUsInfo = {} }) {
             <p className="text-xs text-gray-600">
               {safeContactUsInfo.privacyNote || "We'll get back to you soon."}{" "}
               <Link
-                to={safeContactUsInfo.privacyHref || "/privacy"}
+                to={safeContactUsInfo.privacyHref || "/legal#privacy"}
                 className="underline"
               >
                 Privacy Policy
@@ -224,6 +297,8 @@ export default function ContactPage({ contactUsInfo = {} }) {
             >
               {status === "sending"
                 ? safeContactUsInfo.submitButton?.sendingLabel || "Sending..."
+                : isSampleRequest
+                ? "Enquiry for Sample"
                 : safeContactUsInfo.submitButton?.label || "Send Message"}
             </Button>
           </div>

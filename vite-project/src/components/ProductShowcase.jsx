@@ -38,6 +38,8 @@ export default function ProductShowcase({
                     alt={current.title}
                     className="mx-auto h-full w-full object-contain p-6"
                     loading="lazy"
+                    width="800"
+                    height="600"
                     decoding="async"
                   />
                 ) : (
@@ -76,6 +78,8 @@ export default function ProductShowcase({
                       alt={`${o.label} thumbnail`}
                       className="h-full w-full object-contain p-2"
                       loading="lazy"
+                      width="112"
+                      height="112"
                       decoding="async"
                     />
                   ) : (
@@ -226,7 +230,6 @@ function Details({ title, children, defaultOpen = false }) {
     </details>
   );
 }
-
 
 
 

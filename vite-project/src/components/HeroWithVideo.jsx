@@ -56,6 +56,8 @@ export default function HeroWithVideo({
                     alt={b.alt}
                     className="w-15 h-15 mr-3"
                     loading="lazy"
+                    width="60"
+                    height="60"
                     decoding="async"
                   />
                   <div>

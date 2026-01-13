@@ -170,9 +170,6 @@ export default function MossBuzzVideoFeed({
     [items.length],
   );
 
-  const enableTapNavigation =
-    typeof window !== "undefined" ? window.innerWidth >= 768 : true;
-
   const handleTap = React.useCallback(
     (event) => {
       if (!isDesktop) return;
@@ -219,9 +216,6 @@ export default function MossBuzzVideoFeed({
     <section className={`mx-auto w-full max-w-3xl px-4 ${paddingClass} sm:px-6`}>
       {showHeader && (
         <header className="mb-8 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--brand)]">
-            Section 2
-          </p>
           <h2 className="mt-2 text-2xl font-serif text-gray-900 sm:text-3xl">
             {title}
           </h2>

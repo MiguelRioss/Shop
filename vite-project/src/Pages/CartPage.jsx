@@ -92,6 +92,8 @@ async function handleApply() {
                                   alt={title}
                                   className="w-full h-full object-contain"
                                   loading="lazy"
+                                  width="144"
+                                  height="144"
                                 />
                               </div>
                             </div>

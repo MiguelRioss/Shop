@@ -28,6 +28,8 @@ export default function HowItWorks({
                     alt={step.alt}
                     className="h-full w-full object-cover"
                     loading="lazy"
+                    width="208"
+                    height="208"
                     decoding="async"
                   />
                 </div>

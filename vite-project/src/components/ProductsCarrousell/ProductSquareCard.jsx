@@ -5,17 +5,9 @@ import JoinTheWaitingListAction from "./JoinTheWatingListAction.jsx";
 
 import ProductTags from "./ProductTags.jsx";
 
-export default function ProductSquareCard({
-  id,
-  image,
-  title,
-  description,
-  priceInEuros,
-  fewTag,
-  soldOut,
-}) {
+export default function ProductSquareCard({product}) {
   const { addItem } = useCart();
-  const product = { id, image, title, description, priceInEuros };
+  const { id, image, title, description, priceInEuros, soldOut, fewTag } = product;
 
   // Format price
   const formatMoney = (n) =>
@@ -40,9 +32,11 @@ export default function ProductSquareCard({
           alt={title}
           loading="lazy"
           className="
-            max-h-full max-w-full object-contain
-            transform scale-110 -translate-y-1
+            max-h-[70%] max-w-[70%] object-contain
+            transform -translate-y-1
           "
+          width="320"
+          height="320"
         />
 
         {/* Stock Tags */}
@@ -66,7 +60,7 @@ export default function ProductSquareCard({
 
       {/* Actions */}
       <div className="mt-2 grid grid-cols-2 gap-2">
-        <JoinTheWaitingListAction soldOut={soldOut}/>
+        <JoinTheWaitingListAction soldOut={soldOut} />
 
         <Link
           to={`/products/${id}`}

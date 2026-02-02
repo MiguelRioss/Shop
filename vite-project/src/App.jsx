@@ -127,13 +127,8 @@ export default function App() {
     mossBuzzLocalConfig.announcement ??
     config.announcement;
 
-  const mossBuzzShortsFallback =
-    config.mossBuzz?.shorts ?? mossBuzzLocalConfig.shorts ?? [];
-  const mossBuzzVideosFallback =
-    config.mossBuzz?.videos ??
-    mossBuzzLocalConfig.videos ??
-    config.mossBuzzVideos ??
-    [];
+  const mossBuzzShortsFallback = [];
+  const mossBuzzVideosFallback = [];
 
   const mossBuzzUploadCopy =
     config.mossBuzz?.upload ?? mossBuzzLocalConfig.upload ?? {};

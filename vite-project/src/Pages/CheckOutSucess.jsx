@@ -2,8 +2,9 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import fetchOrderBySessionId from "../services/fetchOrderBySessionID";
 import { useCart } from "../components/CartContext";
+
 function centsToEUR(cents) {
-  if (cents == null) return "—";
+  if (cents == null) return "--";
   return new Intl.NumberFormat("en-IE", {
     style: "currency",
     currency: "EUR",
@@ -15,7 +16,7 @@ export default function CheckoutSuccess() {
   const [loading, setLoading] = React.useState(!!sessionId);
   const [order, setOrder] = React.useState(null);
   const [error, setError] = React.useState("");
-  const { clear } = useCart(); // ✅ access the clear() function from context
+  const { clear } = useCart(); // access the clear() function from context
 
   async function loadOrder() {
     if (!sessionId) return;
@@ -25,7 +26,7 @@ export default function CheckoutSuccess() {
       const result = await fetchOrderBySessionId(sessionId);
       setOrder(result);
     } catch (e) {
-      console.error("❌ Failed to fetch order:", e);
+      console.error("Failed to fetch order:", e);
       setError(e.message || "Failed to load order.");
     } finally {
       setLoading(false);
@@ -46,9 +47,11 @@ export default function CheckoutSuccess() {
       params.set("orderId", order.id);
     }
 
-    const nameValue = [order?.name, order?.metadata?.fullName, order?.customer_details?.name].find(
-      (value) => typeof value === "string" && value.trim()
-    );
+    const nameValue = [
+      order?.name,
+      order?.metadata?.fullName,
+      order?.customer_details?.name,
+    ].find((value) => typeof value === "string" && value.trim());
     const emailValue = [
       order?.email,
       order?.customer_email,
@@ -77,7 +80,7 @@ export default function CheckoutSuccess() {
         style={{ background: "white" }}
       >
         <h1 className="text-2xl font-semibold mb-3 text-green-700">
-          Payment successful 🎉
+          Order received
         </h1>
         {error && (
           <div className="p-4 mb-6 text-left rounded-lg border-l-4 border-red-600 bg-red-50">
@@ -87,7 +90,7 @@ export default function CheckoutSuccess() {
 
         {loading ? (
           <div className="animate-pulse text-gray-500 py-6">
-            Confirming your payment…
+            Loading your order...
           </div>
         ) : order ? (
           <>
@@ -105,10 +108,13 @@ export default function CheckoutSuccess() {
 
             <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-left text-sm">
               <div className="text-gray-500">Name</div>
-              <div>{order.name || order.metadata?.fullName || "—"}</div>
+              <div>{order.name || "--"}</div>
+
+              <div className="text-gray-500">Full name</div>
+              <div>{order.metadata?.fullName || "--"}</div>
 
               <div className="text-gray-500">Email</div>
-              <div>{order.email || "—"}</div>
+              <div>{order.email || "--"}</div>
 
               <div className="text-gray-500">Total</div>
               <div className="font-semibold text-gray-700">
@@ -116,20 +122,70 @@ export default function CheckoutSuccess() {
               </div>
             </div>
 
-            <div className="mt-6 space-y-2 text-sm text-gray-500 text-left">
+            <div className="mt-6 space-y-3 text-sm text-gray-600 text-left">
+              <h3 className="text-base font-semibold text-gray-800">
+                Order received - what happens next
+              </h3>
               <p>
-                A confirmation email was sent to you with more detailed
-                information and your invoice.
+                Your order has been submitted and received by our Admin and
+                Logistics team.
               </p>
-              <p> We’ll notify you once your order ships.</p>
+              <p className="font-semibold text-gray-800">
+                Important: Your order is only confirmed once payment has been
+                received.
+              </p>
+              <div>
+                <p className="font-semibold text-gray-800 mb-2">Next steps</p>
+                <ol className="list-decimal ml-5 space-y-1">
+                  <li>
+                    Check your inbox for our confirmation and payment request
+                    email - also check your Spam and Promotions folders.
+                  </li>
+                  <li>
+                    Read the email carefully and confirm all details are
+                    correct (name, address, product, quantity).
+                  </li>
+                  <li>
+                    Complete payment using the link provided - Wise or Revolut.
+                  </li>
+                  <li>
+                    Send us proof of payment (screenshot or receipt reply) so
+                    we can match it quickly.
+                  </li>
+                  <li>
+                    Dispatch + tracking: Once your parcel ships, we will email
+                    your CTT registered post tracking number.
+                  </li>
+                  <li>
+                    If in doubt, shout: If anything is unclear, message us and
+                    we will help.
+                  </li>
+                </ol>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-800 mb-1">
+                  Need help now?
+                </p>
+                <a
+                  href="https://wa.me/351965751649?text=I%20have%20a%20URGENT%20query%20about%20Mesodosing%20and%20my%20order."
+                  className="text-green-700 underline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  WhatsApp us here
+                </a>
+              </div>
+              <p className="font-semibold text-gray-800">
+                Thank you for your order - and welcome to the Mesodose
+                Community.
+              </p>
             </div>
           </>
         ) : (
           <div className="text-sm text-gray-500 leading-relaxed">
             <p>
-              Payment succeeded and Stripe showed you this success page. We’re
-              still finalizing your order in our system. This usually takes a
-              few seconds.
+              Your order is still finalizing in our system. This usually takes
+              a few seconds.
             </p>
             {sessionId && (
               <button

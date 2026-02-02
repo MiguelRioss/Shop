@@ -55,9 +55,9 @@ export default function MossBuzzVideoCarousel({
     return merged;
   }, [shorts, videos]);
 
-  if (items.length === 0) return null;
-
   const swiperRef = React.useRef(null);
+
+  if (items.length === 0) return null;
 
   const buildEmbed = (id) =>
     `https://www.youtube.com/embed/${id}?autoplay=0&mute=1&controls=1&rel=0&modestbranding=1&playsinline=1${YT_ORIGIN}`;
